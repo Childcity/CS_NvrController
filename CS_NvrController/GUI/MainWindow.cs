@@ -145,7 +145,7 @@ namespace CS_NVRController {
 			liveViewService_.StopLiveView();
 			button2.Enabled = false;
 
-			await Task.Delay(3000);
+			await Task.Delay(500);
 
 			button2.Text = "Start Live View";
 			streamWnd1.BackColor = Color.White;
