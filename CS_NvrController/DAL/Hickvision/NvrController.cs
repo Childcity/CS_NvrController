@@ -129,10 +129,11 @@ namespace CS_NVRController.DAL.Hickvision {
 			CHCNetSDK.NET_DVR_PREVIEWINFO previewInfo = new CHCNetSDK.NET_DVR_PREVIEWINFO() {
 				hPlayWnd = IntPtr.Zero,
 				lChannel = userSession_.SelectedChannelNum,
-				dwStreamType = previewSettings.StreamType,
-				dwLinkMode = (uint)previewSettings.LinkMode,
-				bBlocked = previewSettings.IsBlocked,
-				dwDisplayBufNum = previewSettings.DisplayBufNum
+				dwStreamType = previewSettings_.StreamType,
+				dwLinkMode = (uint)previewSettings_.LinkMode,
+				bBlocked = previewSettings_.IsBlocked,
+				dwDisplayBufNum = previewSettings_.DisplayBufNum,
+				byPreviewMode = (byte)previewSettings_.PreviewMode
 			};
 
 			realDataCallBackFunc = new CHCNetSDK.REALDATACALLBACK(realDataCallBack);// Real-time stream callback function 
