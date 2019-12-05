@@ -152,17 +152,15 @@ namespace CS_NVRController {
 		private async Task stopLiveViewAsync()
 		{
 			liveViewService_.StopLiveView();
-			button2.Enabled = false;
 
 			await Task.Delay(500);
 
+			isPreviewRunningIn_ = false;
 			button2.Text = "Start Live View";
 			userInfoGB.Enabled = ! isPreviewRunningIn_;
 			previewSettingsGB.Enabled = ! isPreviewRunningIn_;
 			streamWnd1.BackColor = Color.White;
 			streamWnd1.BackColor = Color.Gainsboro;
-			button2.Enabled = true;
-			isPreviewRunningIn_ = false;
 		}
 
 		private void appendLogOnUiThread(object sender, string log)
