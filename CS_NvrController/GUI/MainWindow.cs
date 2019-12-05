@@ -1,7 +1,9 @@
 ﻿using CS_NVRController.BLL;
 using CS_NVRController.DAL.Hickvision;
 using System;
+using System.Configuration;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,6 +20,9 @@ namespace CS_NVRController {
 
 		public MainWindow() {
 			InitializeComponent();
+
+			textBox4.Text = getAppConfiguration("NvrIp");
+			textBox2.Text = getAppConfiguration("NvrUserPassword");
 
 			liveViewService_.OnException += appendLogOnUiThread;
 
@@ -36,7 +41,7 @@ namespace CS_NVRController {
 			comboBox4.Items.AddRange(Enum.GetNames(typeof(PreviewModeType)));
 			comboBox4.SelectedIndex = (int)previewSettings.PreviewMode;
 
-			groupBox2.Enabled = isLogedIn_;
+			previewPanel.Enabled = isLogedIn_;
 		}
 
 		private async void button1_Click(object sender, EventArgs e)
@@ -70,7 +75,9 @@ namespace CS_NVRController {
 
 				isLogedIn_ = true;
 				button1.Text = "Logout";
-				groupBox2.Enabled = isLogedIn_;
+				previewPanel.Enabled = isLogedIn_;
+				updateAppConfiguration("NvrIp", textBox4.Text);
+				updateAppConfiguration("NvrUserPassword", textBox2.Text);
 			} else {
 				button1.Enabled = false;
 
@@ -78,7 +85,7 @@ namespace CS_NVRController {
 					liveViewService_.Logout();
 					isLogedIn_ = false;
 					button1.Text = "Login";
-					groupBox2.Enabled = isLogedIn_;
+					previewPanel.Enabled = isLogedIn_;
 
 					await stopLiveViewAsync();
 				}
@@ -135,6 +142,8 @@ namespace CS_NVRController {
 
 				button2.Text = "Stop Live View";
 				isPreviewRunningIn_ = true;
+				userInfoGB.Enabled = ! isPreviewRunningIn_;
+				previewSettingsGB.Enabled = ! isPreviewRunningIn_;
 			} else {
 				await stopLiveViewAsync();
 			}
@@ -148,8 +157,10 @@ namespace CS_NVRController {
 			await Task.Delay(500);
 
 			button2.Text = "Start Live View";
+			userInfoGB.Enabled = ! isPreviewRunningIn_;
+			previewSettingsGB.Enabled = ! isPreviewRunningIn_;
 			streamWnd1.BackColor = Color.White;
-			streamWnd1.BackColor = Color.DarkGray;
+			streamWnd1.BackColor = Color.Gainsboro;
 			button2.Enabled = true;
 			isPreviewRunningIn_ = false;
 		}
@@ -165,6 +176,27 @@ namespace CS_NVRController {
 				logTxtBox.AppendText(log);
 				logTxtBox.AppendText("\n\n");
 			}
+		}
+
+		private void updateAppConfiguration(string key, string value)
+		{
+			// Open App.Config of executable
+			Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+			// Add an Application Setting
+			config.AppSettings.Settings.Remove(key);
+			config.AppSettings.Settings.Add(key, value);
+
+			// Save the configuration file.
+			config.Save(ConfigurationSaveMode.Modified);
+			
+			// Force a reload of a changed section.
+			ConfigurationManager.RefreshSection("appSettings");
+		}
+
+		private string getAppConfiguration(string key)
+		{
+			return ConfigurationManager.AppSettings[key];
 		}
 	}
 }
