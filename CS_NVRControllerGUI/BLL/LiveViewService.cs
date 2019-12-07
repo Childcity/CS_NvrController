@@ -1,4 +1,5 @@
-﻿using CS_NVRController.DAL.Hickvision;
+﻿using CS_NVRController.Hickvision;
+using CS_NVRController.Hickvision.NvrExceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace CS_NVRController.BLL {
 		#region IDisposable Support
 		private bool disposedValue = false; // Для определения избыточных вызовов
 
-		protected virtual void Dispose(bool disposing)
+		protected virtual void dispose(bool disposing)
 		{
 			if (!disposedValue) {
 				if (disposing) {
@@ -26,7 +27,7 @@ namespace CS_NVRController.BLL {
 
 		public void Dispose()
 		{
-			Dispose(true);
+			dispose(true);
 		}
 		#endregion
 
@@ -34,13 +35,14 @@ namespace CS_NVRController.BLL {
 
 		public async Task LoginAsync()
 		{
-			nvrController_ = new NvrController(SessionInfo);
+			string sdkLogDir = System.Reflection.Assembly.GetEntryAssembly().Location + @"_NvrSdkLogs\";
+			nvrController_ = new NvrController(SessionInfo, sdkLogDir, true);
 
 			await Task.Factory.StartNew(() => {
 				try {
 					nvrController_.StartSession();
 				} catch (NvrSdkException ex) {
-					logNvrSdkExceprtion(ex);
+					logNvrSdkExceprtion(ex); 
 					throw new SystemException("NvrController: StartSession failed", ex);
 				} catch (Exception ex) {
 					logException(ex);
@@ -98,7 +100,7 @@ namespace CS_NVRController.BLL {
 			get {
 				var camChannals = new List<string>();
 				nvrController_.IpChannels.ForEach(x => {
-					camChannals.Add(x.id + " " + x.status + " [" + x.protocol + "]");
+					camChannals.Add(x.Item1 + " " + x.Item2 + " [" + x.Item3 + "]");
 				});
 				return camChannals;
 			}
@@ -109,22 +111,19 @@ namespace CS_NVRController.BLL {
 			set { nvrController_.SelectedChannelId = value; }
 		}
 
-		private void onPreviewError(object sender, (uint errCode, string message) args)
+		private void onPreviewError(object sender, Tuple<uint, string> args)
 		{
-			//OnException?.BeginInvoke(this, $"PreviewWrror: Code[{args.errCode}]: {args.message}", null, null);
-			OnException.Invoke(this, $"PreviewError: Code[{args.errCode}]: {args.message}");
+			OnException?.Invoke(this, $"PreviewError: Code[{args.Item1}]: {args.Item2}");
 		}
 
 		private void logException(Exception ex)
 		{
-			//OnException?.BeginInvoke(this, $"Exception: {ex.Message}\n{ex.StackTrace}\n\n", null, null);
 			Console.WriteLine($"[Debug] LiveViewService: Exception: {ex.Message}\n{ex.StackTrace}\n\n");
 			OnException?.Invoke(this, $"Exception: {ex.Message}\n{ex.StackTrace}\n\n");
 		}
 
 		private void logNvrSdkExceprtion(NvrSdkException ex)
 		{
-			//OnException?.BeginInvoke(this, $"NvrException Code[{ex.SdkErrorCode}]: {ex.Message}\n\n", null, null);
 			Console.WriteLine($"[Debug] LiveViewService: Exception: {ex.Message}\n{ex.StackTrace}\n\n");
 			OnException?.Invoke(this, $"NvrException Code[{ex.SdkErrorCode}]: {ex.Message}\n\n");
 		}

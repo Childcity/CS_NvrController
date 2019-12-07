@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CS_NVRController.DAL.Hickvision {
+namespace CS_NVRController.Hickvision.NvrExceptions {
 	public class NvrSdkException: NvrException {
 
 		//public NvrSdkException(string message)

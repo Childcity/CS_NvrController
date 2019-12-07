@@ -1,5 +1,5 @@
 ﻿using CS_NVRController.BLL;
-using CS_NVRController.DAL.Hickvision;
+using CS_NVRController.Hickvision;
 using System;
 using System.Configuration;
 using System.Drawing;

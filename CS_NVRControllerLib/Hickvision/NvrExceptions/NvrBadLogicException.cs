@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CS_NVRController.DAL.Hickvision {
+namespace CS_NVRController.Hickvision.NvrExceptions {
 	public class NvrBadLogicException: NvrException {
 		public NvrBadLogicException(string message) 
 			: base(message)

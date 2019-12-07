@@ -1,44 +1,48 @@
-﻿using NVRCsharpDemo;
+﻿using CS_NVRController.Hickvision.NvrExceptions;
+using NVRCsharpDemo;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace CS_NVRController.DAL.Hickvision {
-	public class NvrController: IDisposable {
+namespace CS_NVRController.Hickvision {
+
+	/// <summary>
+	///		Provides a mechanism for convinient interection with Hickvision SDK.
+	/// </summary>
+
+	public partial class NvrController: IDisposable {
 
 		#region Private
 
+		private bool isDebugEnabled_ = false;
+
 		private UserSession userSession_;
+
+		private LivePlayer livePlayer_;
 
 		private string sdkLogDir_;
 
 		private bool isSdkInit_ = false;
 
-		NvrPreviewSettings previewSettings_;
-
-		private IntPtr playWndHandlePtr_ = IntPtr.Zero;
-
-		private int realPlayHandle_ = -1;
-
-		private int realPlayPort_ = -1;
-
 		private CHCNetSDK.REALDATACALLBACK realDataCallBackFunc = null;
 
-		#endregion
+		#endregion Private
 
-
-		public NvrController(NvrSessionInfo sessionInfo) {
+		public NvrController(NvrSessionInfo sessionInfo, string sdkLogDir, bool isDebugEnabled)
+		{
+			sdkLogDir_ = sdkLogDir;
 			userSession_ = new UserSession(sessionInfo);
-
-			sdkLogDir_ = System.Reflection.Assembly.GetEntryAssembly().Location + @"_NvrSdkLogs\";
-			Console.WriteLine("NvrSdkLogsDir: '" + sdkLogDir_ + "'");
+			livePlayer_ = new LivePlayer(IntPtr.Zero, new NvrPreviewSettings());
+			debugInfo("NvrSdkLogsDir: '" + sdkLogDir_ + "'");
 		}
 
 		#region IDisposable Support
+
 		private bool disposedValue = false;
 
-		protected virtual void Dispose(bool disposing) {
+		protected virtual void Dispose(bool disposing)
+		{
 			if (!disposedValue) {
 				if (disposing) {
 					debugInfo("~NvrController()");
@@ -52,17 +56,19 @@ namespace CS_NVRController.DAL.Hickvision {
 					} finally { }
 
 					bool sdkCleanup = CHCNetSDK.NET_DVR_Cleanup();
-					debugInfo("NET_DVR_Cleanup() Ok = " + sdkCleanup);
+					debugInfo("Is NET_DVR_Cleanup() was Ok = " + sdkCleanup);
 				}
 
 				disposedValue = true;
 			}
 		}
-		
-		public void Dispose() {
+
+		public void Dispose()
+		{
 			Dispose(true);
 		}
-		#endregion
+
+		#endregion IDisposable Support
 
 		#region Enums
 
@@ -70,42 +76,67 @@ namespace CS_NVRController.DAL.Hickvision {
 
 		public enum ChannelTransmissionProtocol { Unknown = -1, Tcp, Udp, Rtsp, Auto = 255 }
 
-		#endregion
+		#endregion Enums
 
 		#region Properties
 
-		public NvrSessionInfo SessionInfo {
+		public NvrSessionInfo SessionInfo
+		{
 			get { return userSession_.SessionInfo; }
 		}
 
-		public List<(int id, ChannelStatus status)> AnalogChannels
+		/// <summary>
+		///		Return List of cameras analog channels:
+		///			int - id of channel
+		///			ChannelStatus - channel status
+		/// </summary>
+		public List<Tuple<int, ChannelStatus>> AnalogChannels
 		{
 			get {
-				var channels = new List<(int, ChannelStatus)>();
+				var channels = new List<Tuple<int, ChannelStatus>>();
 
 				for (int i = 0; i < userSession_.AnalogChanTotalNum; i++) {
 					ChannelStatus status = (userSession_.IpParaCfgV40.byAnalogChanEnable[i] == 1) ? ChannelStatus.Online : ChannelStatus.Offline;
-					channels.Add((i + 1, status));
+					channels.Add(Tuple.Create(i + 1, status));
 				}
 
 				return channels;
 			}
 		}
 
-		public List<(int id, ChannelStatus status, ChannelTransmissionProtocol protocol)> IpChannels { get; private set; } = new List<(int id, ChannelStatus status, ChannelTransmissionProtocol protocol)>();
+		/// <summary>
+		///		Return List of cameras digital channels:
+		///			int - id of channel
+		///			ChannelStatus - channel status
+		///			ChannelTransmissionProtocol - channel transmission protocol
+		/// </summary>
+		public List<Tuple<int, ChannelStatus, ChannelTransmissionProtocol>> IpChannels { get; private set; } = new List<Tuple<int, ChannelStatus, ChannelTransmissionProtocol>>();
 
-		public int SelectedChannelId {
+		/// <summary>
+		/// Set/Get Selected by user camera id
+		/// </summary>
+		public int SelectedChannelId
+		{
 			get { return userSession_.SelectedChannelId; }
 			set { userSession_.SelectedChannelId = value; }
 		}
 
-		#endregion
+		#endregion Properties
 
 		#region PublicEvents
 
-		public event EventHandler<(uint sdkErrCode, string message)> OnPreviewError;
+		/// <summary>
+		///		
+		/// </summary>
+		/// <param name="Tuple.uint">
+		///		NVR SDK error code
+		/// </param>
+		/// <param name="Tuple.string">
+		///     NVR SDK error message
+		/// </param>
+		public event EventHandler<Tuple<uint, string>> OnPreviewError;
 
-		#endregion
+		#endregion PublicEvents
 
 		#region PublicMethods
 
@@ -119,64 +150,68 @@ namespace CS_NVRController.DAL.Hickvision {
 
 		public void StartPreview(IntPtr playWndHandle, NvrPreviewSettings previewSettings)
 		{
-			if(realPlayHandle_ != -1) {
+			if (livePlayer_.RealPlayHandle != -1) {
 				throw new NvrBadLogicException("Call StopPreview before calling StartPreview");
 			}
 
-			playWndHandlePtr_ = playWndHandle;
-			previewSettings_ = previewSettings;
+			livePlayer_ = new LivePlayer(playWndHandle, previewSettings);
 
 			CHCNetSDK.NET_DVR_PREVIEWINFO previewInfo = new CHCNetSDK.NET_DVR_PREVIEWINFO() {
 				hPlayWnd = IntPtr.Zero,
 				lChannel = userSession_.SelectedChannelNum,
-				dwStreamType = previewSettings_.StreamType,
-				dwLinkMode = (uint)previewSettings_.LinkMode,
-				bBlocked = previewSettings_.IsBlocked,
-				dwDisplayBufNum = previewSettings_.DisplayBufNum,
-				byPreviewMode = (byte)previewSettings_.PreviewMode
+				dwStreamType = livePlayer_.PreviewSettings.StreamType,
+				dwLinkMode = (uint)livePlayer_.PreviewSettings.LinkMode,
+				bBlocked = livePlayer_.PreviewSettings.IsBlocked,
+				dwDisplayBufNum = livePlayer_.PreviewSettings.DisplayBufNum,
+				byPreviewMode = (byte)livePlayer_.PreviewSettings.PreviewMode
 			};
 
-			realDataCallBackFunc = new CHCNetSDK.REALDATACALLBACK(realDataCallBack);// Real-time stream callback function 
-			realPlayHandle_ = CHCNetSDK.NET_DVR_RealPlay_V40(userSession_.UserId, ref previewInfo, realDataCallBackFunc, IntPtr.Zero);
+			realDataCallBackFunc = new CHCNetSDK.REALDATACALLBACK(realDataCallBack);// Real-time stream callback function
+			livePlayer_.RealPlayHandle = CHCNetSDK.NET_DVR_RealPlay_V40(userSession_.UserId, ref previewInfo, realDataCallBackFunc, IntPtr.Zero);
 
-			if(realPlayHandle_ == -1) {
-				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_Init failed: " + realPlayHandle_);
+			if (livePlayer_.RealPlayHandle == -1) {
+				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_Init failed: " + livePlayer_.RealPlayHandle);
 			}
+
+			debugInfo("NET_DVR_RealPlay_V40 succ!");
 		}
 
 		public void StopPreview()
 		{
-			if(realPlayHandle_ == -1) {
+			if (livePlayer_.RealPlayHandle == -1) {
 				debugInfo("Preview not started!");
 				return;
 			}
 
-			// Stop live view 
-			if (! CHCNetSDK.NET_DVR_StopRealPlay(realPlayHandle_)) {
+			// Stop live view
+			bool isStopRealPlayOk = CHCNetSDK.NET_DVR_StopRealPlay(livePlayer_.RealPlayHandle);
+
+			if (livePlayer_.RealPlayPort >= 0) {
+				if (!PlayCtrl.PlayM4_Stop(livePlayer_.RealPlayPort)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_Stop failed");
+				}
+
+				if (!PlayCtrl.PlayM4_CloseStream(livePlayer_.RealPlayPort)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_CloseStream failed");
+				}
+
+				if (!PlayCtrl.PlayM4_FreePort(livePlayer_.RealPlayPort)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_FreePort failed");
+				}
+
+				livePlayer_.RealPlayPort = -1;
+			}
+
+			livePlayer_.RealPlayHandle = -1;
+
+			if (isStopRealPlayOk) {
+				debugInfo("NET_DVR_StopRealPlay succ!");
+			} else {
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_StopRealPlay failed");
 			}
-
-			if (realPlayPort_ >= 0) {
-				if (! PlayCtrl.PlayM4_Stop(realPlayPort_)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_Stop failed");
-				}
-
-				if (! PlayCtrl.PlayM4_CloseStream(realPlayPort_)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_CloseStream failed");
-				}
-
-				if (! PlayCtrl.PlayM4_FreePort(realPlayPort_)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_FreePort failed");
-				}
-
-				realPlayPort_ = -1;
-			}
-
-			debugInfo("NET_DVR_StopRealPlay succ!");
-			realPlayHandle_ = -1;
 		}
 
-		#endregion
+		#endregion PublicMethods
 
 		#region PrivateMethods
 
@@ -184,20 +219,20 @@ namespace CS_NVRController.DAL.Hickvision {
 		{
 			isSdkInit_ = CHCNetSDK.NET_DVR_Init();
 
-			if (! isSdkInit_) {
+			if (!isSdkInit_) {
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_Init failed");
 			}
 
 			//To save the SDK log
-			if (! CHCNetSDK.NET_DVR_SetLogToFile(3, sdkLogDir_, true)) {
+			if (!CHCNetSDK.NET_DVR_SetLogToFile(3, sdkLogDir_, true)) {
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_SetLogToFile error!");
 			}
 
-			if (! CHCNetSDK.NET_DVR_SetConnectTime(3000, 1)) { // Can be in range[300,75000]
+			if (!CHCNetSDK.NET_DVR_SetConnectTime(3000, 1)) { // Can be in range[300,75000]
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_SetConnectTime error!");
 			}
 
-			if (! CHCNetSDK.NET_DVR_SetReconnect(10000, 1)) {
+			if (!CHCNetSDK.NET_DVR_SetReconnect(10000, 1)) {
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_SetReconnect error!");
 			}
 		}
@@ -208,7 +243,7 @@ namespace CS_NVRController.DAL.Hickvision {
 				userSession_.SessionInfo.IPAddress,
 				userSession_.SessionInfo.PortNumber,
 				userSession_.SessionInfo.UserName,
-				userSession_.SessionInfo.UserPassword, 
+				userSession_.SessionInfo.UserPassword,
 				ref userSession_.DeviceInfo
 			);
 
@@ -232,7 +267,7 @@ namespace CS_NVRController.DAL.Hickvision {
 
 		private void logoutUser()
 		{
-			if(userSession_.UserId == -1) {
+			if (userSession_.UserId == -1) {
 				debugInfo("User not login!");
 				return;
 			}
@@ -279,11 +314,11 @@ namespace CS_NVRController.DAL.Hickvision {
 
 				byte byStreamType = 0;
 				uint digitalChanNum = 64;
-				
+
 				if (userSession_.DigitChanTotalNum < 64) {
 					digitalChanNum = userSession_.DigitChanTotalNum; //If the IP channel of the device is less than 64 channels, obtain the actual number of channels.
 				}
-			
+
 				IpChannels.Clear();
 
 				for (int i = 0; i < digitalChanNum; i++) {
@@ -301,7 +336,7 @@ namespace CS_NVRController.DAL.Hickvision {
 							chanInfo = (CHCNetSDK.NET_DVR_IPCHANINFO)Marshal.PtrToStructure(ptrChanInfo, typeof(CHCNetSDK.NET_DVR_IPCHANINFO));
 
 							//Add the IP channel to list
-							IpChannels.Add((i + 1, getIPChannelStatus(chanInfo.byEnable, chanInfo.byIPID), ChannelTransmissionProtocol.Unknown));
+							IpChannels.Add(Tuple.Create(i + 1, getIPChannelStatus(chanInfo.byEnable, chanInfo.byIPID), ChannelTransmissionProtocol.Unknown));
 							userSession_.IPDeviceID[i] = chanInfo.byIPID + chanInfo.byIPIDHigh * 256 - iGroupNo * 64 - 1;
 						} finally {
 							if (ptrChanInfo != IntPtr.Zero) {
@@ -318,7 +353,7 @@ namespace CS_NVRController.DAL.Hickvision {
 							chanInfoV40 = (CHCNetSDK.NET_DVR_IPCHANINFO_V40)Marshal.PtrToStructure(ptrChanInfoV40, typeof(CHCNetSDK.NET_DVR_IPCHANINFO_V40));
 
 							//Add the IP channel to list
-							IpChannels.Add((i + 1, getIPChannelStatus(chanInfoV40.byEnable, chanInfoV40.wIPID), (ChannelTransmissionProtocol)chanInfoV40.byTransProtocol));
+							IpChannels.Add(Tuple.Create(i + 1, getIPChannelStatus(chanInfoV40.byEnable, chanInfoV40.wIPID), (ChannelTransmissionProtocol)chanInfoV40.byTransProtocol));
 							userSession_.IPDeviceID[i] = chanInfoV40.wIPID - iGroupNo * 64 - 1;
 						} finally {
 							if (ptrChanInfoV40 != IntPtr.Zero) {
@@ -327,19 +362,17 @@ namespace CS_NVRController.DAL.Hickvision {
 						}
 					}
 				}
-
 			} finally {
-				if(ptrIpParaCfgV40 != IntPtr.Zero) {
+				if (ptrIpParaCfgV40 != IntPtr.Zero) {
 					Marshal.FreeHGlobal(ptrIpParaCfgV40);
 				}
 			}
-
 		}
 
 		private ChannelStatus getIPChannelStatus(byte byOnline, int byIPID)
 		{
 			if (byIPID == 0) {
-				return ChannelStatus.Idle;              
+				return ChannelStatus.Idle;
 			} else {
 				if (byOnline == 0) {
 					return ChannelStatus.Offline;
@@ -356,70 +389,68 @@ namespace CS_NVRController.DAL.Hickvision {
 			}
 
 			if (dataType == CHCNetSDK.NET_DVR_SYSHEAD) {
-
-				if (realPlayPort_ >= 0) {
+				if (livePlayer_.RealPlayPort >= 0) {
 					return; // The same code stream does not need to call the open stream interface multiple times.
 				}
 
 				// Get the port to play
-				if (! PlayCtrl.PlayM4_GetPort(ref realPlayPort_)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_GetPort failed");
+				if (!PlayCtrl.PlayM4_GetPort(ref livePlayer_.RealPlayPort)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_GetPort failed");
 					return;
 				}
 
 				// Set the stream mode: real-time stream mode
-				if (! PlayCtrl.PlayM4_SetStreamOpenMode(realPlayPort_, PlayCtrl.STREAME_REALTIME)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_SetStreamOpenMode 'STREAME_REALTIME' failed");
+				if (!PlayCtrl.PlayM4_SetStreamOpenMode(livePlayer_.RealPlayPort, PlayCtrl.STREAME_REALTIME)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_SetStreamOpenMode 'STREAME_REALTIME' failed");
 					return;
 				}
 
 				// Open stream
-				if (! PlayCtrl.PlayM4_OpenStream(realPlayPort_, buffer, bufferSize, previewSettings_.PlayerBufSize)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_OpenStream failed");
+				if (!PlayCtrl.PlayM4_OpenStream(livePlayer_.RealPlayPort, buffer, bufferSize, livePlayer_.PreviewSettings.PlayerBufSize)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_OpenStream failed");
 					return;
 				}
 
 				// Set the display buffer number
-				if (! PlayCtrl.PlayM4_SetDisplayBuf(realPlayPort_, previewSettings_.DisplayBufNum)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_SetDisplayBuf failed");
+				if (!PlayCtrl.PlayM4_SetDisplayBuf(livePlayer_.RealPlayPort, livePlayer_.PreviewSettings.DisplayBufNum)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_SetDisplayBuf failed");
 					return;
 				}
 
 				// Set the display mode
-				if (! PlayCtrl.PlayM4_SetOverlayMode(realPlayPort_, 0, 0/* COLORREF(0)*/)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_SetOverlayMode failed");
+				if (!PlayCtrl.PlayM4_SetOverlayMode(livePlayer_.RealPlayPort, 0, 0/* COLORREF(0)*/)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_SetOverlayMode failed");
 					return;
 				}
 
-				if(previewSettings_.PreviewQuality != PreviewQualityType.NotSet) {
-					if (! PlayCtrl.PlayM4_SetPicQuality(realPlayPort_, (int)previewSettings_.PreviewQuality)) {
-						invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_SetPicQuality failed");
+				if (livePlayer_.PreviewSettings.PreviewQuality != PreviewQualityType.NotSet) {
+					if (!PlayCtrl.PlayM4_SetPicQuality(livePlayer_.RealPlayPort, (int)livePlayer_.PreviewSettings.PreviewQuality)) {
+						invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_SetPicQuality failed");
 						return;
 					}
 				}
 
 				// Set the decoding callback function to obtain the decoded audio and video raw data.
 				//m_fDisplayFun = new PlayCtrl.DECCBFUN(DecCallbackFUN);
-				//if (!PlayCtrl.PlayM4_SetDecCallBackEx(realPlayPort_, m_fDisplayFun, IntPtr.Zero, 0)) {
-				//	invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_SetDecCallBackEx failed");
+				//if (!PlayCtrl.PlayM4_SetDecCallBackEx(livePlayer_.RealPlayPort, m_fDisplayFun, IntPtr.Zero, 0)) {
+				//	invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_SetDecCallBackEx failed");
 				//}
 
-				// Start to play        
-				if (! PlayCtrl.PlayM4_Play(realPlayPort_, playWndHandlePtr_)) {
-					invokeErrorEvent(PlayCtrl.PlayM4_GetLastError(realPlayPort_), "PlayM4_Play failed");
+				// Start to play
+				if (!PlayCtrl.PlayM4_Play(livePlayer_.RealPlayPort, livePlayer_.PlayWndHandlePtr)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "PlayM4_Play failed");
 					return;
 				}
 			} else if (dataType == CHCNetSDK.NET_DVR_AUDIOSTREAMDATA) {
-
 			} else if (dataType == 112 /*NET_DVR_PRIVATE_DATA*/) {
 				// NET_DVR_PRIVATE_DATA - Private data, including intelligent information
 			} else {
 				// dataType == CHCNetSDK.NET_DVR_STREAMDATA or else
-				if (realPlayPort_ != -1) {
+				if (livePlayer_.RealPlayPort != -1) {
 					for (int i = 0; i < 999; i++) {
 						// Input the stream data to decode
-						if (! PlayCtrl.PlayM4_InputData(realPlayPort_, buffer, bufferSize)) {
-							debugInfo("RealDataCallBack: PlayM4_InputData failed, error=" + PlayCtrl.PlayM4_GetLastError(realPlayPort_));
+						if (!PlayCtrl.PlayM4_InputData(livePlayer_.RealPlayPort, buffer, bufferSize)) {
+							debugInfo("RealDataCallBack: PlayM4_InputData failed, error=" + PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort));
 							Thread.Sleep(50);
 						} else {
 							break;
@@ -429,17 +460,23 @@ namespace CS_NVRController.DAL.Hickvision {
 			}
 		}
 
-		private void invokeErrorEvent(uint sdkErrCode, string message)
+		private void invokeOnPreviewErrorEvent(uint sdkErrCode, string message)
 		{
-			OnPreviewError?.BeginInvoke(this, (sdkErrCode, message), null, null);
+			OnPreviewError?.BeginInvoke(this, Tuple.Create(sdkErrCode, message), null, null);
 		}
 
 		private void debugInfo(string msg)
 		{
-			Console.WriteLine("[Debug] NvrController: " + msg);
+			if (isDebugEnabled_) {
+				Console.WriteLine("[Debug] NvrController: " + msg);
+			}
 		}
 
-		#endregion
+		#endregion PrivateMethods
+
+	}
+
+	public partial class NvrController {
 
 		#region PrivateClasses
 
@@ -475,18 +512,38 @@ namespace CS_NVRController.DAL.Hickvision {
 
 			public CHCNetSDK.NET_DVR_IPPARACFG_V40 IpParaCfgV40;
 
-			//The number of analog channels. And the max number of IP channels equals to the value of dwDChanNum got by calling NET_DVR_GetDVRConfig(command: NET_DVR_GET_IPPARACFG_V40) 
-			public uint AnalogChanTotalNum {
+			//The number of analog channels. And the max number of IP channels equals to the value of dwDChanNum got by calling NET_DVR_GetDVRConfig(command: NET_DVR_GET_IPPARACFG_V40)
+			public uint AnalogChanTotalNum
+			{
 				get { return (uint)DeviceInfo.byChanNum; }
 			}
 
-			//The maximum number of digital channels 
-			public uint DigitChanTotalNum {
+			//The maximum number of digital channels
+			public uint DigitChanTotalNum
+			{
 				get { return (uint)DeviceInfo.byIPChanNum + 256 * (uint)DeviceInfo.byHighDChanNum; }
 			}
-
 		}
 
-		#endregion
+		private struct LivePlayer {
+
+			public NvrPreviewSettings PreviewSettings { get; }
+
+			public IntPtr PlayWndHandlePtr { get; }
+
+			public int RealPlayHandle { get; set; }
+
+			public int RealPlayPort;
+
+			public LivePlayer(IntPtr playWndHandle, NvrPreviewSettings previewSettings)
+			{
+				PreviewSettings = previewSettings ?? throw new ArgumentNullException(nameof(previewSettings));
+				PlayWndHandlePtr = playWndHandle;
+				RealPlayHandle = RealPlayPort = -1;
+			}
+		}
+
+		#endregion PrivateClasses
+
 	}
 }

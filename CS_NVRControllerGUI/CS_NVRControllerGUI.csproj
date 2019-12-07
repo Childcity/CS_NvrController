@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{178763E5-CCD3-430C-B85F-A239AF64AD6D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CS_NVRController</RootNamespace>
-    <AssemblyName>CS_NVRController</AssemblyName>
+    <RootNamespace>CS_NVRControllerGUI</RootNamespace>
+    <AssemblyName>CS_NVRControllerGUI</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -100,14 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\LiveViewService.cs" />
-    <Compile Include="DAL\Hickvision\NvrBadLogicException.cs" />
-    <Compile Include="DAL\Hickvision\NvrController.cs" />
-    <Compile Include="DAL\Hickvision\NvrException.cs" />
-    <Compile Include="DAL\Hickvision\NvrSdkException.cs" />
-    <Compile Include="DAL\Hickvision\NvrPreviewSettings.cs" />
-    <Compile Include="DAL\Hickvision\NvrSessionInfo.cs" />
-    <Compile Include="DAL\Hickvision\Sdk\CHCNetSDK.cs" />
-    <Compile Include="DAL\Hickvision\Sdk\PlayCtrl.cs" />
     <Compile Include="GUI\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +134,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CS_NVRControllerLib\CS_NVRControllerLib.csproj">
+      <Project>{b9f66db2-52f0-4691-9b4c-792270ada2e3}</Project>
+      <Name>CS_NVRControllerLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

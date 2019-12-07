@@ -1,4 +1,4 @@
-﻿namespace CS_NVRController.DAL.Hickvision {
+﻿namespace CS_NVRController.Hickvision {
 	public class NvrSessionInfo {
 
 		public short PortNumber { get; set; }

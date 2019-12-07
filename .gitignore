@@ -3,7 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-[Dd]evelope/
+[Dd]evelope/ 
+CS_NvrControllerGUI/[Bb]in/ 
+CS_NvrControllerLib/[Bb]in/
 
 # User-specific files
 *.suo
@@ -22,7 +24,6 @@
 x64/
 x86/
 bld/
-CS_NvrController/[Bb]in/
 [Oo]bj/
 [Ll]og/
 
