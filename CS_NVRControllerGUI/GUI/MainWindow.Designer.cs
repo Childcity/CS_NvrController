@@ -10,10 +10,11 @@
 		/// </summary>
 		/// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
 		protected override void Dispose(bool disposing) {
-			if (disposing && (components != null)) {
-				components.Dispose();
+			if (disposing) {
+				previewWindow_?.Dispose();
 				liveViewService_.OnException -= appendLogOnUiThread;
 				liveViewService_?.Dispose();
+				components?.Dispose();
 			}
 			base.Dispose(disposing);
 		}
@@ -29,7 +30,6 @@
 			System.Windows.Forms.Label label3;
 			System.Windows.Forms.Label label2;
 			System.Windows.Forms.Label label1;
-			this.streamWnd1 = new System.Windows.Forms.PictureBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.logTxtBox = new System.Windows.Forms.TextBox();
 			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -40,7 +40,7 @@
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.previewPanel = new System.Windows.Forms.Panel();
-			this.button2 = new System.Windows.Forms.Button();
+			this.startLiveViewBtn = new System.Windows.Forms.Button();
 			this.previewSettingsGB = new System.Windows.Forms.GroupBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
@@ -62,7 +62,6 @@
 			label3 = new System.Windows.Forms.Label();
 			label2 = new System.Windows.Forms.Label();
 			label1 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.streamWnd1)).BeginInit();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.userInfoGB.SuspendLayout();
@@ -112,34 +111,20 @@
 			label1.TabIndex = 3;
 			label1.Text = "UserName";
 			// 
-			// streamWnd1
-			// 
-			this.streamWnd1.BackColor = System.Drawing.Color.Gainsboro;
-			this.streamWnd1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.streamWnd1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.streamWnd1.Location = new System.Drawing.Point(303, 3);
-			this.streamWnd1.Name = "streamWnd1";
-			this.streamWnd1.Size = new System.Drawing.Size(698, 481);
-			this.streamWnd1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.streamWnd1.TabIndex = 0;
-			this.streamWnd1.TabStop = false;
-			// 
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.AutoSize = true;
-			this.tableLayoutPanel1.ColumnCount = 2;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+			this.tableLayoutPanel1.ColumnCount = 1;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.Controls.Add(this.logTxtBox, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.streamWnd1, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(1004, 697);
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 535);
 			this.tableLayoutPanel1.TabIndex = 3;
 			// 
 			// logTxtBox
@@ -147,15 +132,14 @@
 			this.logTxtBox.AcceptsReturn = true;
 			this.logTxtBox.BackColor = System.Drawing.Color.Gainsboro;
 			this.logTxtBox.CausesValidation = false;
-			this.tableLayoutPanel1.SetColumnSpan(this.logTxtBox, 2);
 			this.logTxtBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.logTxtBox.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
-			this.logTxtBox.Location = new System.Drawing.Point(3, 490);
+			this.logTxtBox.Location = new System.Drawing.Point(3, 338);
 			this.logTxtBox.Multiline = true;
 			this.logTxtBox.Name = "logTxtBox";
 			this.logTxtBox.ReadOnly = true;
 			this.logTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logTxtBox.Size = new System.Drawing.Size(998, 204);
+			this.logTxtBox.Size = new System.Drawing.Size(594, 194);
 			this.logTxtBox.TabIndex = 2;
 			this.logTxtBox.TabStop = false;
 			this.logTxtBox.Text = "Log...\r\n";
@@ -164,17 +148,17 @@
 			// flowLayoutPanel2
 			// 
 			this.flowLayoutPanel2.AutoSize = true;
-			this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.flowLayoutPanel2.Controls.Add(this.userInfoGB);
 			this.flowLayoutPanel2.Controls.Add(this.previewPanel);
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(294, 481);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(594, 330);
 			this.flowLayoutPanel2.TabIndex = 3;
 			// 
 			// userInfoGB
 			// 
+			this.userInfoGB.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.userInfoGB.Controls.Add(this.button1);
 			this.userInfoGB.Controls.Add(label4);
 			this.userInfoGB.Controls.Add(this.textBox4);
@@ -184,10 +168,10 @@
 			this.userInfoGB.Controls.Add(this.textBox3);
 			this.userInfoGB.Controls.Add(this.textBox2);
 			this.userInfoGB.Controls.Add(this.textBox1);
-			this.userInfoGB.Dock = System.Windows.Forms.DockStyle.Top;
+			this.userInfoGB.Dock = System.Windows.Forms.DockStyle.Left;
 			this.userInfoGB.Location = new System.Drawing.Point(3, 3);
 			this.userInfoGB.Name = "userInfoGB";
-			this.userInfoGB.Size = new System.Drawing.Size(291, 141);
+			this.userInfoGB.Size = new System.Drawing.Size(291, 326);
 			this.userInfoGB.TabIndex = 0;
 			this.userInfoGB.TabStop = false;
 			this.userInfoGB.Text = "User Info";
@@ -235,28 +219,29 @@
 			// 
 			// previewPanel
 			// 
-			this.previewPanel.Controls.Add(this.button2);
+			this.previewPanel.Controls.Add(this.startLiveViewBtn);
 			this.previewPanel.Controls.Add(this.previewSettingsGB);
 			this.previewPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.previewPanel.Location = new System.Drawing.Point(3, 150);
+			this.previewPanel.Location = new System.Drawing.Point(300, 3);
 			this.previewPanel.Name = "previewPanel";
 			this.previewPanel.Size = new System.Drawing.Size(291, 326);
 			this.previewPanel.TabIndex = 16;
 			// 
-			// button2
+			// startLiveViewBtn
 			// 
-			this.button2.BackColor = System.Drawing.Color.Gainsboro;
-			this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.button2.Location = new System.Drawing.Point(0, 294);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(291, 32);
-			this.button2.TabIndex = 15;
-			this.button2.Text = "Start Live View";
-			this.button2.UseVisualStyleBackColor = false;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
+			this.startLiveViewBtn.BackColor = System.Drawing.Color.Gainsboro;
+			this.startLiveViewBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.startLiveViewBtn.Location = new System.Drawing.Point(0, 294);
+			this.startLiveViewBtn.Name = "startLiveViewBtn";
+			this.startLiveViewBtn.Size = new System.Drawing.Size(291, 32);
+			this.startLiveViewBtn.TabIndex = 15;
+			this.startLiveViewBtn.Text = "Start Live View";
+			this.startLiveViewBtn.UseVisualStyleBackColor = false;
+			this.startLiveViewBtn.Click += new System.EventHandler(this.startLiveViewBtn_Click);
 			// 
 			// previewSettingsGB
 			// 
+			this.previewSettingsGB.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.previewSettingsGB.Controls.Add(this.checkBox2);
 			this.previewSettingsGB.Controls.Add(this.numericUpDown2);
 			this.previewSettingsGB.Controls.Add(this.checkBox1);
@@ -456,13 +441,12 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.Color.GhostWhite;
-			this.ClientSize = new System.Drawing.Size(1004, 697);
+			this.ClientSize = new System.Drawing.Size(601, 535);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "MainWindow";
 			this.ShowIcon = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "CS NVRController";
-			((System.ComponentModel.ISupportInitialize)(this.streamWnd1)).EndInit();
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.flowLayoutPanel2.ResumeLayout(false);
@@ -479,8 +463,6 @@
 		}
 
 		#endregion
-
-		private System.Windows.Forms.PictureBox streamWnd1;
 		private System.Windows.Forms.TextBox logTxtBox;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
@@ -505,7 +487,7 @@
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button startLiveViewBtn;
 		private System.Windows.Forms.NumericUpDown numericUpDown2;
 		private System.Windows.Forms.CheckBox checkBox2;
 		private System.Windows.Forms.Panel previewPanel;

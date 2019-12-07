@@ -1,5 +1,6 @@
 ﻿using CS_NVRController.BLL;
 using CS_NVRController.Hickvision;
+using CS_NVRControllerGUI.GUI;
 using System;
 using System.Configuration;
 using System.Drawing;
@@ -9,6 +10,8 @@ using System.Windows.Forms;
 
 namespace CS_NVRController {
 	public partial class MainWindow: Form {
+
+		private PreviewWindow previewWindow_ = null;
 
 		private bool isLogedIn_ = false;
 
@@ -118,9 +121,16 @@ namespace CS_NVRController {
 			}
 		}
 
-		private async void button2_Click(object sender, EventArgs e)
+		private async void startLiveViewBtn_Click(object sender, EventArgs e)
 		{
 			if (! isPreviewRunningIn_) {
+				if (previewWindow_ == null) {
+					previewWindow_ = new PreviewWindow();
+					previewWindow_.FormClosing += new FormClosingEventHandler(
+						(object s, FormClosingEventArgs args) => startLiveViewBtn.PerformClick()
+					);
+				}
+
 				liveViewService_.NvrPreviewSettings = new NvrPreviewSettings {
 					LinkMode = (LinkModeType)comboBox2.SelectedIndex,
 					StreamType = (uint)numericUpDown1.Value,
@@ -135,32 +145,34 @@ namespace CS_NVRController {
 				liveViewService_.CameraSelectedChannel = comboBox1.SelectedIndex;
 
 				try {
-					liveViewService_.StartLiveView(streamWnd1.Handle);
+					liveViewService_.StartLiveView(previewWindow_.getLiveViewHandle());
 				} catch (Exception) {
 					return;
 				}
 
-				button2.Text = "Stop Live View";
+				startLiveViewBtn.Text = "Stop Live View";
 				isPreviewRunningIn_ = true;
 				userInfoGB.Enabled = ! isPreviewRunningIn_;
 				previewSettingsGB.Enabled = ! isPreviewRunningIn_;
+
+				previewWindow_.Show(this);
 			} else {
 				await stopLiveViewAsync();
+
+				isPreviewRunningIn_ = false;
+				startLiveViewBtn.Text = "Start Live View";
+				userInfoGB.Enabled = !isPreviewRunningIn_;
+				previewSettingsGB.Enabled = !isPreviewRunningIn_;
+				previewWindow_.resetLiveView();
+				previewWindow_?.Dispose();
+				previewWindow_ = null;
 			}
 		}
 
 		private async Task stopLiveViewAsync()
 		{
 			liveViewService_.StopLiveView();
-
 			await Task.Delay(500);
-
-			isPreviewRunningIn_ = false;
-			button2.Text = "Start Live View";
-			userInfoGB.Enabled = ! isPreviewRunningIn_;
-			previewSettingsGB.Enabled = ! isPreviewRunningIn_;
-			streamWnd1.BackColor = Color.White;
-			streamWnd1.BackColor = Color.Gainsboro;
 		}
 
 		private void appendLogOnUiThread(object sender, string log)
