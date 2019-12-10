@@ -170,7 +170,7 @@ namespace CS_NVRController.Hickvision {
 			livePlayer_.RealPlayHandle = CHCNetSDK.NET_DVR_RealPlay_V40(userSession_.UserId, ref previewInfo, realDataCallBackFunc, IntPtr.Zero);
 
 			if (livePlayer_.RealPlayHandle == -1) {
-				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_Init failed: " + livePlayer_.RealPlayHandle);
+				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_RealPlay_V40 failed: " + livePlayer_.RealPlayHandle);
 			}
 
 			debugInfo("NET_DVR_RealPlay_V40 succ!");
@@ -301,10 +301,10 @@ namespace CS_NVRController.Hickvision {
 				int iGroupNo = 0;
 
 				if (!CHCNetSDK.NET_DVR_GetDVRConfig(userSession_.UserId, CHCNetSDK.NET_DVR_GET_IPPARACFG_V40, iGroupNo, ptrIpParaCfgV40, (uint)ipParaCfgV40Size, ref dwReturn)) {
-					throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_GET_IPPARACFG_V40 failed");
+					throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_GetDVRConfig failed");
 				}
 
-				debugInfo("NET_DVR_GET_IPPARACFG_V40 succ!");
+				debugInfo("NET_DVR_GetDVRConfig succ!");
 
 				userSession_.IpParaCfgV40 = (CHCNetSDK.NET_DVR_IPPARACFG_V40)Marshal.PtrToStructure(ptrIpParaCfgV40, typeof(CHCNetSDK.NET_DVR_IPPARACFG_V40));
 

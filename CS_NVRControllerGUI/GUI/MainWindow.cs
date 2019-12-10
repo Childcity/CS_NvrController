@@ -3,8 +3,6 @@ using CS_NVRController.Hickvision;
 using CS_NVRControllerGUI.GUI;
 using System;
 using System.Configuration;
-using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
