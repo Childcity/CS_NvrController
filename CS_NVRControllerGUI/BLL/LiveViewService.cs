@@ -68,6 +68,7 @@ namespace CS_NVRController.BLL {
 		{
 			try {
 				nvrController_.StartPreview(playWndHandle, NvrPreviewSettings);
+				nvrController_.ActivateEventListener();
 				nvrController_.OnPreviewError += onPreviewError;
 			} catch (NvrSdkException ex) {
 				logNvrSdkExceprtion(ex);
@@ -82,6 +83,7 @@ namespace CS_NVRController.BLL {
 		{
 			try {
 				nvrController_?.StopPreview();
+				nvrController_?.DeactivateEventListener();
 			} catch (NvrSdkException ex) {
 				logNvrSdkExceprtion(ex);
 			} catch (Exception ex) {

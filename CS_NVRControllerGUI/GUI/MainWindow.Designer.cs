@@ -134,12 +134,12 @@
 			this.logTxtBox.CausesValidation = false;
 			this.logTxtBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.logTxtBox.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
-			this.logTxtBox.Location = new System.Drawing.Point(3, 338);
+			this.logTxtBox.Location = new System.Drawing.Point(3, 324);
 			this.logTxtBox.Multiline = true;
 			this.logTxtBox.Name = "logTxtBox";
 			this.logTxtBox.ReadOnly = true;
-			this.logTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logTxtBox.Size = new System.Drawing.Size(594, 194);
+			this.logTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.logTxtBox.Size = new System.Drawing.Size(595, 208);
 			this.logTxtBox.TabIndex = 2;
 			this.logTxtBox.TabStop = false;
 			this.logTxtBox.Text = "Log...\r\n";
@@ -153,7 +153,7 @@
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(594, 330);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(595, 315);
 			this.flowLayoutPanel2.TabIndex = 3;
 			// 
 			// userInfoGB
