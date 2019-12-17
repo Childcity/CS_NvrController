@@ -25,26 +25,17 @@ namespace CS_NVRController.Hickvision {
 
 		private bool isSdkInit_ = false;
 
-		private bool isAlarmActive_ = false;
-
-		private int alarmHandleV30_ = -1;
-
-		private int alarmHandleV41_ = -1;
-
-		private Int32[] m_lAlarmHandle = new Int32[200];
-
-		private CHCNetSDK.MSGCallBack alarmCallBack = null;
-
-		private CHCNetSDK.MSGCallBack_V31 alarmCallBackV31 = null;
+		private CHCNetSDK.REALDATACALLBACK realDataCallBackFunc = null;
+		
+		private CHCNetSDK.DRAWFUN drawCallBackFunc = null;
 
 		#endregion Private
 
 		public NvrController(NvrSessionInfo sessionInfo, string sdkLogDir, bool isDebugEnabled)
 		{
-			userSession_ = new UserSession(sessionInfo);
 			sdkLogDir_ = sdkLogDir;
-			isDebugEnabled_ = isDebugEnabled;
-			livePlayer_ = new LivePlayer(IntPtr.Zero, null, new NvrPreviewSettings());
+			userSession_ = new UserSession(sessionInfo);
+			livePlayer_ = new LivePlayer(IntPtr.Zero, new NvrPreviewSettings());
 			debugInfo("NvrSdkLogsDir: '" + sdkLogDir_ + "'");
 		}
 
@@ -59,17 +50,14 @@ namespace CS_NVRController.Hickvision {
 					debugInfo("~NvrController()");
 
 					try {
-						if(livePlayer_.RealPlayHandle != -1) {
-							StopPreview();
-						}
+						StopPreview();
 					} finally { }
 
 					try {
-						if (userSession_.UserId != -1) {
-							StopSession();
-						}
+						StopSession();
 					} finally { }
 
+					DrawOnPictureHandle = null;
 					bool sdkCleanup = CHCNetSDK.NET_DVR_Cleanup();
 					debugInfo("Is NET_DVR_Cleanup() was Ok = " + sdkCleanup);
 				}
@@ -135,6 +123,8 @@ namespace CS_NVRController.Hickvision {
 			get { return userSession_.SelectedChannelId; }
 			set { userSession_.SelectedChannelId = value; }
 		}
+			
+		public Action<IntPtr> DrawOnPictureHandle { get; set; } = null;
 
 		#endregion Properties
 
@@ -169,8 +159,9 @@ namespace CS_NVRController.Hickvision {
 				throw new NvrBadLogicException("Call StopPreview before calling StartPreview");
 			}
 
+			livePlayer_ = new LivePlayer(playWndHandle, previewSettings);
+
 			CHCNetSDK.NET_DVR_PREVIEWINFO previewInfo = new CHCNetSDK.NET_DVR_PREVIEWINFO() {
-				hPlayWnd = IntPtr.Zero,
 				lChannel = userSession_.SelectedChannelNum,
 				dwStreamType = livePlayer_.PreviewSettings.StreamType,
 				dwLinkMode = (uint)livePlayer_.PreviewSettings.LinkMode,
@@ -178,15 +169,29 @@ namespace CS_NVRController.Hickvision {
 				dwDisplayBufNum = livePlayer_.PreviewSettings.DisplayBufNum,
 				byPreviewMode = (byte)livePlayer_.PreviewSettings.PreviewMode
 			};
+			
+			switch (previewSettings.PreviewHandleMode) {
+				case PreviewHandleType.Direct:
+					realDataCallBackFunc = null;
+					previewInfo.hPlayWnd = livePlayer_.PlayWndHandlePtr;
+					break;
+				case PreviewHandleType.CallBack:
+					realDataCallBackFunc = new CHCNetSDK.REALDATACALLBACK(realDataCallBack);// Real-time stream callback function
+					previewInfo.hPlayWnd = IntPtr.Zero;
+					break;
+			}
 
-			CHCNetSDK.REALDATACALLBACK realDataCallBackFunc = new CHCNetSDK.REALDATACALLBACK(realDataCallBack);// Real-time stream callback function
-
-			livePlayer_ = new LivePlayer(playWndHandle, realDataCallBackFunc, previewSettings) {
-				RealPlayHandle = CHCNetSDK.NET_DVR_RealPlay_V40(userSession_.UserId, ref previewInfo, realDataCallBackFunc, IntPtr.Zero)
-			};
+			livePlayer_.RealPlayHandle = CHCNetSDK.NET_DVR_RealPlay_V40(userSession_.UserId, ref previewInfo, realDataCallBackFunc, IntPtr.Zero);
 
 			if (livePlayer_.RealPlayHandle == -1) {
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_RealPlay_V40 failed: " + livePlayer_.RealPlayHandle);
+			}
+
+			if (previewSettings.PreviewHandleMode == PreviewHandleType.Direct) {
+				drawCallBackFunc = new CHCNetSDK.DRAWFUN(drawCallBack);
+				if (!CHCNetSDK.NET_DVR_RigisterDrawFun(livePlayer_.RealPlayHandle, drawCallBackFunc, 0)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "NET_DVR_RigisterDrawFun failed");
+				}
 			}
 
 			debugInfo("NET_DVR_RealPlay_V40 succ!");
@@ -197,6 +202,12 @@ namespace CS_NVRController.Hickvision {
 			if (livePlayer_.RealPlayHandle == -1) {
 				debugInfo("Preview not started!");
 				return;
+			}
+
+			{
+				// Set to null Draw CallBack Function
+				drawCallBackFunc = null;
+				CHCNetSDK.NET_DVR_RigisterDrawFun(livePlayer_.RealPlayHandle, drawCallBackFunc, 0);
 			}
 
 			// Stop live view
@@ -225,56 +236,6 @@ namespace CS_NVRController.Hickvision {
 			} else {
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_StopRealPlay failed");
 			}
-		}
-
-		public void ActivateEventListener()
-		{
-			if (isAlarmActive_) {
-				throw new NvrBadLogicException("EventListener is active!");
-			}
-
-			//Set alarm callback function
-			alarmCallBack = new CHCNetSDK.MSGCallBack(alarmMessageHandle);
-			CHCNetSDK.NET_DVR_SetDVRMessageCallBack_V30(alarmCallBack, IntPtr.Zero); //TODO: return bool!!
-
-			alarmCallBackV31 = new CHCNetSDK.MSGCallBack_V31(alarmMessageHandleWrapperV31);
-			CHCNetSDK.NET_DVR_SetDVRMessageCallBack_V31(alarmCallBackV31, IntPtr.Zero); //TODO: return bool!!
-
-			alarmHandleV30_ = CHCNetSDK.NET_DVR_SetupAlarmChan_V30(userSession_.UserId);
-			if (alarmHandleV30_ < 0) {
-				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_SetupAlarmChan_V41 failed: " + livePlayer_.RealPlayHandle);
-			}
-
-			debugInfo("NET_DVR_SetupAlarmChan_V30 Arm successfully: " + alarmHandleV30_);
-
-
-			CHCNetSDK.NET_DVR_SETUPALARM_PARAM alarmParams = new CHCNetSDK.NET_DVR_SETUPALARM_PARAM();
-			alarmParams.dwSize = (uint)Marshal.SizeOf(alarmParams);
-			alarmParams.byLevel = 0; //0- 1st Arm, 1- 2nd Arm
-			alarmParams.byAlarmInfoType = 1;//Intelligent transportation equipment effective, new alarm message type
-			alarmParams.byFaceAlarmDetection = 1;//1-人脸侦测
-
-			alarmHandleV41_ = CHCNetSDK.NET_DVR_SetupAlarmChan_V41(userSession_.UserId, ref alarmParams);
-			if (alarmHandleV41_ < 0) {
-				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_SetupAlarmChan_V41 failed");
-			}
-
-			debugInfo("NET_DVR_SetupAlarmChan_V41 Arm successfully: " + alarmHandleV41_);
-		}
-
-		public void DeactivateEventListener()
-		{
-			isAlarmActive_ = false;
-			alarmCallBack = null;
-			alarmCallBackV31 = null;
-
-			if (! CHCNetSDK.NET_DVR_CloseAlarmChan_V30(userSession_.UserId)) {
-				debugInfo("NET_DVR_CloseAlarmChan_V30 failed: " + CHCNetSDK.NET_DVR_GetLastError());
-			}
-
-			alarmHandleV30_ = alarmHandleV41_ = -1;
-
-			debugInfo("NET_DVR_CloseAlarmChan_V30 succ!");
 		}
 
 		#endregion PublicMethods
@@ -448,6 +409,11 @@ namespace CS_NVRController.Hickvision {
 			}
 		}
 
+		private void drawCallBack(int lRealHandle, IntPtr hDc, uint dwUser)
+		{
+			DrawOnPictureHandle?.Invoke(hDc);
+		}
+
 		private void realDataCallBack(int realHandle, uint dataType, IntPtr buffer, uint bufferSize, IntPtr pUser)
 		{
 			if (bufferSize <= 0) {
@@ -526,69 +492,6 @@ namespace CS_NVRController.Hickvision {
 			}
 		}
 
-		public bool alarmMessageHandleWrapperV31(int command, ref CHCNetSDK.NET_DVR_ALARMER alarmer, IntPtr alarmInfo, uint bufferLength, IntPtr pUser)
-		{
-			alarmMessageHandle(command, ref alarmer, alarmInfo, bufferLength, pUser);
-			return true; //The callback function needs to return, indicating that the data was received normally
-		}
-
-		private void alarmMessageHandle(int command, ref CHCNetSDK.NET_DVR_ALARMER alarmer, IntPtr alarmInfo, uint bufferLength, IntPtr pUser)
-		{
-			// Use command to determine the type of alarm information received. 
-			// Different lCommands correspond to different alarmInfo contents.
-			debugInfo("alarmMessageHandle: command=" + command);
-			switch (command) {
-				case CHCNetSDK.COMM_ALARM: //(DS-8000 old device) Alarm information such as motion detection, video loss, obstruction, IO signal amount, etc.
-					debugInfo("COMM_ALARM");
-					break;
-				case CHCNetSDK.COMM_ALARM_V30://Alarm information such as motion detection, video loss, occlusion, IO signal
-					debugInfo("COMM_ALARM_V30");
-					break;
-				case CHCNetSDK.COMM_ALARM_RULE://Enter and exit areas, intrusions, wandering, personnel gathering, etc.
-					debugInfo("COMM_ALARM_RULE");
-					break;
-				case CHCNetSDK.COMM_UPLOAD_PLATE_RESULT://Traffic snapshot results upload (old alarm message type)
-					debugInfo("COMM_UPLOAD_PLATE_RESULT");
-					break;
-				case CHCNetSDK.COMM_ITS_PLATE_RESULT://Traffic snapshot results upload (new alarm message type)
-					debugInfo("COMM_ITS_PLATE_RESULT");
-					break;
-				case CHCNetSDK.COMM_ALARM_PDC://Passenger traffic statistics and alarm information
-					debugInfo("COMM_ALARM_PDC");
-					break;
-				case CHCNetSDK.COMM_ITS_PARK_VEHICLE://Passenger traffic statistics and alarm information
-					debugInfo("COMM_ITS_PARK_VEHICLE");
-					break;
-				case CHCNetSDK.COMM_DIAGNOSIS_UPLOAD://VQD alarm information
-					debugInfo("COMM_DIAGNOSIS_UPLOAD");
-					break;
-				case CHCNetSDK.COMM_UPLOAD_FACESNAP_RESULT://Face snapshot result information
-					debugInfo("COMM_UPLOAD_FACESNAP_RESULT");
-					break;
-				case CHCNetSDK.COMM_SNAP_MATCH_ALARM://Face comparison result information
-					debugInfo("COMM_SNAP_MATCH_ALARM");
-					break;
-				case CHCNetSDK.COMM_ALARM_FACE_DETECTION://Face detection alarm message
-					debugInfo("COMM_ALARM_FACE_DETECTION");
-					break;
-				case CHCNetSDK.COMM_ALARMHOST_CID_ALARM://Alarm host CID alarm upload
-					debugInfo("COMM_ALARMHOST_CID_ALARM");
-					break;
-				case CHCNetSDK.COMM_ALARM_ACS://Access control host alarm upload
-					debugInfo("COMM_ALARM_ACS");
-					break;
-				case CHCNetSDK.COMM_ID_INFO_ALARM://ID card swipe information upload
-					debugInfo("COMM_ID_INFO_ALARM");
-					break;
-				default: {
-						string strIP = alarmer.sDeviceIP;
-						string stringAlarm = "Upload alarm，alarm message type：" + command;
-						debugInfo(strIP + ": " + stringAlarm);
-					}
-					break;
-			}
-		}
-
 		private void invokeOnPreviewErrorEvent(uint sdkErrCode, string message)
 		{
 			OnPreviewError?.BeginInvoke(this, Tuple.Create(sdkErrCode, message), null, null);
@@ -664,12 +567,9 @@ namespace CS_NVRController.Hickvision {
 
 			public int RealPlayPort;
 
-			public CHCNetSDK.REALDATACALLBACK RealDataCallBackFunc;
-
-			public LivePlayer(IntPtr playWndHandle, CHCNetSDK.REALDATACALLBACK realDataCallback, NvrPreviewSettings previewSettings)
+			public LivePlayer(IntPtr playWndHandle, NvrPreviewSettings previewSettings)
 			{
 				PreviewSettings = previewSettings ?? throw new ArgumentNullException(nameof(previewSettings));
-				RealDataCallBackFunc = realDataCallback;
 				PlayWndHandlePtr = playWndHandle;
 				RealPlayHandle = RealPlayPort = -1;
 			}
