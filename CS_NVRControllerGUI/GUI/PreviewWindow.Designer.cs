@@ -50,7 +50,6 @@
 			this.Name = "PreviewWindow";
 			this.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Camera Preview";
 			((System.ComponentModel.ISupportInitialize)(this.streamWnd1)).EndInit();

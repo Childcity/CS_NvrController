@@ -26,6 +26,8 @@ namespace CS_NVRController.Hickvision {
 		private bool isSdkInit_ = false;
 
 		private CHCNetSDK.REALDATACALLBACK realDataCallBackFunc = null;
+		
+		private CHCNetSDK.DRAWFUN drawCallBackFunc = null;
 
 		#endregion Private
 
@@ -55,6 +57,7 @@ namespace CS_NVRController.Hickvision {
 						StopSession();
 					} finally { }
 
+					DrawOnPictureHandle = null;
 					bool sdkCleanup = CHCNetSDK.NET_DVR_Cleanup();
 					debugInfo("Is NET_DVR_Cleanup() was Ok = " + sdkCleanup);
 				}
@@ -120,6 +123,8 @@ namespace CS_NVRController.Hickvision {
 			get { return userSession_.SelectedChannelId; }
 			set { userSession_.SelectedChannelId = value; }
 		}
+			
+		public Action<IntPtr> DrawOnPictureHandle { get; set; } = null;
 
 		#endregion Properties
 
@@ -157,7 +162,6 @@ namespace CS_NVRController.Hickvision {
 			livePlayer_ = new LivePlayer(playWndHandle, previewSettings);
 
 			CHCNetSDK.NET_DVR_PREVIEWINFO previewInfo = new CHCNetSDK.NET_DVR_PREVIEWINFO() {
-				hPlayWnd = IntPtr.Zero,
 				lChannel = userSession_.SelectedChannelNum,
 				dwStreamType = livePlayer_.PreviewSettings.StreamType,
 				dwLinkMode = (uint)livePlayer_.PreviewSettings.LinkMode,
@@ -165,12 +169,29 @@ namespace CS_NVRController.Hickvision {
 				dwDisplayBufNum = livePlayer_.PreviewSettings.DisplayBufNum,
 				byPreviewMode = (byte)livePlayer_.PreviewSettings.PreviewMode
 			};
+			
+			switch (previewSettings.PreviewHandleMode) {
+				case PreviewHandleType.Direct:
+					realDataCallBackFunc = null;
+					previewInfo.hPlayWnd = livePlayer_.PlayWndHandlePtr;
+					break;
+				case PreviewHandleType.CallBack:
+					realDataCallBackFunc = new CHCNetSDK.REALDATACALLBACK(realDataCallBack);// Real-time stream callback function
+					previewInfo.hPlayWnd = IntPtr.Zero;
+					break;
+			}
 
-			realDataCallBackFunc = new CHCNetSDK.REALDATACALLBACK(realDataCallBack);// Real-time stream callback function
 			livePlayer_.RealPlayHandle = CHCNetSDK.NET_DVR_RealPlay_V40(userSession_.UserId, ref previewInfo, realDataCallBackFunc, IntPtr.Zero);
 
 			if (livePlayer_.RealPlayHandle == -1) {
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_RealPlay_V40 failed: " + livePlayer_.RealPlayHandle);
+			}
+
+			if (previewSettings.PreviewHandleMode == PreviewHandleType.Direct) {
+				drawCallBackFunc = new CHCNetSDK.DRAWFUN(drawCallBack);
+				if (!CHCNetSDK.NET_DVR_RigisterDrawFun(livePlayer_.RealPlayHandle, drawCallBackFunc, 0)) {
+					invokeOnPreviewErrorEvent(PlayCtrl.PlayM4_GetLastError(livePlayer_.RealPlayPort), "NET_DVR_RigisterDrawFun failed");
+				}
 			}
 
 			debugInfo("NET_DVR_RealPlay_V40 succ!");
@@ -181,6 +202,12 @@ namespace CS_NVRController.Hickvision {
 			if (livePlayer_.RealPlayHandle == -1) {
 				debugInfo("Preview not started!");
 				return;
+			}
+
+			{
+				// Set to null Draw CallBack Function
+				drawCallBackFunc = null;
+				CHCNetSDK.NET_DVR_RigisterDrawFun(livePlayer_.RealPlayHandle, drawCallBackFunc, 0);
 			}
 
 			// Stop live view
@@ -380,6 +407,11 @@ namespace CS_NVRController.Hickvision {
 					return ChannelStatus.Online;
 				}
 			}
+		}
+
+		private void drawCallBack(int lRealHandle, IntPtr hDc, uint dwUser)
+		{
+			DrawOnPictureHandle?.Invoke(hDc);
 		}
 
 		private void realDataCallBack(int realHandle, uint dataType, IntPtr buffer, uint bufferSize, IntPtr pUser)

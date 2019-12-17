@@ -2,6 +2,7 @@
 using CS_NVRController.Hickvision.NvrExceptions;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
 
 namespace CS_NVRController.BLL {
@@ -67,8 +68,9 @@ namespace CS_NVRController.BLL {
 		public void StartLiveView(IntPtr playWndHandle)
 		{
 			try {
-				nvrController_.StartPreview(playWndHandle, NvrPreviewSettings);
+				nvrController_.DrawOnPictureHandle += drawSomething;
 				nvrController_.OnPreviewError += onPreviewError;
+				nvrController_.StartPreview(playWndHandle, NvrPreviewSettings);
 			} catch (NvrSdkException ex) {
 				logNvrSdkExceprtion(ex);
 				throw new SystemException("NvrController: StartPreview failed", ex);
@@ -87,8 +89,10 @@ namespace CS_NVRController.BLL {
 			} catch (Exception ex) {
 				logException(ex);
 			} finally {
-				if(nvrController_ != null)
+				if(nvrController_ != null) { 
 					nvrController_.OnPreviewError -= onPreviewError;
+					nvrController_.DrawOnPictureHandle -= drawSomething;
+				}
 			}
 		}
 
@@ -109,6 +113,32 @@ namespace CS_NVRController.BLL {
 		public int CameraSelectedChannel {
 			get { return nvrController_.SelectedChannelId; }
 			set { nvrController_.SelectedChannelId = value; }
+		}
+
+		private void drawSomething(IntPtr hDc)
+		{
+			try {
+				using(Graphics pDc = Graphics.FromHdc(hDc)) {
+					if (pDc == null)
+						return;
+
+					using (Brush brush = new SolidBrush(Color.DarkRed)) {
+						using (Pen pen = new Pen(brush)) {
+							Rectangle rectTmp = new Rectangle(5, 5, 300, 20);
+
+							string strText = DateTime.Now.ToString() + "     Meeting Room";
+							using (Font font = new Font("Blackbody", 10, FontStyle.Italic | FontStyle.Bold)) {
+								//Text
+								pDc.DrawString(strText, font, brush, 6, 6);
+								//Rectangle
+								pDc.DrawRectangle(pen, rectTmp);
+							}
+						}
+					}
+				}
+			} catch(Exception ex) {
+				OnException?.Invoke(this, $"Exception: {ex.Message}\n{ex.StackTrace}\n\n");
+			}
 		}
 
 		private void onPreviewError(object sender, Tuple<uint, string> args)

@@ -23,6 +23,7 @@ namespace CS_NVRController {
 			InitializeComponent();
 
 			textBox4.Text = getAppConfiguration("NvrIp");
+			textBox3.Text = getAppConfiguration("NvrPort");
 			textBox2.Text = getAppConfiguration("NvrUserPassword");
 
 			liveViewService_.OnException += appendLogOnUiThread;
@@ -41,6 +42,16 @@ namespace CS_NVRController {
 
 			comboBox4.Items.AddRange(Enum.GetNames(typeof(PreviewModeType)));
 			comboBox4.SelectedIndex = (int)previewSettings.PreviewMode;
+
+			comboBox5.Items.AddRange(Enum.GetNames(typeof(PreviewHandleType)));
+			comboBox5.SelectedIndexChanged += (object sender, EventArgs e) => {
+				if(comboBox5.SelectedIndex == (int)PreviewHandleType.Direct) {
+					subtleSettingsGB.Enabled = false;
+				} else {
+					subtleSettingsGB.Enabled = true;
+				}
+			};
+			comboBox5.SelectedIndex = (int)previewSettings.PreviewHandleMode;
 
 			previewPanel.Enabled = isLogedIn_;
 		}
@@ -78,6 +89,7 @@ namespace CS_NVRController {
 				button1.Text = "Logout";
 				previewPanel.Enabled = isLogedIn_;
 				updateAppConfiguration("NvrIp", textBox4.Text);
+				updateAppConfiguration("NvrPort", textBox3.Text);
 				updateAppConfiguration("NvrUserPassword", textBox2.Text);
 			} else {
 				button1.Enabled = false;
@@ -130,6 +142,7 @@ namespace CS_NVRController {
 				}
 
 				liveViewService_.NvrPreviewSettings = new NvrPreviewSettings {
+					PreviewHandleMode = (PreviewHandleType)comboBox5.SelectedIndex,
 					LinkMode = (LinkModeType)comboBox2.SelectedIndex,
 					StreamType = (uint)numericUpDown1.Value,
 					DisplayBufNum = (uint)numericUpDown2.Value,
