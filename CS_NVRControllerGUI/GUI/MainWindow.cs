@@ -59,8 +59,7 @@ namespace CS_NVRController {
 		private async void button1_Click(object sender, EventArgs e)
 		{
 			if (! isLogedIn_) {
-				short port;
-				if (! short.TryParse(textBox3.Text, out port)) {
+				if (!short.TryParse(textBox3.Text, out short port)) {
 					port = 9000;
 					textBox3.Text = "" + port;
 				}
