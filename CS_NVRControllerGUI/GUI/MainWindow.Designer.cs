@@ -42,6 +42,15 @@
 			this.previewPanel = new System.Windows.Forms.Panel();
 			this.startLiveViewBtn = new System.Windows.Forms.Button();
 			this.previewSettingsGB = new System.Windows.Forms.GroupBox();
+			this.label13 = new System.Windows.Forms.Label();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.subtleSettingsGB = new System.Windows.Forms.GroupBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.comboBox3 = new System.Windows.Forms.ComboBox();
+			this.textBox5 = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label12 = new System.Windows.Forms.Label();
+			this.comboBox5 = new System.Windows.Forms.ComboBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -49,20 +58,11 @@
 			this.comboBox4 = new System.Windows.Forms.ComboBox();
 			this.label10 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.textBox5 = new System.Windows.Forms.TextBox();
-			this.label7 = new System.Windows.Forms.Label();
-			this.comboBox3 = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.comboBox2 = new System.Windows.Forms.ComboBox();
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
-			this.subtleSettingsGB = new System.Windows.Forms.GroupBox();
-			this.comboBox5 = new System.Windows.Forms.ComboBox();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label12 = new System.Windows.Forms.Label();
-			this.label13 = new System.Windows.Forms.Label();
 			label4 = new System.Windows.Forms.Label();
 			label3 = new System.Windows.Forms.Label();
 			label2 = new System.Windows.Forms.Label();
@@ -72,10 +72,10 @@
 			this.userInfoGB.SuspendLayout();
 			this.previewPanel.SuspendLayout();
 			this.previewSettingsGB.SuspendLayout();
+			this.panel1.SuspendLayout();
+			this.subtleSettingsGB.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-			this.subtleSettingsGB.SuspendLayout();
-			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label4
@@ -145,7 +145,7 @@
 			this.logTxtBox.Multiline = true;
 			this.logTxtBox.Name = "logTxtBox";
 			this.logTxtBox.ReadOnly = true;
-			this.logTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.logTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.logTxtBox.Size = new System.Drawing.Size(595, 227);
 			this.logTxtBox.TabIndex = 2;
 			this.logTxtBox.TabStop = false;
@@ -272,6 +272,95 @@
 			this.previewSettingsGB.TabStop = false;
 			this.previewSettingsGB.Text = "Preview Settings";
 			// 
+			// label13
+			// 
+			this.label13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.label13.Location = new System.Drawing.Point(7, 181);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(280, 2);
+			this.label13.TabIndex = 9;
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.subtleSettingsGB);
+			this.panel1.Controls.Add(this.label12);
+			this.panel1.Controls.Add(this.comboBox5);
+			this.panel1.Location = new System.Drawing.Point(4, 196);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(284, 104);
+			this.panel1.TabIndex = 9;
+			// 
+			// subtleSettingsGB
+			// 
+			this.subtleSettingsGB.Controls.Add(this.label7);
+			this.subtleSettingsGB.Controls.Add(this.comboBox3);
+			this.subtleSettingsGB.Controls.Add(this.textBox5);
+			this.subtleSettingsGB.Controls.Add(this.label8);
+			this.subtleSettingsGB.Location = new System.Drawing.Point(76, 4);
+			this.subtleSettingsGB.Name = "subtleSettingsGB";
+			this.subtleSettingsGB.Size = new System.Drawing.Size(205, 85);
+			this.subtleSettingsGB.TabIndex = 0;
+			this.subtleSettingsGB.TabStop = false;
+			this.subtleSettingsGB.Text = "Subtle Settings";
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(6, 29);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(96, 17);
+			this.label7.TabIndex = 7;
+			this.label7.Text = "PlayerBufSize";
+			// 
+			// comboBox3
+			// 
+			this.comboBox3.DisplayMember = "1";
+			this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.comboBox3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.comboBox3.Location = new System.Drawing.Point(111, 52);
+			this.comboBox3.Name = "comboBox3";
+			this.comboBox3.Size = new System.Drawing.Size(85, 24);
+			this.comboBox3.TabIndex = 5;
+			this.comboBox3.Tag = "";
+			// 
+			// textBox5
+			// 
+			this.textBox5.Location = new System.Drawing.Point(111, 24);
+			this.textBox5.Name = "textBox5";
+			this.textBox5.Size = new System.Drawing.Size(85, 22);
+			this.textBox5.TabIndex = 8;
+			this.textBox5.Text = "2*1024*1024";
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(6, 59);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(74, 17);
+			this.label8.TabIndex = 9;
+			this.label8.Text = "ImgQuality";
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(9, 4);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(61, 51);
+			this.label12.TabIndex = 10;
+			this.label12.Text = "Preview \r\nHandle \r\nMode";
+			// 
+			// comboBox5
+			// 
+			this.comboBox5.DisplayMember = "1";
+			this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.comboBox5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.comboBox5.Location = new System.Drawing.Point(6, 65);
+			this.comboBox5.Name = "comboBox5";
+			this.comboBox5.Size = new System.Drawing.Size(69, 24);
+			this.comboBox5.TabIndex = 5;
+			// 
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
@@ -349,44 +438,6 @@
 			this.label9.TabIndex = 9;
 			this.label9.Text = "ImgQuality";
 			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(6, 59);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(74, 17);
-			this.label8.TabIndex = 9;
-			this.label8.Text = "ImgQuality";
-			// 
-			// textBox5
-			// 
-			this.textBox5.Location = new System.Drawing.Point(111, 24);
-			this.textBox5.Name = "textBox5";
-			this.textBox5.Size = new System.Drawing.Size(85, 22);
-			this.textBox5.TabIndex = 8;
-			this.textBox5.Text = "2*1024*1024";
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(6, 29);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(96, 17);
-			this.label7.TabIndex = 7;
-			this.label7.Text = "PlayerBufSize";
-			// 
-			// comboBox3
-			// 
-			this.comboBox3.DisplayMember = "1";
-			this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBox3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.comboBox3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.comboBox3.Location = new System.Drawing.Point(111, 52);
-			this.comboBox3.Name = "comboBox3";
-			this.comboBox3.Size = new System.Drawing.Size(85, 24);
-			this.comboBox3.TabIndex = 5;
-			this.comboBox3.Tag = "";
-			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
@@ -441,57 +492,6 @@
 			this.label5.TabIndex = 2;
 			this.label5.Text = "StreamType";
 			// 
-			// subtleSettingsGB
-			// 
-			this.subtleSettingsGB.Controls.Add(this.label7);
-			this.subtleSettingsGB.Controls.Add(this.comboBox3);
-			this.subtleSettingsGB.Controls.Add(this.textBox5);
-			this.subtleSettingsGB.Controls.Add(this.label8);
-			this.subtleSettingsGB.Location = new System.Drawing.Point(76, 4);
-			this.subtleSettingsGB.Name = "subtleSettingsGB";
-			this.subtleSettingsGB.Size = new System.Drawing.Size(205, 85);
-			this.subtleSettingsGB.TabIndex = 0;
-			this.subtleSettingsGB.TabStop = false;
-			this.subtleSettingsGB.Text = "Subtle Settings";
-			// 
-			// comboBox5
-			// 
-			this.comboBox5.DisplayMember = "1";
-			this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBox5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.comboBox5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.comboBox5.Location = new System.Drawing.Point(6, 65);
-			this.comboBox5.Name = "comboBox5";
-			this.comboBox5.Size = new System.Drawing.Size(69, 24);
-			this.comboBox5.TabIndex = 5;
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.subtleSettingsGB);
-			this.panel1.Controls.Add(this.label12);
-			this.panel1.Controls.Add(this.comboBox5);
-			this.panel1.Location = new System.Drawing.Point(4, 196);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(284, 104);
-			this.panel1.TabIndex = 9;
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(9, 4);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(61, 51);
-			this.label12.TabIndex = 10;
-			this.label12.Text = "Preview \r\nHandle \r\nMode";
-			// 
-			// label13
-			// 
-			this.label13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label13.Location = new System.Drawing.Point(7, 181);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(280, 2);
-			this.label13.TabIndex = 9;
-			// 
 			// MainWindow
 			// 
 			this.AcceptButton = this.button1;
@@ -513,12 +513,12 @@
 			this.previewPanel.ResumeLayout(false);
 			this.previewSettingsGB.ResumeLayout(false);
 			this.previewSettingsGB.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-			this.subtleSettingsGB.ResumeLayout(false);
-			this.subtleSettingsGB.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			this.subtleSettingsGB.ResumeLayout(false);
+			this.subtleSettingsGB.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -25,11 +25,24 @@ namespace CS_NVRController.Hickvision {
 
 		private bool isSdkInit_ = false;
 
+		private bool isAlarmActive_ = false;
+
+		private int alarmHandleV30_ = -1;
+
+		private int alarmHandleV41_ = -1;
+
+		private Int32[] m_lAlarmHandle = new Int32[200];
+
+		private CHCNetSDK.MSGCallBack alarmCallBack = null;
+
+		private CHCNetSDK.MSGCallBack_V31 alarmCallBackV31 = null;
+
 		#endregion Private
 
 		public NvrController(NvrSessionInfo sessionInfo, string sdkLogDir, bool isDebugEnabled)
 		{
 			sdkLogDir_ = sdkLogDir;
+			isDebugEnabled_ = isDebugEnabled;
 			userSession_ = new UserSession(sessionInfo);
 			livePlayer_ = LivePlayer.Default();
 			debugInfo("NvrSdkLogsDir: '" + sdkLogDir_ + "'");
@@ -46,11 +59,15 @@ namespace CS_NVRController.Hickvision {
 					debugInfo("~NvrController()");
 
 					try {
-						StopPreview();
+						if(livePlayer_.RealPlayHandle != -1) {
+							StopPreview();
+						}
 					} finally { }
 
 					try {
-						StopSession();
+						if (userSession_.UserId != -1) {
+							StopSession();
+						}
 					} finally { }
 
 					DrawOnPictureHandle = null;
@@ -235,6 +252,58 @@ namespace CS_NVRController.Hickvision {
 			}
 		}
 
+		public void ActivateEventListener()
+		{
+			if (isAlarmActive_) {
+				throw new NvrBadLogicException("EventListener is active!");
+			}
+
+			//Set alarm callback function
+			alarmCallBack = new CHCNetSDK.MSGCallBack(alarmMessageHandle);
+			bool b = CHCNetSDK.NET_DVR_SetDVRMessageCallBack_V30(alarmCallBack, IntPtr.Zero); //TODO: return bool!!
+			Console.WriteLine("NET_DVR_SetDVRMessageCallBack_V30: " + b);
+
+			alarmCallBackV31 = new CHCNetSDK.MSGCallBack_V31(alarmMessageHandleWrapperV31);
+			b = CHCNetSDK.NET_DVR_SetDVRMessageCallBack_V31(alarmCallBackV31, IntPtr.Zero); //TODO: return bool!!
+			Console.WriteLine("NET_DVR_SetDVRMessageCallBack_V31: " + b);
+			getAlarmConfig();
+
+			alarmHandleV30_ = CHCNetSDK.NET_DVR_SetupAlarmChan_V30(userSession_.UserId);
+			if (alarmHandleV30_ < 0) {
+				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_SetupAlarmChan_V30 failed: " + livePlayer_.RealPlayHandle);
+			}
+
+			debugInfo("NET_DVR_SetupAlarmChan_V30 Arm successfully: " + alarmHandleV30_);
+
+			CHCNetSDK.NET_DVR_SETUPALARM_PARAM alarmParams = new CHCNetSDK.NET_DVR_SETUPALARM_PARAM();
+			alarmParams.dwSize = (uint)Marshal.SizeOf(alarmParams);
+			alarmParams.byLevel = 0; //0- 1st Arm, 1- 2nd Arm
+			alarmParams.byAlarmInfoType = 1;//Intelligent transportation equipment effective, new alarm message type
+			alarmParams.byFaceAlarmDetection = 1;//1-On
+
+			alarmHandleV41_ = CHCNetSDK.NET_DVR_SetupAlarmChan_V41(userSession_.UserId, ref alarmParams);
+			if (alarmHandleV41_ < 0) {
+				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_SetupAlarmChan_V41 failed");
+			}
+
+			debugInfo("NET_DVR_SetupAlarmChan_V41 Arm successfully: " + alarmHandleV41_);
+		}
+
+		public void DeactivateEventListener()
+		{
+			isAlarmActive_ = false;
+			alarmCallBack = null;
+			alarmCallBackV31 = null;
+
+			if (!CHCNetSDK.NET_DVR_CloseAlarmChan_V30(userSession_.UserId)) {
+				debugInfo("NET_DVR_CloseAlarmChan_V30 failed: " + CHCNetSDK.NET_DVR_GetLastError());
+			}
+
+			alarmHandleV30_ = alarmHandleV41_ = -1;
+
+			debugInfo("NET_DVR_CloseAlarmChan_V30 succ!");
+		}
+
 		#endregion PublicMethods
 
 		#region PrivateMethods
@@ -299,7 +368,9 @@ namespace CS_NVRController.Hickvision {
 			//Logout the device
 
 			try {
-				StopPreview();
+				if (livePlayer_.RealPlayHandle != -1) {
+					StopPreview();
+				}
 			} finally {
 				if (!CHCNetSDK.NET_DVR_Logout(userSession_.UserId)) {
 					throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_Logout failed");
@@ -308,6 +379,32 @@ namespace CS_NVRController.Hickvision {
 				debugInfo("NET_DVR_Logout succ!");
 
 				userSession_ = new UserSession(userSession_.SessionInfo);
+			}
+		}
+
+		private void getAlarmConfig()
+		{
+			
+			IntPtr ptrAlarmConfigV30 = IntPtr.Zero;
+
+			try {
+				CHCNetSDK.NET_DVR_ALARMINCFG_V30 alarmInCfg = new CHCNetSDK.NET_DVR_ALARMINCFG_V30();
+				int ptrAlarmConfigV30Size = Marshal.SizeOf(alarmInCfg);
+
+				ptrAlarmConfigV30 = Marshal.AllocHGlobal(ptrAlarmConfigV30Size);
+				Marshal.StructureToPtr(alarmInCfg, ptrAlarmConfigV30, false);
+
+				uint dwReturn = 0;
+
+				if (!CHCNetSDK.NET_DVR_GetDVRConfig(userSession_.UserId, CHCNetSDK.NET_DVR_GET_ALARMINCFG_V30,0, ptrAlarmConfigV30, (uint)ptrAlarmConfigV30Size, ref dwReturn)) {
+					throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_GetDVRConfig failed");
+				}
+
+				debugInfo("NET_DVR_GetDVRConfig succ!");
+			} finally {
+				if (ptrAlarmConfigV30 != IntPtr.Zero) {
+					Marshal.FreeHGlobal(ptrAlarmConfigV30);
+				}
 			}
 		}
 
@@ -486,6 +583,70 @@ namespace CS_NVRController.Hickvision {
 						}
 					}
 				}
+			}
+		}
+
+		public bool alarmMessageHandleWrapperV31(int command, ref CHCNetSDK.NET_DVR_ALARMER alarmer, IntPtr alarmInfo, uint bufferLength, IntPtr pUser)
+		{
+			alarmMessageHandle(command, ref alarmer, alarmInfo, bufferLength, pUser);
+			return true; //The callback function needs to return, indicating that the data was received normally
+		}
+
+		private void alarmMessageHandle(int command, ref CHCNetSDK.NET_DVR_ALARMER alarmer, IntPtr alarmInfo, uint bufferLength, IntPtr pUser)
+		{
+			// Use command to determine the type of alarm information received. 
+			// Different lCommands correspond to different alarmInfo contents.
+			debugInfo("alarmMessageHandle: command=" + command);
+			invokeOnPreviewErrorEvent(0, "sd");
+			switch (command) {
+				case CHCNetSDK.COMM_ALARM: //(DS-8000 old device) Alarm information such as motion detection, video loss, obstruction, IO signal amount, etc.
+					debugInfo("COMM_ALARM");
+					break;
+				case CHCNetSDK.COMM_ALARM_V30://Alarm information such as motion detection, video loss, occlusion, IO signal
+					debugInfo("COMM_ALARM_V30");
+					break;
+				case CHCNetSDK.COMM_ALARM_RULE://Enter and exit areas, intrusions, wandering, personnel gathering, etc.
+					debugInfo("COMM_ALARM_RULE");
+					break;
+				case CHCNetSDK.COMM_UPLOAD_PLATE_RESULT://Traffic snapshot results upload (old alarm message type)
+					debugInfo("COMM_UPLOAD_PLATE_RESULT");
+					break;
+				case CHCNetSDK.COMM_ITS_PLATE_RESULT://Traffic snapshot results upload (new alarm message type)
+					debugInfo("COMM_ITS_PLATE_RESULT");
+					break;
+				case CHCNetSDK.COMM_ALARM_PDC://Passenger traffic statistics and alarm information
+					debugInfo("COMM_ALARM_PDC");
+					break;
+				case CHCNetSDK.COMM_ITS_PARK_VEHICLE://Passenger traffic statistics and alarm information
+					debugInfo("COMM_ITS_PARK_VEHICLE");
+					break;
+				case CHCNetSDK.COMM_DIAGNOSIS_UPLOAD://VQD alarm information
+					debugInfo("COMM_DIAGNOSIS_UPLOAD");
+					break;
+				case CHCNetSDK.COMM_UPLOAD_FACESNAP_RESULT://Face snapshot result information
+					debugInfo("COMM_UPLOAD_FACESNAP_RESULT");
+					break;
+				case CHCNetSDK.COMM_SNAP_MATCH_ALARM://Face comparison result information
+					debugInfo("COMM_SNAP_MATCH_ALARM");
+					break;
+				case CHCNetSDK.COMM_ALARM_FACE_DETECTION://Face detection alarm message
+					debugInfo("COMM_ALARM_FACE_DETECTION");
+					break;
+				case CHCNetSDK.COMM_ALARMHOST_CID_ALARM://Alarm host CID alarm upload
+					debugInfo("COMM_ALARMHOST_CID_ALARM");
+					break;
+				case CHCNetSDK.COMM_ALARM_ACS://Access control host alarm upload
+					debugInfo("COMM_ALARM_ACS");
+					break;
+				case CHCNetSDK.COMM_ID_INFO_ALARM://ID card swipe information upload
+					debugInfo("COMM_ID_INFO_ALARM");
+					break;
+				default: {
+						string strIP = alarmer.sDeviceIP;
+						string stringAlarm = "Upload alarm，alarm message type：" + command;
+						debugInfo(strIP + ": " + stringAlarm);
+					}
+					break;
 			}
 		}
 
