@@ -30,6 +30,7 @@ namespace CS_NVRController.Hickvision {
 		public NvrController(NvrSessionInfo sessionInfo, string sdkLogDir, bool isDebugEnabled)
 		{
 			sdkLogDir_ = sdkLogDir;
+			isDebugEnabled_ = isDebugEnabled;
 			userSession_ = new UserSession(sessionInfo);
 			livePlayer_ = LivePlayer.Default();
 			debugInfo("NvrSdkLogsDir: '" + sdkLogDir_ + "'");
@@ -46,11 +47,15 @@ namespace CS_NVRController.Hickvision {
 					debugInfo("~NvrController()");
 
 					try {
-						StopPreview();
+						if(livePlayer_.RealPlayHandle != -1) {
+							StopPreview();
+						}
 					} finally { }
 
 					try {
-						StopSession();
+						if (userSession_.UserId != -1) {
+							StopSession();
+						}
 					} finally { }
 
 					DrawOnPictureHandle = null;
@@ -119,7 +124,13 @@ namespace CS_NVRController.Hickvision {
 			get { return userSession_.SelectedChannelId; }
 			set { userSession_.SelectedChannelId = value; }
 		}
-			
+
+		/// <summary>
+		/// Set/Get Hadler (Action), that will be called at each frame.
+		/// <param name="IntPtr">
+		///		IntPtr - Device context handle. Can be used to draw something on device.
+		/// </param>
+		/// </summary>
 		public Action<IntPtr> DrawOnPictureHandle { get; set; } = null;
 
 		#endregion Properties
@@ -141,14 +152,23 @@ namespace CS_NVRController.Hickvision {
 
 		#region PublicMethods
 
+		/// <summary>
+		/// Start session with NVR/DVR device, initialize sdk and logs.
+		/// </summary>
 		public void StartSession()
 		{
 			initSdk();
 			loginUser();
 		}
 
+		/// <summary>
+		/// Stop session with NVR/DVR device.
+		/// </summary>
 		public void StopSession() => logoutUser();
 
+		/// <summary>
+		/// Start Preview in realtime.
+		/// </summary>
 		public void StartPreview(IntPtr playWndHandle, NvrPreviewSettings previewSettings)
 		{
 			if (livePlayer_.RealPlayHandle != -1) {
@@ -193,6 +213,9 @@ namespace CS_NVRController.Hickvision {
 			debugInfo("NET_DVR_RealPlay_V40 succ!");
 		}
 
+		/// <summary>
+		/// Start Preview.
+		/// </summary>
 		public void StopPreview()
 		{
 			if (livePlayer_.RealPlayHandle == -1) {
@@ -299,7 +322,9 @@ namespace CS_NVRController.Hickvision {
 			//Logout the device
 
 			try {
-				StopPreview();
+				if (livePlayer_.RealPlayHandle != -1) {
+					StopPreview();
+				}
 			} finally {
 				if (!CHCNetSDK.NET_DVR_Logout(userSession_.UserId)) {
 					throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_Logout failed");
