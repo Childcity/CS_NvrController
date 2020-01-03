@@ -133,10 +133,9 @@ namespace CS_NVRController.Hickvision {
 		/// </summary>
 		public Action<IntPtr> DrawOnPictureHandle { get; set; } = null;
 
-		public bool StreamCompressionSettings
+		public NvrCompressionSettings StreamCompressionSettings
 		{
 			get {
-				uint dwReturn = 0;
 				IntPtr ptrCompressionCfgInfoV30 = IntPtr.Zero;
 				CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30 compressionCfgInfoV30 = new CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30();
 
@@ -145,8 +144,8 @@ namespace CS_NVRController.Hickvision {
 
 					ptrCompressionCfgInfoV30 = Marshal.AllocHGlobal(compressionCfgInfoV30Size);
 					Marshal.StructureToPtr(compressionCfgInfoV30, ptrCompressionCfgInfoV30, false);
-
-
+					
+					uint dwReturn = 0;
 					if (!CHCNetSDK.NET_DVR_GetDVRConfig(userSession_.UserId, CHCNetSDK.NET_DVR_GET_COMPRESSCFG_V30, 33, ptrCompressionCfgInfoV30, (uint)compressionCfgInfoV30Size, ref dwReturn)) {
 						throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_GetDVRConfig failed");
 					}
@@ -160,7 +159,9 @@ namespace CS_NVRController.Hickvision {
 					}
 				}
 
-				return dwReturn == 0;
+				NvrCompressionSettings cmprSett = new NvrCompressionSettings();
+
+				return cmprSett;
 			}
 		}
 
