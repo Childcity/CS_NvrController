@@ -42,6 +42,7 @@ namespace CS_NVRController.BLL {
 			await Task.Factory.StartNew(() => {
 				try {
 					nvrController_.StartSession();
+					var s = nvrController_.StreamCompressionSettings;
 				} catch (NvrSdkException ex) {
 					logNvrSdkExceprtion(ex); 
 					throw new SystemException("NvrController: StartSession failed", ex);
