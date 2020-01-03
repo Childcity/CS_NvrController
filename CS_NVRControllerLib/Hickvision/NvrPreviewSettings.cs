@@ -23,7 +23,7 @@
 		/// <summary>
 		///  Tcp, Udp, Multicast, Rtp, RtpRtsp, RstpHttp, HrUdp
 		/// </summary>
-		public LinkModeType LinkMode { get; set; } = LinkModeType.Tcp;
+		public PreviewLinkModeType LinkMode { get; set; } = PreviewLinkModeType.Tcp;
 
 		/// <summary>
 		///  false - non-blocking stream getting, 
@@ -74,7 +74,7 @@
 	
 	public enum PreviewHandleType { Direct, CallBack }
 
-	public enum LinkModeType { Tcp, Udp, Multicast, Rtp, RtpRtsp, RstpHttp, HrUdp }
+	public enum PreviewLinkModeType { Tcp, Udp, Multicast, Rtp, RtpRtsp, RstpHttp, HrUdp }
 
 	public enum PreviewModeType { Normal, Dalayed }
 

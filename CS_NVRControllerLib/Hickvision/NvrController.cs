@@ -133,6 +133,37 @@ namespace CS_NVRController.Hickvision {
 		/// </summary>
 		public Action<IntPtr> DrawOnPictureHandle { get; set; } = null;
 
+		public bool StreamCompressionSettings
+		{
+			get {
+				uint dwReturn = 0;
+				IntPtr ptrCompressionCfgInfoV30 = IntPtr.Zero;
+				CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30 compressionCfgInfoV30 = new CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30();
+
+				try {
+					int compressionCfgInfoV30Size = Marshal.SizeOf(compressionCfgInfoV30);
+
+					ptrCompressionCfgInfoV30 = Marshal.AllocHGlobal(compressionCfgInfoV30Size);
+					Marshal.StructureToPtr(compressionCfgInfoV30, ptrCompressionCfgInfoV30, false);
+
+
+					if (!CHCNetSDK.NET_DVR_GetDVRConfig(userSession_.UserId, CHCNetSDK.NET_DVR_GET_COMPRESSCFG_V30, 33, ptrCompressionCfgInfoV30, (uint)compressionCfgInfoV30Size, ref dwReturn)) {
+						throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_GetDVRConfig failed");
+					}
+
+					debugInfo($"NET_DVR_GetDVRConfig: NET_DVR_GET_COMPRESSCFG_V30 succ! return={dwReturn}");
+
+					compressionCfgInfoV30 = (CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30)Marshal.PtrToStructure(ptrCompressionCfgInfoV30, typeof(CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30));
+				} finally {
+					if (ptrCompressionCfgInfoV30 != IntPtr.Zero) {
+						Marshal.FreeHGlobal(ptrCompressionCfgInfoV30);
+					}
+				}
+
+				return dwReturn == 0;
+			}
+		}
+
 		#endregion Properties
 
 		#region PublicEvents
@@ -353,7 +384,7 @@ namespace CS_NVRController.Hickvision {
 					throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_GetDVRConfig failed");
 				}
 
-				debugInfo("NET_DVR_GetDVRConfig succ!");
+				debugInfo("NET_DVR_GetDVRConfig: NET_DVR_GET_IPPARACFG_V40 succ!");
 
 				userSession_.IpParaCfgV40 = (CHCNetSDK.NET_DVR_IPPARACFG_V40)Marshal.PtrToStructure(ptrIpParaCfgV40, typeof(CHCNetSDK.NET_DVR_IPPARACFG_V40));
 
