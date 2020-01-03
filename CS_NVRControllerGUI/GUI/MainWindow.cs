@@ -24,6 +24,7 @@ namespace CS_NVRController {
 
 			textBox4.Text = getAppConfiguration("NvrIp");
 			textBox3.Text = getAppConfiguration("NvrPort");
+			textBox1.Text = getAppConfiguration("NvrUserName");
 			textBox2.Text = getAppConfiguration("NvrUserPassword");
 
 			liveViewService_.OnException += appendLogOnUiThread;
@@ -89,6 +90,7 @@ namespace CS_NVRController {
 				previewPanel.Enabled = isLogedIn_;
 				updateAppConfiguration("NvrIp", textBox4.Text);
 				updateAppConfiguration("NvrPort", textBox3.Text);
+				updateAppConfiguration("NvrUserName", textBox1.Text);
 				updateAppConfiguration("NvrUserPassword", textBox2.Text);
 			} else {
 				button1.Enabled = false;

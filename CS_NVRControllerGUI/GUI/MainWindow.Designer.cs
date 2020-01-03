@@ -36,7 +36,6 @@
 			this.userInfoGB = new System.Windows.Forms.GroupBox();
 			this.button1 = new System.Windows.Forms.Button();
 			this.textBox4 = new System.Windows.Forms.TextBox();
-			this.textBox3 = new System.Windows.Forms.TextBox();
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.previewPanel = new System.Windows.Forms.Panel();
@@ -63,6 +62,7 @@
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
+			this.textBox3 = new System.Windows.Forms.TextBox();
 			label4 = new System.Windows.Forms.Label();
 			label3 = new System.Windows.Forms.Label();
 			label2 = new System.Windows.Forms.Label();
@@ -201,14 +201,6 @@
 			this.textBox4.Size = new System.Drawing.Size(113, 22);
 			this.textBox4.TabIndex = 6;
 			// 
-			// textBox3
-			// 
-			this.textBox3.Location = new System.Drawing.Point(95, 49);
-			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(113, 22);
-			this.textBox3.TabIndex = 2;
-			this.textBox3.Text = "9000";
-			// 
 			// textBox2
 			// 
 			this.textBox2.Location = new System.Drawing.Point(95, 104);
@@ -222,7 +214,6 @@
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(113, 22);
 			this.textBox1.TabIndex = 0;
-			this.textBox1.Text = "user";
 			// 
 			// previewPanel
 			// 
@@ -492,6 +483,13 @@
 			this.label5.TabIndex = 2;
 			this.label5.Text = "StreamType";
 			// 
+			// textBox3
+			// 
+			this.textBox3.Location = new System.Drawing.Point(95, 49);
+			this.textBox3.Name = "textBox3";
+			this.textBox3.Size = new System.Drawing.Size(113, 22);
+			this.textBox3.TabIndex = 2;
+			// 
 			// MainWindow
 			// 
 			this.AcceptButton = this.button1;
@@ -531,7 +529,6 @@
 		private System.Windows.Forms.GroupBox userInfoGB;
 		private System.Windows.Forms.TextBox textBox2;
 		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.TextBox textBox4;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.GroupBox previewSettingsGB;
@@ -558,6 +555,7 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.TextBox textBox3;
 	}
 }
 
