@@ -12829,7 +12829,7 @@ namespace NVRCsharpDemo {
         Output:	
         Return:	TRUE表示成功，FALSE表示失败。
         **********************************************************/
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_Init();
 
 		/*********************************************************
@@ -12839,12 +12839,12 @@ namespace NVRCsharpDemo {
         Output:	
         Return:	TRUE表示成功，FALSE表示失败
         **********************************************************/
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_Cleanup();
 
 
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDVRMessage(uint nMessage, IntPtr hWnd);
 
 		/*********************************************************
@@ -12856,7 +12856,7 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void EXCEPYIONCALLBACK(uint dwType, int lUserID, int lHandle, IntPtr pUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetExceptionCallBack_V30(uint nMessage, IntPtr hWnd, EXCEPYIONCALLBACK fExceptionCallBack, IntPtr pUser);
 
 
@@ -12869,7 +12869,7 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate int MESSCALLBACK(int lCommand, string sDVRIP, string pBuf, uint dwBufLen);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDVRMessCallBack(MESSCALLBACK fMessCallBack);
 
 		/*********************************************************
@@ -12881,7 +12881,7 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate int MESSCALLBACKEX(int iCommand, int iUserID, string pBuf, uint dwBufLen);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDVRMessCallBack_EX(MESSCALLBACKEX fMessCallBack_EX);
 
 		/*********************************************************
@@ -12893,7 +12893,7 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate int MESSCALLBACKNEW(int lCommand, string sDVRIP, string pBuf, uint dwBufLen, ushort dwLinkDVRPort);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDVRMessCallBack_NEW(MESSCALLBACKNEW fMessCallBack_NEW);
 
 		/*********************************************************
@@ -12905,7 +12905,7 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate int MESSAGECALLBACK(int lCommand, System.IntPtr sDVRIP, System.IntPtr pBuf, uint dwBufLen, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDVRMessageCallBack(MESSAGECALLBACK fMessageCallBack, uint dwUser);
 
 
@@ -12918,72 +12918,72 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void MSGCallBack(int lCommand, ref NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDVRMessageCallBack_V30(MSGCallBack fMessageCallBack, IntPtr pUser);
 
 		public delegate bool MSGCallBack_V31(int lCommand, ref NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDVRMessageCallBack_V31(MSGCallBack_V31 fMessageCallBack, IntPtr pUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetConnectTime(uint dwWaitTime, uint dwTryTimes);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetReconnect(uint dwInterval, int bEnableRecon);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetLocalIP(byte[] strIP, ref uint pValidNum, ref Boolean pEnableBind);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetValidIP(uint dwIPIndex, Boolean bEnableBind);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern uint NET_DVR_GetSDKVersion();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern uint NET_DVR_GetSDKBuildVersion();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern Int32 NET_DVR_IsSupport();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StartListen(string sLocalIP, ushort wLocalPort);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopListen();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_StartListen_V30(String sLocalIP, ushort wLocalPort, MSGCallBack DataCallback, IntPtr pUserData);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopListen_V30(Int32 lListenHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern Int32 NET_DVR_Login(string sDVRIP, ushort wDVRPort, string sUserName, string sPassword, ref NET_DVR_DEVICEINFO lpDeviceInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_Logout(int iUserID);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern uint NET_DVR_GetLastError();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern string NET_DVR_GetErrorMsg(ref int pErrorNo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetShowMode(uint dwShowType, uint colorKey);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDVRIPByResolveSvr(string sServerIP, ushort wServerPort, string sDVRName, ushort wDVRNameLen, string sDVRSerialNumber, ushort wDVRSerialLen, IntPtr pGetIP);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDVRIPByResolveSvr_EX(string sServerIP, ushort wServerPort, byte[] sDVRName, ushort wDVRNameLen, byte[] sDVRSerialNumber, ushort wDVRSerialLen, byte[] sGetIP, ref uint dwPort);
 		//预览相关接口
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern Int32 NET_DVR_RealPlay(int iUserID, ref NET_DVR_CLIENTINFO lpClientInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern Int32 NET_SDK_RealPlay(int iUserLogID, ref NET_DVR_CLIENTINFO lpDVRClientInfo);
 		/*********************************************************
 		Function:	REALDATACALLBACK
@@ -12997,7 +12997,7 @@ namespace NVRCsharpDemo {
 		Return:	void
 		**********************************************************/
 		public delegate void REALDATACALLBACK(Int32 lRealHandle, UInt32 dwDataType, IntPtr pBuffer, UInt32 dwBufSize, IntPtr pUser);
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 
 		/*********************************************************
         Function:	NET_DVR_RealPlay_V30
@@ -13022,10 +13022,10 @@ namespace NVRCsharpDemo {
         Output:	
         Return:	1表示失败，其他值作为NET_DVR_StopRealPlay等函数的句柄参数
         **********************************************************/
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_RealPlay_V40(int iUserID, ref NET_DVR_PREVIEWINFO lpPreviewInfo, REALDATACALLBACK fRealDataCallBack_V30, IntPtr pUser);
 
-		// [DllImport(@"..\bin\HCNetSDK.dll")]
+		// [DllImport(@".\bin\HCNetSDK.dll")]
 		// public static extern int NET_DVR_GetRealPlayerIndex(int lRealHandle);
 		/*********************************************************
 		Function:	NET_DVR_StopRealPlay
@@ -13034,7 +13034,7 @@ namespace NVRCsharpDemo {
 		Output:	
 		Return:	
 		**********************************************************/
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopRealPlay(int iRealHandle);
 
 		/*********************************************************
@@ -13046,37 +13046,37 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void DRAWFUN(int lRealHandle, IntPtr hDc, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_RigisterDrawFun(int lRealHandle, DRAWFUN fDrawFun, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetPlayerBufNumber(Int32 lRealHandle, uint dwBufNum);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ThrowBFrame(Int32 lRealHandle, uint dwNum);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetAudioMode(uint dwMode);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_OpenSound(Int32 lRealHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CloseSound();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_OpenSoundShare(Int32 lRealHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CloseSoundShare(Int32 lRealHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_Volume(Int32 lRealHandle, ushort wVolume);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SaveRealData(Int32 lRealHandle, string sFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopSaveRealData(Int32 lRealHandle);
 
 		/*********************************************************
@@ -13088,7 +13088,7 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void SETREALDATACALLBACK(int lRealHandle, uint dwDataType, IntPtr pBuffer, uint dwBufSize, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetRealDataCallBack(int lRealHandle, SETREALDATACALLBACK fRealDataCallBack, uint dwUser);
 
 		/*********************************************************
@@ -13100,147 +13100,147 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void STDDATACALLBACK(int lRealHandle, uint dwDataType, ref byte pBuffer, uint dwBufSize, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetStandardDataCallBack(int lRealHandle, STDDATACALLBACK fStdDataCallBack, uint dwUser);
 
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CapturePicture(Int32 lRealHandle, string sPicFileName);
 
 		//动态生成I帧
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MakeKeyFrame(Int32 lUserID, Int32 lChannel);//主码流
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MakeKeyFrameSub(Int32 lUserID, Int32 lChannel);//子码流
 
 		//云台控制相关接口
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetPTZCtrl(Int32 lRealHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetPTZCtrl_Other(Int32 lUserID, int lChannel);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZControl(Int32 lRealHandle, uint dwPTZCommand, uint dwStop);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZControl_Other(Int32 lUserID, Int32 lChannel, uint dwPTZCommand, uint dwStop);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_TransPTZ(Int32 lRealHandle, string pPTZCodeBuf, uint dwBufSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_TransPTZ_Other(int lUserID, int lChannel, string pPTZCodeBuf, uint dwBufSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZPreset(int lRealHandle, uint dwPTZPresetCmd, uint dwPresetIndex);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZPreset_Other(int lUserID, int lChannel, uint dwPTZPresetCmd, uint dwPresetIndex);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_TransPTZ_EX(int lRealHandle, string pPTZCodeBuf, uint dwBufSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZControl_EX(int lRealHandle, uint dwPTZCommand, uint dwStop);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZPreset_EX(int lRealHandle, uint dwPTZPresetCmd, uint dwPresetIndex);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZCruise(int lRealHandle, uint dwPTZCruiseCmd, byte byCruiseRoute, byte byCruisePoint, ushort wInput);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZCruise_Other(int lUserID, int lChannel, uint dwPTZCruiseCmd, byte byCruiseRoute, byte byCruisePoint, ushort wInput);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZCruise_EX(int lRealHandle, uint dwPTZCruiseCmd, byte byCruiseRoute, byte byCruisePoint, ushort wInput);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZTrack(int lRealHandle, uint dwPTZTrackCmd);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZTrack_Other(int lUserID, int lChannel, uint dwPTZTrackCmd);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZTrack_EX(int lRealHandle, uint dwPTZTrackCmd);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZControlWithSpeed(int lRealHandle, uint dwPTZCommand, uint dwStop, uint dwSpeed);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZControlWithSpeed_Other(int lUserID, int lChannel, int dwPTZCommand, int dwStop, int dwSpeed);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZControlWithSpeed_EX(int lRealHandle, uint dwPTZCommand, uint dwStop, uint dwSpeed);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetPTZCruise(int lUserID, int lChannel, int lCruiseRoute, ref NET_DVR_CRUISE_RET lpCruiseRet);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZMltTrack(int lRealHandle, uint dwPTZTrackCmd, uint dwTrackIndex);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZMltTrack_Other(int lUserID, int lChannel, uint dwPTZTrackCmd, uint dwTrackIndex);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZMltTrack_EX(int lRealHandle, uint dwPTZTrackCmd, uint dwTrackIndex);
 
 		//文件查找与回放
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindFile(int lUserID, int lChannel, uint dwFileType, ref NET_DVR_TIME lpStartTime, ref NET_DVR_TIME lpStopTime);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindNextFile(int lFindHandle, ref NET_DVR_FIND_DATA lpFindData);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_FindClose(int lFindHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindNextFile_V30(int lFindHandle, ref NET_DVR_FINDDATA_V30 lpFindData);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindNextFile_V40(int lFindHandle, ref NET_DVR_FINDDATA_V40 lpFindData);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindFile_V30(int lUserID, ref NET_DVR_FILECOND pFindCond);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindFile_V40(int lUserID, ref NET_DVR_FILECOND_V40 pFindCond);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_FindClose_V30(int lFindHandle);
 
 		//2007-04-16增加查询结果带卡号的文件查找
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindNextFile_Card(int lFindHandle, ref NET_DVR_FINDDATA_CARD lpFindData);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindFile_Card(int lUserID, int lChannel, uint dwFileType, ref NET_DVR_TIME lpStartTime, ref NET_DVR_TIME lpStopTime);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_LockFileByName(int lUserID, string sLockFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_UnlockFileByName(int lUserID, string sUnlockFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_PlayBackByName(int lUserID, string sPlayBackFileName, IntPtr hWnd);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_PlayBackByTime(int lUserID, int lChannel, ref NET_DVR_TIME lpStartTime, ref NET_DVR_TIME lpStopTime, System.IntPtr hWnd);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_PlayBackByTime_V40(int lUserID, ref NET_DVR_VOD_PARA pVodPara);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PlayBackControl(int lPlayHandle, uint dwControlCode, uint dwInValue, ref uint LPOutValue);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PlayBackControl_V40(int lPlayHandle, uint dwControlCode, IntPtr lpInBuffer, uint dwInValue, IntPtr lpOutBuffer, ref uint LPOutValue);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopPlayBack(int lPlayHandle);
 
 		/*********************************************************
@@ -13252,80 +13252,80 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void PLAYDATACALLBACK(int lPlayHandle, uint dwDataType, IntPtr pBuffer, uint dwBufSize, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetPlayDataCallBack(int lPlayHandle, PLAYDATACALLBACK fPlayDataCallBack, uint dwUser);
 
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PlayBackSaveData(int lPlayHandle, string sFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopPlayBackSave(int lPlayHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetPlayBackOsdTime(int lPlayHandle, ref NET_DVR_TIME lpOsdTime);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PlayBackCaptureFile(int lPlayHandle, string sFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetFileByName(int lUserID, string sDVRFileName, string sSavedFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetFileByTime(int lUserID, int lChannel, ref NET_DVR_TIME lpStartTime, ref NET_DVR_TIME lpStopTime, string sSavedFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetFileByTime_V40(int lUserID, string sSavedFileName, ref NET_DVR_PLAYCOND pDownloadCond);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopGetFile(int lFileHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetDownloadPos(int lFileHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetPlayBackPos(int lPlayHandle);
 
 		//升级
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_Upgrade(int lUserID, string sFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetUpgradeState(int lUpgradeHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetUpgradeProgress(int lUpgradeHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CloseUpgradeHandle(int lUpgradeHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetNetworkEnvironment(uint dwEnvironmentLevel);
 
 		//远程格式化硬盘
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FormatDisk(int lUserID, int lDiskNumber);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetFormatProgress(int lFormatHandle, ref int pCurrentFormatDisk, ref int pCurrentDiskPos, ref int pFormatStatic);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CloseFormatHandle(int lFormatHandle);
 
 		//报警
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_SetupAlarmChan(int lUserID);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CloseAlarmChan(int lAlarmHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_SetupAlarmChan_V30(int lUserID);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_SetupAlarmChan_V41(int lUserID, ref NET_DVR_SETUPALARM_PARAM lpSetupParam);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CloseAlarmChan_V30(int lAlarmHandle);
 
 		//语音对讲
@@ -13338,7 +13338,7 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void VOICEDATACALLBACK(int lVoiceComHandle, string pRecvDataBuffer, uint dwBufSize, byte byAudioFlag, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_StartVoiceCom(int lUserID, VOICEDATACALLBACK fVoiceDataCallBack, uint dwUser);
 
 		/*********************************************************
@@ -13350,28 +13350,28 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void VOICEDATACALLBACKV30(int lVoiceComHandle, string pRecvDataBuffer, uint dwBufSize, byte byAudioFlag, System.IntPtr pUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_StartVoiceCom_V30(int lUserID, uint dwVoiceChan, bool bNeedCBNoEncData, VOICEDATACALLBACKV30 fVoiceDataCallBack, IntPtr pUser);
 
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetVoiceComClientVolume(int lVoiceComHandle, ushort wVolume);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopVoiceCom(int lVoiceComHandle);
 
 		//语音转发
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_StartVoiceCom_MR(int lUserID, VOICEDATACALLBACK fVoiceDataCallBack, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_StartVoiceCom_MR_V30(int lUserID, uint dwVoiceChan, VOICEDATACALLBACKV30 fVoiceDataCallBack, IntPtr pUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_VoiceComSendData(int lVoiceComHandle, string pSendBuf, uint dwBufSize);
 
 		//语音广播
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClientAudioStart();
 
 		/*********************************************************
@@ -13383,23 +13383,23 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void VOICEAUDIOSTART(string pRecvDataBuffer, uint dwBufSize, IntPtr pUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClientAudioStart_V30(VOICEAUDIOSTART fVoiceAudioStart, IntPtr pUser);
 
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClientAudioStop();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_AddDVR(int lUserID);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_AddDVR_V30(int lUserID, uint dwVoiceChan);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_DelDVR(int lUserID);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_DelDVR_V30(int lVoiceHandle);
 
 
@@ -13413,447 +13413,447 @@ namespace NVRCsharpDemo {
         **********************************************************/
 		public delegate void SERIALDATACALLBACK(int lSerialHandle, string pRecvDataBuffer, uint dwBufSize, uint dwUser);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SerialStart(int lUserID, int lSerialPort, SERIALDATACALLBACK fSerialDataCallBack, uint dwUser);
 
 		//485作为透明通道时，需要指明通道号，因为不同通道号485的设置可以不同(比如波特率)
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SerialSend(int lSerialHandle, int lChannel, string pSendBuf, uint dwBufSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SerialStop(int lSerialHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SendTo232Port(int lUserID, string pSendBuf, uint dwBufSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SendToSerialPort(int lUserID, uint dwSerialPort, uint dwSerialIndex, string pSendBuf, uint dwBufSize);
 
 		//解码 nBitrate = 16000
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern System.IntPtr NET_DVR_InitG722Decoder(int nBitrate);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern void NET_DVR_ReleaseG722Decoder(IntPtr pDecHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_DecodeG722Frame(IntPtr pDecHandle, ref byte pInBuffer, ref byte pOutBuffer);
 
 		//编码
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern IntPtr NET_DVR_InitG722Encoder();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_EncodeG722Frame(IntPtr pEncodeHandle, ref byte pInBuffer, ref byte pOutBuffer);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern void NET_DVR_ReleaseG722Encoder(IntPtr pEncodeHandle);
 
 		//远程控制本地显示
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClickKey(int lUserID, int lKeyIndex);
 
 		//远程控制设备端手动录像
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StartDVRRecord(int lUserID, int lChannel, int lRecordType);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopDVRRecord(int lUserID, int lChannel);
 
 		//解码卡
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_InitDevice_Card(ref int pDeviceTotalChan);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ReleaseDevice_Card();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_InitDDraw_Card(IntPtr hParent, uint colorKey);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ReleaseDDraw_Card();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_RealPlay_Card(int lUserID, ref NET_DVR_CARDINFO lpCardInfo, int lChannelNum);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ResetPara_Card(int lRealHandle, ref NET_DVR_DISPLAY_PARA lpDisplayPara);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_RefreshSurface_Card();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClearSurface_Card();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_RestoreSurface_Card();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_OpenSound_Card(int lRealHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CloseSound_Card(int lRealHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetVolume_Card(int lRealHandle, ushort wVolume);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_AudioPreview_Card(int lRealHandle, int bEnable);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetCardLastError_Card();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern System.IntPtr NET_DVR_GetChanHandle_Card(int lRealHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CapturePicture_Card(int lRealHandle, string sPicFileName);
 
 		//获取解码卡序列号此接口无效，改用GetBoardDetail接口获得(2005-12-08支持)
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetSerialNum_Card(int lChannelNum, ref uint pDeviceSerialNo);
 
 		//日志
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindDVRLog(int lUserID, int lSelectMode, uint dwMajorType, uint dwMinorType, ref NET_DVR_TIME lpStartTime, ref NET_DVR_TIME lpStopTime);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindNextLog(int lLogHandle, ref NET_DVR_LOG lpLogData);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_FindLogClose(int lLogHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindDVRLog_V30(int lUserID, int lSelectMode, uint dwMajorType, uint dwMinorType, ref NET_DVR_TIME lpStartTime, ref NET_DVR_TIME lpStopTime, bool bOnlySmart);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindNextLog_V30(int lLogHandle, ref NET_DVR_LOG_V30 lpLogData);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_FindLogClose_V30(int lLogHandle);
 
 		//截止2004年8月5日,共113个接口
 		//ATM DVR
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindFileByCard(int lUserID, int lChannel, uint dwFileType, int nFindType, ref byte sCardNumber, ref NET_DVR_TIME lpStartTime, ref NET_DVR_TIME lpStopTime);
 
 
 		//2005-09-15
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CaptureJPEGPicture(int lUserID, int lChannel, ref NET_DVR_JPEGPARA lpJpegPara, string sPicFileName);
 
 		//JPEG抓图到内存
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_CaptureJPEGPicture_NEW(int lUserID, int lChannel, ref NET_DVR_JPEGPARA lpJpegPara, byte[] sJpegPicBuffer, uint dwPicSize, ref uint lpSizeReturned);
 
 		//2006-02-16
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetRealPlayerIndex(int lRealHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetPlayBackPlayerIndex(int lPlayHandle);
 
 		//2006-08-28 704-640 缩放配置
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetScaleCFG(int lUserID, uint dwScale);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetScaleCFG(int lUserID, ref uint lpOutScale);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetScaleCFG_V30(int lUserID, ref NET_DVR_SCALECFG pScalecfg);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetScaleCFG_V30(int lUserID, ref NET_DVR_SCALECFG pScalecfg);
 
 		//2006-08-28 ATM机端口设置
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetATMPortCFG(int lUserID, ushort wATMPort);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetATMPortCFG(int lUserID, ref ushort LPOutATMPort);
 
 		//2006-11-10 支持显卡辅助输出
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_InitDDrawDevice();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ReleaseDDrawDevice();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_GetDDrawDeviceTotalNums();
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDDrawDevice(int lPlayPort, uint nDeviceNum);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZSelZoomIn(int lRealHandle, ref NET_DVR_POINT_FRAME pStruPointFrame);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_PTZSelZoomIn_EX(int lUserID, int lChannel, ref NET_DVR_POINT_FRAME pStruPointFrame);
 
 		//解码设备DS-6001D/DS-6001F
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StartDecode(int lUserID, int lChannel, ref NET_DVR_DECODERINFO lpDecoderinfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopDecode(int lUserID, int lChannel);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDecoderState(int lUserID, int lChannel, ref NET_DVR_DECODERSTATE lpDecoderState);
 
 		//2005-08-01
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDecInfo(int lUserID, int lChannel, ref NET_DVR_DECCFG lpDecoderinfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDecInfo(int lUserID, int lChannel, ref NET_DVR_DECCFG lpDecoderinfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDecTransPort(int lUserID, ref NET_DVR_PORTCFG lpTransPort);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDecTransPort(int lUserID, ref NET_DVR_PORTCFG lpTransPort);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_DecPlayBackCtrl(int lUserID, int lChannel, uint dwControlCode, uint dwInValue, ref uint LPOutValue, ref NET_DVR_PLAYREMOTEFILE lpRemoteFileInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StartDecSpecialCon(int lUserID, int lChannel, ref NET_DVR_DECCHANINFO lpDecChanInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_StopDecSpecialCon(int lUserID, int lChannel, ref NET_DVR_DECCHANINFO lpDecChanInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_DecCtrlDec(int lUserID, int lChannel, uint dwControlCode);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_DecCtrlScreen(int lUserID, int lChannel, uint dwControl);
 
 		//多路解码器
 		//2007-11-30 V211支持以下接口 //11
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixStartDynamic(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_DYNAMIC_DEC lpDynamicInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixStopDynamic(int lUserID, uint dwDecChanNum);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetDecChanInfo(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_DEC_CHAN_INFO lpInter);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetLoopDecChanInfo(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_LOOP_DECINFO lpInter);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetLoopDecChanInfo(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_LOOP_DECINFO lpInter);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetLoopDecChanEnable(int lUserID, uint dwDecChanNum, uint dwEnable);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetLoopDecChanEnable(int lUserID, uint dwDecChanNum, ref uint lpdwEnable);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetLoopDecEnable(int lUserID, ref uint lpdwEnable);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetDecChanEnable(int lUserID, uint dwDecChanNum, uint dwEnable);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetDecChanEnable(int lUserID, uint dwDecChanNum, ref uint lpdwEnable);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetDecChanStatus(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_DEC_CHAN_STATUS lpInter);
 
 		//2007-12-22 增加支持接口 //18
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetTranInfo(int lUserID, ref NET_DVR_MATRIX_TRAN_CHAN_CONFIG lpTranInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetTranInfo(int lUserID, ref NET_DVR_MATRIX_TRAN_CHAN_CONFIG lpTranInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetRemotePlay(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_DEC_REMOTE_PLAY lpInter);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetRemotePlayControl(int lUserID, uint dwDecChanNum, uint dwControlCode, uint dwInValue, ref uint LPOutValue);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetRemotePlayStatus(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_DEC_REMOTE_PLAY_STATUS lpOuter);
 
 		//2009-4-13 新增
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixStartDynamic_V30(int lUserID, uint dwDecChanNum, ref NET_DVR_PU_STREAM_CFG lpDynamicInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetLoopDecChanInfo_V30(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_LOOP_DECINFO_V30 lpInter);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetLoopDecChanInfo_V30(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_LOOP_DECINFO_V30 lpInter);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetDecChanInfo_V30(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_DEC_CHAN_INFO_V30 lpInter);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetTranInfo_V30(int lUserID, ref NET_DVR_MATRIX_TRAN_CHAN_CONFIG_V30 lpTranInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetTranInfo_V30(int lUserID, ref NET_DVR_MATRIX_TRAN_CHAN_CONFIG_V30 lpTranInfo);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetDisplayCfg(int lUserID, uint dwDispChanNum, ref NET_DVR_VGA_DISP_CHAN_CFG lpDisplayCfg);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetDisplayCfg(int lUserID, uint dwDispChanNum, ref NET_DVR_VGA_DISP_CHAN_CFG lpDisplayCfg);
 
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_MatrixStartPassiveDecode(int lUserID, uint dwDecChanNum, ref NET_DVR_MATRIX_PASSIVEMODE lpPassiveMode);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSendData(int lPassiveHandle, System.IntPtr pSendBuf, uint dwBufSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixStopPassiveDecode(int lPassiveHandle);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_UploadLogo(int lUserID, uint dwDispChanNum, ref NET_DVR_DISP_LOGOCFG lpDispLogoCfg, System.IntPtr sLogoBuffer);
 
 		public const int NET_DVR_SHOWLOGO = 1;/*显示LOGO*/
 		public const int NET_DVR_HIDELOGO = 2;/*隐藏LOGO*/
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_LogoSwitch(int lUserID, uint dwDecChan, uint dwLogoSwitch);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetDeviceStatus(int lUserID, ref NET_DVR_DECODER_WORK_STATUS lpDecoderCfg);
 
 		/*显示通道命令码定义*/
 		//上海世博 定制
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_RigisterPlayBackDrawFun(int lRealHandle, DRAWFUN fDrawFun, uint dwUser);
 
 
 		public const int DISP_CMD_ENLARGE_WINDOW = 1;   /*显示通道放大某个窗口*/
 		public const int DISP_CMD_RENEW_WINDOW = 2; /*显示通道窗口还原*/
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixDiaplayControl(int lUserID, uint dwDispChanNum, uint dwDispChanCmd, uint dwCmdParam);
 
 		//end
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_RefreshPlay(int lPlayHandle);
 
 		//恢复默认值
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_RestoreConfig(int lUserID);
 
 		//保存参数
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SaveConfig(int lUserID);
 
 		//重启
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_RebootDVR(int lUserID);
 
 		//关闭DVR
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ShutDownDVR(int lUserID);
 
 		//参数配置 begin
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDVRConfig(int lUserID, uint dwCommand, int lChannel, IntPtr lpOutBuffer, uint dwOutBufferSize, ref uint lpBytesReturned);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetDVRConfig(int lUserID, uint dwCommand, int lChannel, System.IntPtr lpInBuffer, uint dwInBufferSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDVRWorkState_V30(int lUserID, IntPtr pWorkState);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDVRWorkState(int lUserID, ref NET_DVR_WORKSTATE lpWorkState);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetVideoEffect(int lUserID, int lChannel, uint dwBrightValue, uint dwContrastValue, uint dwSaturationValue, uint dwHueValue);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetVideoEffect(int lUserID, int lChannel, ref uint pBrightValue, ref uint pContrastValue, ref uint pSaturationValue, ref uint pHueValue);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClientGetframeformat(int lUserID, ref NET_DVR_FRAMEFORMAT lpFrameFormat);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClientSetframeformat(int lUserID, ref NET_DVR_FRAMEFORMAT lpFrameFormat);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetAtmProtocol(int lUserID, ref NET_DVR_ATM_PROTOCOL lpAtmProtocol);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetAlarmOut_V30(int lUserID, IntPtr lpAlarmOutState);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetAlarmOut(int lUserID, ref NET_DVR_ALARMOUTSTATUS lpAlarmOutState);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetAlarmOut(int lUserID, int lAlarmOutPort, int lAlarmOutStatic);
 
 		//获取UPNP端口映射状态
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetUpnpNatState(int lUserID, ref NET_DVR_UPNP_NAT_STATE lpState);
 
 		//视频参数调节
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClientSetVideoEffect(int lRealHandle, uint dwBrightValue, uint dwContrastValue, uint dwSaturationValue, uint dwHueValue);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_ClientGetVideoEffect(int lRealHandle, ref uint pBrightValue, ref uint pContrastValue, ref uint pSaturationValue, ref uint pHueValue);
 
 		//配置文件
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetConfigFile(int lUserID, string sFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetConfigFile(int lUserID, string sFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetConfigFile_V30(int lUserID, string sOutBuffer, uint dwOutSize, ref uint pReturnSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetConfigFile_EX(int lUserID, string sOutBuffer, uint dwOutSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetConfigFile_EX(int lUserID, string sInBuffer, uint dwInSize);
 
 		//启用日志文件写入接口
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetLogToFile(int bLogEnable, string strLogDir, bool bAutoDel);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetSDKState(ref NET_DVR_SDKSTATE pSDKState);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetSDKAbility(ref NET_DVR_SDKABL pSDKAbl);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetPTZProtocol(int lUserID, ref NET_DVR_PTZCFG pPtzcfg);
 
 		//前面板锁定
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_LockPanel(int lUserID);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_UnLockPanel(int lUserID);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetRtspConfig(int lUserID, uint dwCommand, ref NET_DVR_RTSPCFG lpInBuffer, uint dwInBufferSize);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetRtspConfig(int lUserID, uint dwCommand, ref NET_DVR_RTSPCFG lpOutBuffer, uint dwOutBufferSize);
 
 		//视频综合平台
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixGetSceneCfg(int lUserID, uint dwSceneNum, ref NET_DVR_MATRIX_SCENECFG lpSceneCfg);
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetSceneCfg(int lUserID, uint dwSceneNum, ref NET_DVR_MATRIX_SCENECFG lpSceneCfg);
 
 		//SDK_V222
@@ -13937,7 +13937,7 @@ namespace NVRCsharpDemo {
 											   Output:	
 											   Return:	TRUE表示成功，FALSE表示失败。
 											   **********************************************************/
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetDeviceAbility(int lUserID, uint dwAbilityType, IntPtr pInBuf, uint dwInLength, IntPtr pOutBuf, uint dwOutLength);
 
 		//参数关键字
@@ -13959,17 +13959,17 @@ namespace NVRCsharpDemo {
 		}
 
 		//设置/获取参数关键字
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetBehaviorParamKey(int lUserID, int lChannel, uint dwParameterKey, int nValue);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetBehaviorParamKey(int lUserID, int lChannel, uint dwParameterKey, ref int pValue);
 
 		//获取/设置行为分析目标叠加接口
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetVCADrawMode(int lUserID, int lChannel, ref NET_VCA_DRAW_MODE lpDrawMode);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetVCADrawMode(int lUserID, int lChannel, ref NET_VCA_DRAW_MODE lpDrawMode);
 
 		//标定参数配置结构
@@ -14029,10 +14029,10 @@ namespace NVRCsharpDemo {
 		}
 
 		//双摄像机跟踪模式设置接口
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetLFTrackMode(int lUserID, int lChannel, ref NET_DVR_LF_TRACK_MODE lpTrackMode);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetLFTrackMode(int lUserID, int lChannel, ref NET_DVR_LF_TRACK_MODE lpTrackMode);
 
 		//识别场景
@@ -14136,7 +14136,7 @@ namespace NVRCsharpDemo {
 		}
 
 		//重启智能库
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_VCA_RestartLib(int lUserID, int lChannel);
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
@@ -14159,28 +14159,28 @@ namespace NVRCsharpDemo {
 			public NET_VCA_LINE_SEGMENT[] struSeg;
 		}
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetRealHeight(int lUserID, int lChannel, ref NET_VCA_LINE lpLine, ref Single lpHeight);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetRealLength(int lUserID, int lChannel, ref NET_VCA_LINE lpLine, ref Single lpLength);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SaveRealData_V30(int lRealHandle, uint dwTransType, string sFileName);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_EncodeG711Frame(uint iType, ref byte pInBuffer, ref byte pOutBuffer);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_DecodeG711Frame(uint iType, ref byte pInBuffer, ref byte pOutBuffer);
 
 		//2009-7-22 end  
 
 		//邮件服务测试 9000_1.1
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_EmailTest(int lUserID);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindFileByEvent(int lUserID, ref NET_DVR_SEARCH_EVENT_PARAM lpSearchEventParam);
 
 		//2009-8-18 抓拍机
@@ -14211,7 +14211,7 @@ namespace NVRCsharpDemo {
 		}
 		/*注：后面紧跟 dwPicLen 长度的 图片 信息*/
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_INVOKE_PLATE_RECOGNIZE(int lUserID, int lChannel, string pPicFileName, ref NET_DVR_PLATE_RET pPlateRet, string pPicBuf, uint dwPicBufLen);
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
@@ -14231,10 +14231,10 @@ namespace NVRCsharpDemo {
 			public byte byEnRecognise;/*1-支持识别；0-不支持识别*/
 		}
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetCCDCfg(int lUserID, int lChannel, ref NET_DVR_CCD_CFG lpCCDCfg);
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_SetCCDCfg(int lUserID, int lChannel, ref NET_DVR_CCD_CFG lpCCDCfg);
 
 		[StructLayoutAttribute(LayoutKind.Sequential)]
@@ -14327,7 +14327,7 @@ namespace NVRCsharpDemo {
 			public byte[] byRes;
 		}
 
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_GetParamSetMode(int lUserID, ref uint dwParamSetMode);
 
 		/*********************************************************
@@ -14340,7 +14340,7 @@ namespace NVRCsharpDemo {
         Output:	lpDeviceInfo [out] 设备信息 
         Return:	-1表示失败，其他值表示返回的用户ID值
         **********************************************************/
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern Int32 NET_DVR_Login_V30(string sDVRIP, Int32 wDVRPort, string sUserName, string sPassword, ref NET_DVR_DEVICEINFO_V30 lpDeviceInfo);
 
 		/*********************************************************
@@ -14350,7 +14350,7 @@ namespace NVRCsharpDemo {
         Output:	
         Return:	TRUE表示成功，FALSE表示失败
         **********************************************************/
-		[DllImport(@"..\bin\HCNetSDK.dll")]
+		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_Logout_V30(Int32 lUserID);
 
 
@@ -14764,11 +14764,11 @@ namespace NVRCsharpDemo {
 			public byte[] byMacAddr;//MAC地址
 		}
 
-		[DllImportAttribute(@"..\bin\HCNetSDK.dll")]
+		[DllImportAttribute(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindNextLog_MATRIX(int iLogHandle, ref NET_DVR_LOG_MATRIX lpLogData);
 
 
-		[DllImportAttribute(@"..\bin\HCNetSDK.dll")]
+		[DllImportAttribute(@".\bin\HCNetSDK.dll")]
 		public static extern int NET_DVR_FindDVRLog_Matrix(int iUserID, int lSelectMode, uint dwMajorType, uint dwMinorType, ref tagVEDIOPLATLOG lpVedioPlatLog, ref NET_DVR_TIME lpStartTime, ref NET_DVR_TIME lpStopTime);
 	}
 }

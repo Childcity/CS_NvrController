@@ -309,219 +309,219 @@ class PlayCtrl
 
     //API
     //Initialize DirecDraw.Now invalid.
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
      public static extern bool PlayM4_InitDDraw(IntPtr hWnd);
     //Release directDraw; Now invalid.
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_RealeseDDraw();
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_OpenFile(int nPort, String sFileName);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_CloseFile(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_Play(int nPort, IntPtr hWnd);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_Stop(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_Pause(int nPort, uint nPause);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_Fast(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_Slow(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_OneByOne(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetPlayPos(int nPort, float fRelativePos);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern float PlayM4_GetPlayPos(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetFileEndMsg(int nPort, IntPtr hWnd, uint nMsg);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetVolume(int nPort, ushort nVolume);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_StopSound();
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_PlaySound(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_OpenStream(int nPort, IntPtr pFileHeadBuf, uint nSize, uint nBufPoolSize);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_InputData(int nPort, IntPtr pBuf, uint nSize);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_CloseStream(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern int PlayM4_GetCaps();
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetFileTime(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetFileTimeEx(int nPort, ref uint pStart, ref uint pStop, ref uint pRev) ;
 
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetPlayedTime(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetPlayedFrames(int nPort);
 
     ////////////////ver 2.0 added///////////////////////////////////////
     public delegate void DECCBFUN(int nPort, IntPtr pBuf, int nSize, ref FRAME_INFO pFrameInfo, int nReserved1, int nReserved2);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDecCallBack(int nPort, DECCBFUN DecCBFun);
 
 
     public delegate void DISPLAYCBFUN(int nPort, IntPtr pBuf, int nSize, int nWidth, int nHeight, int nStamp, int nType, int nReserved);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDisplayCallBack(int nPort, DISPLAYCBFUN DisplayCBFun);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PLayM4_ConvertToBmpFile(IntPtr pBuf, int nSize, int nWidth, int nHeight, int nType, string sFileName);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetFileTotalFrames(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetCurrentFrameRate(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetPlayedTimeEx(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetPlayedTimeEx(int nPort, uint nTime);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetCurrentFrameNum(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetStreamOpenMode(int nPort, uint nMode);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetFileHeadLength();
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetSdkVersion();
 
     ////////////////ver 2.2 added///////////////////////////////////////
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetLastError(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_RefreshPlay(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetOverlayMode(int nPort, int bOverlay, uint colorKey);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetPictureSize(int nPort, ref int pWidth, ref int pHeight);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetPicQuality(int nPort, int bHighQuality);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_PlaySoundShare(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_StopSoundShare(int nPort);
 
     ////////////////ver 2.4 added///////////////////////////////////////
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern int PlayM4_GetStreamOpenMode(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern int PlayM4_GetOverlayMode(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetColorKey(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern ushort PlayM4_GetVolume(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetPictureQuality(int nPort, ref int bHighQuality);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetSourceBufferRemain(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_ResetSourceBuffer(int nPort);
 
     public delegate void SOURCEBUFCALLBACKI(int nPort, uint nBufSize, uint dwUser, IntPtr pResvered);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetSourceBufCallBack(int nPort, uint nThreShold, SOURCEBUFCALLBACKI SourceBufCallBack, uint dwUser, IntPtr pReserved);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_ResetSourceBufFlag(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDisplayBuf(int nPort, uint nNum);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetDisplayBuf(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_OneByOneBack(int nPort);
 
    // PLAYM4_API BOOL __stdcall PlayM4_SetFileRefCallBack(LONG nPort, void (__stdcall *pFileRefDone)(DWORD nPort,DWORD nUser),DWORD nUser);
     public delegate void PFILEREFDONE(uint nPort, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetFileRefCallBack(int nPort, PFILEREFDONE pFileRefDone, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetKeyFramePos(int nPort, uint nValue, uint nType, ref FRAME_POS pFramePos);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetNextKeyFramePos(int nPort, uint nValue, uint nType, ref FRAME_POS pFramePos);
 
 
     //#if (WINVER >= 0x0400)
     //Note: These funtion must be builded under win2000 or above with Microsoft Platform sdk.
     //	    You can download the sdk from "http://www.microsoft.com/msdownload/platformsdk/sdkupdate/";
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_InitDDrawDevice();
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern void PlayM4_ReleaseDDrawDevice();
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetDDrawDeviceTotalNums();
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDDrawDevice(int nPort, uint nDeviceNum);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern int PlayM4_GetCapsEx(uint nDDrawDeviceNum);
 
     //#endif
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_ThrowBFrameNum(int nPort, uint nNum);
 
     ////////////////ver 2.5 added///////////////////////////////////////
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDisplayType(int nPort, int nType);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern int PlayM4_GetDisplayType(int nPort);
 
     ////////////////ver 3.0 added///////////////////////////////////////
@@ -541,185 +541,185 @@ class PlayCtrl
         }
     }
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDecCBStream(int nPort, uint nStream);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDisplayRegion(int nPort, uint nRegionNum, ref tagRECT pSrcRect, System.IntPtr hDestWnd, [System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.Bool)] bool bEnable);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_RefreshPlayEx(int nPort, uint nRegionNum);
 
     //#if (WINVER >= 0x0400)
     //Note: The funtion must be builded under win2000 or above with Microsoft Platform sdk.
     //	    You can download the sdk from http://www.microsoft.com/msdownload/platformsdk/sdkupdate/;
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDDrawDeviceEx(int nPort, uint nRegionNum, uint nDeviceNum);
 
     //#endif
     /////////////////v3.2 added/////////////////////////////////////////
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetRefValue(int nPort, ref byte pBuffer, ref uint pSize);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetRefValue(int nPort, ref byte pBuffer, uint nSize);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_OpenStreamEx(int nPort, ref byte pFileHeadBuf, uint nSize, uint nBufPoolSize);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_CloseStreamEx(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_InputVideoData(int nPort, IntPtr pBuf, uint nSize);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_InputAudioData(int nPort, ref byte pBuf, uint nSize);
 
 
     public delegate void DRAWFUN(int nPort, System.IntPtr hDc, int nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_RigisterDrawFun(int nPort, DRAWFUN DrawFun, int nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_RegisterDrawFun(int nPort, DRAWFUN DrawFun, int nUser);
 
     //////////////////v3.4/////////////////////////////////////////////////////
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetTimerType(int nPort, uint nTimerType, uint nReserved);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetTimerType(int nPort, ref uint pTimerType, ref uint pReserved);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_ResetBuffer(int nPort, uint nBufType);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetBufferValue(int nPort, uint nBufType);
 
     //////////////////V3.6/////////////////////////////////////////////////////////
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_AdjustWaveAudio(int nPort, int nCoefficient);
 
     public delegate void FUNVERYFY(int nPort, ref FRAME_POS pFilePos, uint bIsVideo, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetVerifyCallBack(int nPort, uint nBeginTime, uint nEndTime, FUNVERYFY funVerify, uint nUser);
 
     public delegate void FUNAUDIO(int nPort, string pAudioBuf, int nSize, int nStamp, int nType, int nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetAudioCallBack(int nPort, FUNAUDIO funAudio, int nUser);
 
 
     public delegate void FUNENCCHANGE(int nPort, int nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetEncTypeChangeCallBack(int nPort, FUNENCCHANGE funEncChange, int nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetColor(int nPort, uint nRegionNum, int nBrightness, int nContrast, int nSaturation, int nHue);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetColor(int nPort, uint nRegionNum, ref int pBrightness, ref int pContrast, ref int pSaturation, ref int pHue);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetEncChangeMsg(int nPort, System.IntPtr hWnd, uint nMsg);
 
     public delegate void FUNGETORIGNALFRAME(int nPort, ref FRAME_TYPE frameType, int nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetOriginalFrameCallBack(int nPort, int bIsChange, int bNormalSpeed, int nStartFrameNum, int nStartStamp, int nFileHeader, FUNGETORIGNALFRAME funGetOrignalFrame, int nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetFileSpecialAttr(int nPort, ref uint pTimeStamp, ref uint pFileNum, ref uint pReserved);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetSpecialData(int nPort);
 
     public delegate void FUNCHECKWATERMARK(int nPort, ref WATERMARK_INFO pWatermarkInfo, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetCheckWatermarkCallBack(int nPort, FUNCHECKWATERMARK funCheckWatermark, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetImageSharpen(int nPort, uint nLevel);
 
     public delegate void FUNTHROWBFRAME(int nPort, uint nBFrame, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetThrowBFrameCallBack(int nPort, FUNTHROWBFRAME funThrowBFrame, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDecodeFrameType(int nPort, uint nFrameType);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetPlayMode(int nPort, int bNormal);
 
     public delegate void FUNGETUSERDATA(int nPort, ref byte pUserBuf, uint nBufLen, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetGetUserDataCallBack(int nPort, FUNGETUSERDATA funGetUserData, uint nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetOverlayFlipMode(int nPort, int bTrue);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern uint PlayM4_GetAbsFrameNum(int nPort);
 
     //////////////////V4.7.0.0//////////////////////////////////////////////////////
     ////convert yuv to jpeg
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_ConvertToJpegFile(IntPtr pBuf, int nSize, int nWidth, int nHeight, int nType, string sFileName);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetJpegQuality(int nQuality);
 
     //set deflash
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDeflash(int nPort, int bDefalsh);
 
     //////////////////V4.8.0.0/////////////////////////////////////////////////////////
     //check discontinuous frame number as error data?
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_CheckDiscontinuousFrameNum(int nPort, int bCheck);
 
     //get bmp or jpeg
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetBMP(int nPort, byte[] pBitmap, uint nBufSize, ref uint pBmpSize);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetJPEG(int nPort, IntPtr pJpeg, uint nBufSize, ref uint pJpegSize);
 
     //dec call back mend
     //public delegate void DECCBFUN(int nPort, string pBuf, int nSize, ref FRAME_INFO pFrameInfo, int nUser, int nReserved2);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDecCallBackMend(int nPort, DECCBFUN DecCBFun, int nUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetSecretKey(int nPort, int lKeyType, string pSecretKey, int lKeyLen);
 
     // add by gb 2007-12-23
     public delegate void FILEENDCALLBACK(int nPort, System.IntPtr pUser);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetFileEndCallback(int nPort, FILEENDCALLBACK FileEndCallback, IntPtr pUser);
 
     // add by gb 080131 version 4.9.0.1
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_GetPort(ref int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_FreePort(int nPort);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SyncToAudio(int nPort, int bSyncToAudio);
 
     //public delegate void Anonymous_b532dad6_7470_4b10_9638_c82a363cd853(int nPort, System.IntPtr pBuf, int nSize, ref FRAME_INFO pFrameInfo, int nReserved1, int nReserved2);
 
-    [DllImport(@"..\bin\PlayCtrl.dll")]
+    [DllImport(@".\bin\PlayCtrl.dll")]
     public static extern bool PlayM4_SetDecCallBackEx(int nPort, DECCBFUN DecCBFun, IntPtr pDest, int nDestSize);
 }
 
