@@ -36,6 +36,7 @@
 			this.userInfoGB = new System.Windows.Forms.GroupBox();
 			this.button1 = new System.Windows.Forms.Button();
 			this.textBox4 = new System.Windows.Forms.TextBox();
+			this.textBox3 = new System.Windows.Forms.TextBox();
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.previewPanel = new System.Windows.Forms.Panel();
@@ -62,7 +63,6 @@
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
-			this.textBox3 = new System.Windows.Forms.TextBox();
 			label4 = new System.Windows.Forms.Label();
 			label3 = new System.Windows.Forms.Label();
 			label2 = new System.Windows.Forms.Label();
@@ -200,6 +200,13 @@
 			this.textBox4.Name = "textBox4";
 			this.textBox4.Size = new System.Drawing.Size(113, 22);
 			this.textBox4.TabIndex = 6;
+			// 
+			// textBox3
+			// 
+			this.textBox3.Location = new System.Drawing.Point(95, 49);
+			this.textBox3.Name = "textBox3";
+			this.textBox3.Size = new System.Drawing.Size(113, 22);
+			this.textBox3.TabIndex = 2;
 			// 
 			// textBox2
 			// 
@@ -482,13 +489,6 @@
 			this.label5.Size = new System.Drawing.Size(85, 17);
 			this.label5.TabIndex = 2;
 			this.label5.Text = "StreamType";
-			// 
-			// textBox3
-			// 
-			this.textBox3.Location = new System.Drawing.Point(95, 49);
-			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(113, 22);
-			this.textBox3.TabIndex = 2;
 			// 
 			// MainWindow
 			// 

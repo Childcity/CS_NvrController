@@ -1682,8 +1682,11 @@ namespace NVRCsharpDemo {
 			public byte byEnableSvc; //0 - ²»ÆôÓÃSVC¹¦ÄÜ£»1- ÆôÓÃSVC¹¦ÄÜ
 			public byte byFormatType; //·â×°ÀàĞÍ£¬1-ÂãÁ÷£¬2-RTP·â×°£¬3-PS·â×°£¬4-TS·â×°£¬5-Ë½ÓĞ£¬6-FLV£¬7-ASF£¬8-3GP,9-RTP+PS£¨¹ú±ê£ºGB28181£©£¬0xff-ÎŞĞ§
 			public byte byAudioBitRate; //ÒôÆµÂëÂÊ0-Ä¬ÈÏ£¬1-8Kbps, 2- 16Kbps, 3-32Kbps£¬4-64Kbps£¬5-128Kbps£¬6-192Kbps£»(IPC5.1.0Ä¬ÈÏ4-64Kbps)
-			[MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 6, ArraySubType = UnmanagedType.I1)]
-			public byte[] byres;//ÕâÀï±£ÁôÒôÆµµÄÑ¹Ëõ²ÎÊı
+			public byte byStreamSmooth; //stream smoothing 1?«100??1-(Clear),..., 100-(Smooth)?©
+			public byte byAudioSamplingRate;//AudioSamplingRate 0-default,1-16kHZ, 2-32kHZ,3-48kHZ, 4- 44.1kHZ,5-8kHZ
+			public byte bySmartCodec; //bit0:High performance code: 0-Close,1-Open;bit1 Low Bit Rate:0-Close,1-Open
+			public byte byDepthMapEnable;// Depth Map Enable,0-Close,1-Open; //±£Áô
+			public ushort wAverageVideoBitrate;
 		}
 
 		//Í¨µÀÑ¹Ëõ²ÎÊı(9000À©Õ¹)

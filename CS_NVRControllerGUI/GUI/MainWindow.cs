@@ -35,7 +35,7 @@ namespace CS_NVRController {
 			checkBox1.Checked = previewSettings.IsPassbackRecord;
 			checkBox2.Checked = previewSettings.IsBlocked;
 
-			comboBox2.Items.AddRange(Enum.GetNames(typeof(LinkModeType)));
+			comboBox2.Items.AddRange(Enum.GetNames(typeof(PreviewLinkModeType)));
 			comboBox2.SelectedIndex = (int)previewSettings.LinkMode;
 
 			comboBox3.Items.AddRange(Enum.GetNames(typeof(PreviewQualityType)));
@@ -144,7 +144,7 @@ namespace CS_NVRController {
 
 				liveViewService_.NvrPreviewSettings = new NvrPreviewSettings {
 					PreviewHandleMode = (PreviewHandleType)comboBox5.SelectedIndex,
-					LinkMode = (LinkModeType)comboBox2.SelectedIndex,
+					LinkMode = (PreviewLinkModeType)comboBox2.SelectedIndex,
 					StreamType = (uint)numericUpDown1.Value,
 					DisplayBufNum = (uint)numericUpDown2.Value,
 					IsBlocked = checkBox2.Checked,

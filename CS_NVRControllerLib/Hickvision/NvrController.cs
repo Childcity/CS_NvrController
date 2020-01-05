@@ -136,32 +136,56 @@ namespace CS_NVRController.Hickvision {
 		public NvrCompressionSettings StreamCompressionSettings
 		{
 			get {
-				IntPtr ptrCompressionCfgInfoV30 = IntPtr.Zero;
-				CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30 compressionCfgInfoV30 = new CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30();
+				var streamInf = getDvrCompressionCfgV30().struNormHighRecordPara;
+				return new NvrCompressionSettings() {
+					StreamType = (CompressionStreamType)streamInf.byStreamType,
+					Resolution = (CompressionResolution)streamInf.byResolution,
+					BitrateType = (CompressionBitrateType)streamInf.byBitrateType,
+					PictureQuality = (CompressionPictureQuality)streamInf.byPicQuality,
+					VideoBitrate = (CompressionVideoBitrate)streamInf.dwVideoBitrate,
+					VideoFrameRate = (CompressionVideoFrameRate)streamInf.dwVideoFrameRate,
+					IntervalFrameI = (CompressionIntervalFrameI)streamInf.wIntervalFrameI,
+					IntervalBPFrame = (CompressionIntervalBPFrame)streamInf.byIntervalBPFrame,
+					VideoEncoding = (CompressionVideoEncoding)streamInf.byVideoEncType,
+					AudioEncoding = (CompressionAudioEncoding)streamInf.byAudioEncType,
+					VideoEncodingComplexity = (CompressionVideoEncodingComplexity)streamInf.byVideoEncComplexity,
+					IsSvcEnable = streamInf.byEnableSvc != 0,
+					FormatType = (CompressionFormatType)streamInf.byFormatType,
+					AudioBitrate = (CompressionAudioBitrate)streamInf.byAudioBitRate,
+					StreamSmooth = streamInf.byStreamSmooth,
+					AudioSamplingRate = (CompressionAudioSamplingRate)streamInf.byAudioSamplingRate,
+					IsSmartCodecEnabled = streamInf.bySmartCodec != 0,
+					IsDepthMapEnabled = streamInf.byDepthMapEnable != 0,
+					AverageVideoBitrate = (CompressionAverageVideoBitrate)streamInf.wAverageVideoBitrate,
+				};
+			}
 
-				try {
-					int compressionCfgInfoV30Size = Marshal.SizeOf(compressionCfgInfoV30);
+			set {
+				var compressionCfgInfoV30 = getDvrCompressionCfgV30();
 
-					ptrCompressionCfgInfoV30 = Marshal.AllocHGlobal(compressionCfgInfoV30Size);
-					Marshal.StructureToPtr(compressionCfgInfoV30, ptrCompressionCfgInfoV30, false);
-					
-					uint dwReturn = 0;
-					if (!CHCNetSDK.NET_DVR_GetDVRConfig(userSession_.UserId, CHCNetSDK.NET_DVR_GET_COMPRESSCFG_V30, 33, ptrCompressionCfgInfoV30, (uint)compressionCfgInfoV30Size, ref dwReturn)) {
-						throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_GetDVRConfig failed");
-					}
+				compressionCfgInfoV30.struNormHighRecordPara = new CHCNetSDK.NET_DVR_COMPRESSION_INFO_V30() {
+					byStreamType = (byte)value.StreamType,
+					byResolution = (byte)value.Resolution,
+					byBitrateType = (byte)value.BitrateType,
+					byPicQuality = (byte)value.PictureQuality,
+					dwVideoBitrate = (uint)value.VideoBitrate,
+					dwVideoFrameRate = (uint)value.VideoFrameRate,
+					wIntervalFrameI = (ushort)value.IntervalFrameI,
+					byIntervalBPFrame = (byte)value.IntervalBPFrame,
+					byVideoEncType = (byte)value.VideoEncoding,
+					byAudioEncType = (byte)value.AudioEncoding,
+					byVideoEncComplexity = (byte)value.VideoEncodingComplexity,
+					byEnableSvc = (byte)(value.IsSvcEnable ? 0x01 : 0x00),
+					byFormatType = (byte)value.FormatType,
+					byAudioBitRate = (byte)value.AudioBitrate,
+					byStreamSmooth = (byte)value.StreamSmooth,
+					byAudioSamplingRate = (byte)value.AudioSamplingRate,
+					bySmartCodec = (byte)(value.IsSmartCodecEnabled ? 0x01 : 0x00),
+					byDepthMapEnable = (byte)(value.IsDepthMapEnabled ? 0x01 : 0x00),
+					wAverageVideoBitrate = (ushort)value.AverageVideoBitrate
+				};
 
-					debugInfo($"NET_DVR_GetDVRConfig: NET_DVR_GET_COMPRESSCFG_V30 succ! return={dwReturn}");
-
-					compressionCfgInfoV30 = (CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30)Marshal.PtrToStructure(ptrCompressionCfgInfoV30, typeof(CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30));
-				} finally {
-					if (ptrCompressionCfgInfoV30 != IntPtr.Zero) {
-						Marshal.FreeHGlobal(ptrCompressionCfgInfoV30);
-					}
-				}
-
-				NvrCompressionSettings cmprSett = new NvrCompressionSettings();
-
-				return cmprSett;
+				setDvrCompressionCfgV30(compressionCfgInfoV30);
 			}
 		}
 
@@ -446,6 +470,64 @@ namespace CS_NVRController.Hickvision {
 			} finally {
 				if (ptrIpParaCfgV40 != IntPtr.Zero) {
 					Marshal.FreeHGlobal(ptrIpParaCfgV40);
+				}
+			}
+		}
+
+		private CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30 getDvrCompressionCfgV30()
+		{
+			IntPtr ptrCompressionCfgInfoV30 = IntPtr.Zero;
+			CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30 compressionCfgInfoV30 = new CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30();
+
+			try {
+				int compressionCfgInfoV30Size = Marshal.SizeOf(compressionCfgInfoV30);
+				ptrCompressionCfgInfoV30 = Marshal.AllocHGlobal(compressionCfgInfoV30Size);
+				Marshal.StructureToPtr(compressionCfgInfoV30, ptrCompressionCfgInfoV30, false);
+
+				uint dwReturn = 0;
+				if (!CHCNetSDK.NET_DVR_GetDVRConfig(userSession_.UserId, 
+													CHCNetSDK.NET_DVR_GET_COMPRESSCFG_V30, 
+													userSession_.SelectedChannelNum, 
+													ptrCompressionCfgInfoV30, 
+													(uint)compressionCfgInfoV30Size, 
+													ref dwReturn)) 
+				{
+					throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_GetDVRConfig: NET_DVR_GET_COMPRESSCFG_V30 failed");
+				}
+
+				compressionCfgInfoV30 = (CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30)Marshal.PtrToStructure(ptrCompressionCfgInfoV30, typeof(CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30));
+				debugInfo($"NET_DVR_GetDVRConfig: NET_DVR_GET_COMPRESSCFG_V30 succ! return={dwReturn}");
+			} finally {
+				if (ptrCompressionCfgInfoV30 != IntPtr.Zero) {
+					Marshal.FreeHGlobal(ptrCompressionCfgInfoV30);
+				}
+			}
+
+			return compressionCfgInfoV30;
+		}
+
+		private void setDvrCompressionCfgV30(CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30 compressionCfgInfoV30)
+		{
+			IntPtr ptrCompressionCfgInfoV30 = IntPtr.Zero;
+
+			try {
+				int compressionCfgInfoV30Size = Marshal.SizeOf(compressionCfgInfoV30);
+				ptrCompressionCfgInfoV30 = Marshal.AllocHGlobal(compressionCfgInfoV30Size);
+				Marshal.StructureToPtr(compressionCfgInfoV30, ptrCompressionCfgInfoV30, false);
+				
+				if (!CHCNetSDK.NET_DVR_SetDVRConfig(userSession_.UserId,
+													CHCNetSDK.NET_DVR_SET_COMPRESSCFG_V30,
+													userSession_.SelectedChannelNum,
+													ptrCompressionCfgInfoV30,
+													(uint)compressionCfgInfoV30Size)) 
+				{
+					throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_SetDVRConfig: NET_DVR_SET_COMPRESSCFG_V30 failed");
+				}
+			
+				debugInfo($"NET_DVR_SetDVRConfig: NET_DVR_SET_COMPRESSCFG_V30 succ!");
+			} finally {
+				if (ptrCompressionCfgInfoV30 != IntPtr.Zero) {
+					Marshal.FreeHGlobal(ptrCompressionCfgInfoV30);
 				}
 			}
 		}
