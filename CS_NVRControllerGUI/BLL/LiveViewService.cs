@@ -32,7 +32,7 @@ namespace CS_NVRController.BLL {
 		}
 		#endregion
 
-		public event EventHandler<string> OnException;
+		#region PublicMethods
 
 		public async Task LoginAsync()
 		{
@@ -43,7 +43,7 @@ namespace CS_NVRController.BLL {
 				try {
 					nvrController_.StartSession();
 				} catch (NvrSdkException ex) {
-					logNvrSdkExceprtion(ex); 
+					logNvrSdkExceprtion(ex);
 					throw new SystemException("NvrController: StartSession failed", ex);
 				} catch (Exception ex) {
 					logException(ex);
@@ -89,18 +89,23 @@ namespace CS_NVRController.BLL {
 			} catch (Exception ex) {
 				logException(ex);
 			} finally {
-				if(nvrController_ != null) { 
+				if (nvrController_ != null) {
 					nvrController_.OnPreviewError -= onPreviewError;
 					nvrController_.DrawOnPictureHandle -= drawSomething;
 				}
 			}
 		}
 
+		#endregion
+
+		#region Properties
+
 		public NvrSessionInfo SessionInfo { get; set; } = new NvrSessionInfo();
 
 		public NvrPreviewSettings NvrPreviewSettings { get; set; } = new NvrPreviewSettings();
 
-		public List<string> CameraChannels {
+		public List<string> CameraChannels
+		{
 			get {
 				var camChannals = new List<string>();
 				nvrController_.IpChannels.ForEach(x => {
@@ -110,15 +115,25 @@ namespace CS_NVRController.BLL {
 			}
 		}
 
-		public int CameraSelectedChannel {
+		public int CameraSelectedChannel
+		{
 			get { return nvrController_.SelectedChannelId; }
 			set { nvrController_.SelectedChannelId = value; }
 		}
 
+		#endregion
+
+		#region PublicEvents
+
+		public event EventHandler<string> OnException;
+
+		#endregion
+
+		#region PrivateMethods
 		private void drawSomething(IntPtr hDc)
 		{
 			try {
-				using(Graphics pDc = Graphics.FromHdc(hDc)) {
+				using (Graphics pDc = Graphics.FromHdc(hDc)) {
 					if (pDc == null)
 						return;
 
@@ -136,7 +151,7 @@ namespace CS_NVRController.BLL {
 						}
 					}
 				}
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				OnException?.Invoke(this, $"Exception: {ex.Message}\n{ex.StackTrace}\n\n");
 			}
 		}
@@ -157,5 +172,6 @@ namespace CS_NVRController.BLL {
 			Console.WriteLine($"[Debug] LiveViewService: Exception: {ex.Message}\n{ex.StackTrace}\n\n");
 			OnException?.Invoke(this, $"NvrException Code[{ex.SdkErrorCode}]: {ex.Message}\n\n");
 		}
+		#endregion
 	}
 }
