@@ -63,6 +63,8 @@
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
+			this.pictureSettingsBtn = new System.Windows.Forms.Button();
+			this.label14 = new System.Windows.Forms.Label();
 			label4 = new System.Windows.Forms.Label();
 			label3 = new System.Windows.Forms.Label();
 			label2 = new System.Windows.Forms.Label();
@@ -131,7 +133,7 @@
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 582);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 642);
 			this.tableLayoutPanel1.TabIndex = 3;
 			// 
 			// logTxtBox
@@ -140,17 +142,18 @@
 			this.logTxtBox.BackColor = System.Drawing.Color.Gainsboro;
 			this.logTxtBox.CausesValidation = false;
 			this.logTxtBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.logTxtBox.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
-			this.logTxtBox.Location = new System.Drawing.Point(3, 352);
+			this.logTxtBox.Font = new System.Drawing.Font("Courier New", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.logTxtBox.Location = new System.Drawing.Point(3, 388);
 			this.logTxtBox.Multiline = true;
 			this.logTxtBox.Name = "logTxtBox";
 			this.logTxtBox.ReadOnly = true;
 			this.logTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.logTxtBox.Size = new System.Drawing.Size(595, 227);
+			this.logTxtBox.Size = new System.Drawing.Size(595, 251);
 			this.logTxtBox.TabIndex = 2;
 			this.logTxtBox.TabStop = false;
 			this.logTxtBox.Text = "Log...\r\n";
 			this.logTxtBox.WordWrap = false;
+			this.logTxtBox.DoubleClick += new System.EventHandler(this.logTxtBox_DoubleClick);
 			// 
 			// flowLayoutPanel2
 			// 
@@ -160,7 +163,7 @@
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(595, 343);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(595, 379);
 			this.flowLayoutPanel2.TabIndex = 3;
 			// 
 			// userInfoGB
@@ -178,7 +181,7 @@
 			this.userInfoGB.Dock = System.Windows.Forms.DockStyle.Left;
 			this.userInfoGB.Location = new System.Drawing.Point(3, 3);
 			this.userInfoGB.Name = "userInfoGB";
-			this.userInfoGB.Size = new System.Drawing.Size(291, 340);
+			this.userInfoGB.Size = new System.Drawing.Size(291, 376);
 			this.userInfoGB.TabIndex = 0;
 			this.userInfoGB.TabStop = false;
 			this.userInfoGB.Text = "User Info";
@@ -229,14 +232,14 @@
 			this.previewPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.previewPanel.Location = new System.Drawing.Point(300, 3);
 			this.previewPanel.Name = "previewPanel";
-			this.previewPanel.Size = new System.Drawing.Size(291, 340);
+			this.previewPanel.Size = new System.Drawing.Size(291, 376);
 			this.previewPanel.TabIndex = 16;
 			// 
 			// startLiveViewBtn
 			// 
 			this.startLiveViewBtn.BackColor = System.Drawing.Color.Gainsboro;
 			this.startLiveViewBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.startLiveViewBtn.Location = new System.Drawing.Point(0, 303);
+			this.startLiveViewBtn.Location = new System.Drawing.Point(0, 339);
 			this.startLiveViewBtn.Name = "startLiveViewBtn";
 			this.startLiveViewBtn.Size = new System.Drawing.Size(291, 37);
 			this.startLiveViewBtn.TabIndex = 15;
@@ -247,6 +250,8 @@
 			// previewSettingsGB
 			// 
 			this.previewSettingsGB.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.previewSettingsGB.Controls.Add(this.label14);
+			this.previewSettingsGB.Controls.Add(this.pictureSettingsBtn);
 			this.previewSettingsGB.Controls.Add(this.label13);
 			this.previewSettingsGB.Controls.Add(this.panel1);
 			this.previewSettingsGB.Controls.Add(this.checkBox2);
@@ -265,7 +270,7 @@
 			this.previewSettingsGB.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.previewSettingsGB.Location = new System.Drawing.Point(0, 0);
 			this.previewSettingsGB.Name = "previewSettingsGB";
-			this.previewSettingsGB.Size = new System.Drawing.Size(291, 306);
+			this.previewSettingsGB.Size = new System.Drawing.Size(291, 333);
 			this.previewSettingsGB.TabIndex = 1;
 			this.previewSettingsGB.TabStop = false;
 			this.previewSettingsGB.Text = "Preview Settings";
@@ -273,7 +278,7 @@
 			// label13
 			// 
 			this.label13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label13.Location = new System.Drawing.Point(7, 181);
+			this.label13.Location = new System.Drawing.Point(7, 294);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(280, 2);
 			this.label13.TabIndex = 9;
@@ -283,9 +288,9 @@
 			this.panel1.Controls.Add(this.subtleSettingsGB);
 			this.panel1.Controls.Add(this.label12);
 			this.panel1.Controls.Add(this.comboBox5);
-			this.panel1.Location = new System.Drawing.Point(4, 196);
+			this.panel1.Location = new System.Drawing.Point(10, 196);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(284, 104);
+			this.panel1.Size = new System.Drawing.Size(278, 93);
 			this.panel1.TabIndex = 9;
 			// 
 			// subtleSettingsGB
@@ -296,7 +301,7 @@
 			this.subtleSettingsGB.Controls.Add(this.label8);
 			this.subtleSettingsGB.Location = new System.Drawing.Point(76, 4);
 			this.subtleSettingsGB.Name = "subtleSettingsGB";
-			this.subtleSettingsGB.Size = new System.Drawing.Size(205, 85);
+			this.subtleSettingsGB.Size = new System.Drawing.Size(197, 85);
 			this.subtleSettingsGB.TabIndex = 0;
 			this.subtleSettingsGB.TabStop = false;
 			this.subtleSettingsGB.Text = "Subtle Settings";
@@ -390,7 +395,7 @@
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(7, 157);
+			this.checkBox1.Location = new System.Drawing.Point(10, 157);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(147, 21);
 			this.checkBox1.TabIndex = 14;
@@ -400,7 +405,7 @@
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(6, 104);
+			this.label11.Location = new System.Drawing.Point(7, 102);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(104, 17);
 			this.label11.TabIndex = 12;
@@ -472,23 +477,41 @@
 			// comboBox1
 			// 
 			this.comboBox1.DisplayMember = "1";
+			this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.comboBox1.FormattingEnabled = true;
 			this.comboBox1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.comboBox1.Location = new System.Drawing.Point(3, 21);
+			this.comboBox1.Location = new System.Drawing.Point(10, 21);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(167, 24);
 			this.comboBox1.TabIndex = 3;
-			this.comboBox1.Text = "Select Channel";
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(4, 72);
+			this.label5.Location = new System.Drawing.Point(7, 72);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(85, 17);
 			this.label5.TabIndex = 2;
 			this.label5.Text = "StreamType";
+			// 
+			// pictureSettingsBtn
+			// 
+			this.pictureSettingsBtn.BackColor = System.Drawing.Color.Gainsboro;
+			this.pictureSettingsBtn.Location = new System.Drawing.Point(7, 300);
+			this.pictureSettingsBtn.Name = "pictureSettingsBtn";
+			this.pictureSettingsBtn.Size = new System.Drawing.Size(118, 27);
+			this.pictureSettingsBtn.TabIndex = 18;
+			this.pictureSettingsBtn.Text = "Picture Settings";
+			this.pictureSettingsBtn.UseVisualStyleBackColor = false;
+			this.pictureSettingsBtn.Click += new System.EventHandler(this.pictureSettingsBtn_Click);
+			// 
+			// label14
+			// 
+			this.label14.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.label14.Location = new System.Drawing.Point(7, 61);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(280, 2);
+			this.label14.TabIndex = 19;
 			// 
 			// MainWindow
 			// 
@@ -497,7 +520,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.Color.GhostWhite;
-			this.ClientSize = new System.Drawing.Size(601, 582);
+			this.ClientSize = new System.Drawing.Size(601, 642);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "MainWindow";
 			this.ShowIcon = false;
@@ -556,6 +579,8 @@
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.TextBox textBox3;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.Button pictureSettingsBtn;
 	}
 }
 

@@ -124,6 +124,12 @@
     <Compile Include="GUI\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\PictureSettingsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\PictureSettingsWindow.Designer.cs">
+      <DependentUpon>PictureSettingsWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\PreviewWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +140,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\PictureSettingsWindow.resx">
+      <DependentUpon>PictureSettingsWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PreviewWindow.resx">
       <DependentUpon>PreviewWindow.cs</DependentUpon>

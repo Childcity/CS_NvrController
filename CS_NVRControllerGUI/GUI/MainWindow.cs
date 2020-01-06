@@ -187,6 +187,29 @@ namespace CS_NVRController {
 			await Task.Delay(500);
 		}
 
+		private async void pictureSettingsBtn_Click(object sender, EventArgs e)
+		{
+			NvrCompressionSettings compressionSettings;
+
+			try {
+				// Getting async settings
+				compressionSettings = await liveViewService_.LoadPreviewPictureSettings();
+			} catch (Exception) {
+				return;
+			}
+
+			var pictureSettingsWindow = new PictureSettingsWindow(compressionSettings);
+			if(DialogResult.OK == pictureSettingsWindow.ShowDialog(this)){
+				// User Clicked 'save button' => save settings 
+				try {
+					compressionSettings = pictureSettingsWindow.PictureSettings;
+					await liveViewService_.UpdatePreviewPictureSettings(compressionSettings);
+				} catch (Exception) {
+					return;
+				}
+			}
+		}
+
 		private void appendLogOnUiThread(object sender, string log)
 		{
 			if (InvokeRequired) {
@@ -219,6 +242,11 @@ namespace CS_NVRController {
 		private string getAppConfiguration(string key)
 		{
 			return ConfigurationManager.AppSettings[key];
+		}
+
+		private void logTxtBox_DoubleClick(object sender, EventArgs e)
+		{
+			logTxtBox.Text = "Log...\n\n";
 		}
 	}
 }

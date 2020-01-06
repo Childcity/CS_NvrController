@@ -133,62 +133,6 @@ namespace CS_NVRController.Hickvision {
 		/// </summary>
 		public Action<IntPtr> DrawOnPictureHandle { get; set; } = null;
 
-		public NvrCompressionSettings StreamCompressionSettings
-		{
-			get {
-				var streamInf = getDvrCompressionCfgV30().struNormHighRecordPara;
-				return new NvrCompressionSettings() {
-					StreamType = (CompressionStreamType)streamInf.byStreamType,
-					Resolution = (CompressionResolution)streamInf.byResolution,
-					BitrateType = (CompressionBitrateType)streamInf.byBitrateType,
-					PictureQuality = (CompressionPictureQuality)streamInf.byPicQuality,
-					VideoBitrate = (CompressionVideoBitrate)streamInf.dwVideoBitrate,
-					VideoFrameRate = (CompressionVideoFrameRate)streamInf.dwVideoFrameRate,
-					IntervalFrameI = (CompressionIntervalFrameI)streamInf.wIntervalFrameI,
-					IntervalBPFrame = (CompressionIntervalBPFrame)streamInf.byIntervalBPFrame,
-					VideoEncoding = (CompressionVideoEncoding)streamInf.byVideoEncType,
-					AudioEncoding = (CompressionAudioEncoding)streamInf.byAudioEncType,
-					VideoEncodingComplexity = (CompressionVideoEncodingComplexity)streamInf.byVideoEncComplexity,
-					IsSvcEnable = streamInf.byEnableSvc != 0,
-					FormatType = (CompressionFormatType)streamInf.byFormatType,
-					AudioBitrate = (CompressionAudioBitrate)streamInf.byAudioBitRate,
-					StreamSmooth = streamInf.byStreamSmooth,
-					AudioSamplingRate = (CompressionAudioSamplingRate)streamInf.byAudioSamplingRate,
-					IsSmartCodecEnabled = streamInf.bySmartCodec != 0,
-					IsDepthMapEnabled = streamInf.byDepthMapEnable != 0,
-					AverageVideoBitrate = (CompressionAverageVideoBitrate)streamInf.wAverageVideoBitrate,
-				};
-			}
-
-			set {
-				var compressionCfgInfoV30 = getDvrCompressionCfgV30();
-
-				compressionCfgInfoV30.struNormHighRecordPara = new CHCNetSDK.NET_DVR_COMPRESSION_INFO_V30() {
-					byStreamType = (byte)value.StreamType,
-					byResolution = (byte)value.Resolution,
-					byBitrateType = (byte)value.BitrateType,
-					byPicQuality = (byte)value.PictureQuality,
-					dwVideoBitrate = (uint)value.VideoBitrate,
-					dwVideoFrameRate = (uint)value.VideoFrameRate,
-					wIntervalFrameI = (ushort)value.IntervalFrameI,
-					byIntervalBPFrame = (byte)value.IntervalBPFrame,
-					byVideoEncType = (byte)value.VideoEncoding,
-					byAudioEncType = (byte)value.AudioEncoding,
-					byVideoEncComplexity = (byte)value.VideoEncodingComplexity,
-					byEnableSvc = (byte)(value.IsSvcEnable ? 0x01 : 0x00),
-					byFormatType = (byte)value.FormatType,
-					byAudioBitRate = (byte)value.AudioBitrate,
-					byStreamSmooth = (byte)value.StreamSmooth,
-					byAudioSamplingRate = (byte)value.AudioSamplingRate,
-					bySmartCodec = (byte)(value.IsSmartCodecEnabled ? 0x01 : 0x00),
-					byDepthMapEnable = (byte)(value.IsDepthMapEnabled ? 0x01 : 0x00),
-					wAverageVideoBitrate = (ushort)value.AverageVideoBitrate
-				};
-
-				setDvrCompressionCfgV30(compressionCfgInfoV30);
-			}
-		}
-
 		#endregion Properties
 
 		#region PublicEvents
@@ -312,6 +256,60 @@ namespace CS_NVRController.Hickvision {
 			} else {
 				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_StopRealPlay failed");
 			}
+		}
+
+		public NvrCompressionSettings LoadStreamCompressionSettings()
+		{
+			var streamInf = getDvrCompressionCfgV30().struNormHighRecordPara;
+			return new NvrCompressionSettings() {
+				StreamType = (CompressionStreamType)streamInf.byStreamType,
+				Resolution = (CompressionResolution)streamInf.byResolution,
+				BitrateType = (CompressionBitrateType)streamInf.byBitrateType,
+				PictureQuality = (CompressionPictureQuality)streamInf.byPicQuality,
+				VideoBitrate = (CompressionVideoBitrate)streamInf.dwVideoBitrate,
+				VideoFrameRate = (CompressionVideoFrameRate)streamInf.dwVideoFrameRate,
+				IntervalFrameI = (CompressionIntervalFrameI)streamInf.wIntervalFrameI,
+				IntervalBPFrame = (CompressionIntervalBPFrame)streamInf.byIntervalBPFrame,
+				VideoEncoding = (CompressionVideoEncoding)streamInf.byVideoEncType,
+				AudioEncoding = (CompressionAudioEncoding)streamInf.byAudioEncType,
+				VideoEncodingComplexity = (CompressionVideoEncodingComplexity)streamInf.byVideoEncComplexity,
+				IsSvcEnable = streamInf.byEnableSvc != 0,
+				FormatType = (CompressionFormatType)streamInf.byFormatType,
+				AudioBitrate = (CompressionAudioBitrate)streamInf.byAudioBitRate,
+				StreamSmooth = streamInf.byStreamSmooth,
+				AudioSamplingRate = (CompressionAudioSamplingRate)streamInf.byAudioSamplingRate,
+				IsSmartCodecEnabled = streamInf.bySmartCodec != 0,
+				IsDepthMapEnabled = streamInf.byDepthMapEnable != 0,
+				AverageVideoBitrate = (CompressionAverageVideoBitrate)streamInf.wAverageVideoBitrate,
+			};
+		}
+
+		public void UpdateStreamCompressionSettings(NvrCompressionSettings compressionSettings)
+		{
+			var compressionCfgInfoV30 = getDvrCompressionCfgV30();
+			compressionCfgInfoV30.struNormHighRecordPara = new CHCNetSDK.NET_DVR_COMPRESSION_INFO_V30() {
+				byStreamType = (byte)compressionSettings.StreamType,
+				byResolution = (byte)compressionSettings.Resolution,
+				byBitrateType = (byte)compressionSettings.BitrateType,
+				byPicQuality = (byte)compressionSettings.PictureQuality,
+				dwVideoBitrate = (uint)compressionSettings.VideoBitrate,
+				dwVideoFrameRate = (uint)compressionSettings.VideoFrameRate,
+				wIntervalFrameI = (ushort)compressionSettings.IntervalFrameI,
+				byIntervalBPFrame = (byte)compressionSettings.IntervalBPFrame,
+				byVideoEncType = (byte)compressionSettings.VideoEncoding,
+				byAudioEncType = (byte)compressionSettings.AudioEncoding,
+				byVideoEncComplexity = (byte)compressionSettings.VideoEncodingComplexity,
+				byEnableSvc = (byte)(compressionSettings.IsSvcEnable ? 0x01 : 0x00),
+				byFormatType = (byte)compressionSettings.FormatType,
+				byAudioBitRate = (byte)compressionSettings.AudioBitrate,
+				byStreamSmooth = (byte)compressionSettings.StreamSmooth,
+				byAudioSamplingRate = (byte)compressionSettings.AudioSamplingRate,
+				bySmartCodec = (byte)(compressionSettings.IsSmartCodecEnabled ? 0x01 : 0x00),
+				byDepthMapEnable = (byte)(compressionSettings.IsDepthMapEnabled ? 0x01 : 0x00),
+				wAverageVideoBitrate = (ushort)compressionSettings.AverageVideoBitrate
+			};
+
+			setDvrCompressionCfgV30(compressionCfgInfoV30);
 		}
 
 		#endregion PublicMethods
@@ -610,6 +608,7 @@ namespace CS_NVRController.Hickvision {
 					return;
 				}
 			} else if (dataType == CHCNetSDK.NET_DVR_AUDIOSTREAMDATA) {
+				debugInfo("NET_DVR_AUDIOSTREAMDATA");
 			} else if (dataType == 112 /*NET_DVR_PRIVATE_DATA*/) {
 				// NET_DVR_PRIVATE_DATA - Private data, including intelligent information
 			} else {

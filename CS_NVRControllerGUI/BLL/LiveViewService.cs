@@ -80,7 +80,9 @@ namespace CS_NVRController.BLL {
 		public void StopLiveView()
 		{
 			try {
-				nvrController_?.StopPreview();
+				nvrController_.DrawOnPictureHandle -= drawSomething;
+				nvrController_.OnPreviewError -= onPreviewError;
+				nvrController_.StopPreview();
 			} catch (NvrSdkException ex) {
 				logNvrSdkExceprtion(ex);
 			} catch (Exception ex) {
@@ -116,6 +118,36 @@ namespace CS_NVRController.BLL {
 		{
 			get { return nvrController_.SelectedChannelId; }
 			set { nvrController_.SelectedChannelId = value; }
+		}
+
+		public async Task<NvrCompressionSettings> LoadPreviewPictureSettings()
+		{
+			return await Task<NvrCompressionSettings>.Factory.StartNew(() => {
+				try {
+					return nvrController_.LoadStreamCompressionSettings();
+				} catch (NvrSdkException ex) {
+					logNvrSdkExceprtion(ex);
+					throw new SystemException("NvrController: LoadStreamCompressionSettings failed", ex);
+				} catch (Exception ex) {
+					logException(ex);
+					throw new SystemException("Exception: LoadStreamCompressionSettings failed", ex);
+				}
+			}, TaskCreationOptions.AttachedToParent);
+		}
+
+		public async Task UpdatePreviewPictureSettings(NvrCompressionSettings compressionSettings)
+		{
+			await Task.Factory.StartNew(() => {
+				try {
+					nvrController_.UpdateStreamCompressionSettings(compressionSettings);
+				} catch (NvrSdkException ex) {
+					logNvrSdkExceprtion(ex);
+					throw new SystemException("NvrController: UpdateStreamCompressionSettings failed", ex);
+				} catch (Exception ex) {
+					logException(ex);
+					throw new SystemException("Exception: UpdateStreamCompressionSettings failed", ex);
+				}
+			}, TaskCreationOptions.AttachedToParent);
 		}
 
 		#endregion
@@ -155,13 +187,14 @@ namespace CS_NVRController.BLL {
 
 		private void onPreviewError(object sender, Tuple<uint, string> args)
 		{
-			OnException?.Invoke(this, $"PreviewError: Code[{args.Item1}]: {args.Item2}");
+			Console.WriteLine($"[Debug] LiveViewService: PreviewError: Code[{args.Item1}]: {args.Item2}\n\n");
+			OnException?.Invoke(this, $"PreviewError: Code[{args.Item1}]: {args.Item2}\n\n");
 		}
 
 		private void logException(Exception ex)
 		{
 			Console.WriteLine($"[Debug] LiveViewService: Exception: {ex.Message}\n{ex.StackTrace}\n\n");
-			OnException?.Invoke(this, $"Exception: {ex.Message}\n{ex.StackTrace}\n\n");
+			OnException?.Invoke(this, $"Exception: {ex.Message}\n\n{ex.StackTrace}\n\n");
 		}
 
 		private void logNvrSdkExceprtion(NvrSdkException ex)
