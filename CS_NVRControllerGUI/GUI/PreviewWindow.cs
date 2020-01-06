@@ -15,9 +15,9 @@ namespace CS_NVRControllerGUI.GUI {
 			InitializeComponent();
 		}
 
-		public IntPtr getLiveViewHandle() => streamWnd1.Handle;
+		public IntPtr GetLiveViewHandle() => streamWnd1.Handle;
 
-		public void resetLiveView()
+		public void ResetLiveView()
 		{
 			streamWnd1.BackColor = Color.White;
 			streamWnd1.BackColor = Color.Gainsboro;

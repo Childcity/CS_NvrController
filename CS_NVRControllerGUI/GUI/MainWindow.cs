@@ -13,7 +13,7 @@ namespace CS_NVRController {
 
 		private bool isLogedIn_ = false;
 
-		private bool isPreviewRunningIn_ = false;
+		private bool isPreviewRunning_ = false;
 
 		private delegate void appendLog(string log);
 
@@ -134,10 +134,11 @@ namespace CS_NVRController {
 
 		private async void startLiveViewBtn_Click(object sender, EventArgs e)
 		{
-			if (! isPreviewRunningIn_) {
+			if (! isPreviewRunning_) {
 				if (previewWindow_ == null) {
 					previewWindow_ = new PreviewWindow();
 					previewWindow_.FormClosing += new FormClosingEventHandler(
+						// Perform click will cause calling startLiveViewBtn() method, which stop preview and clean resources
 						(object s, FormClosingEventArgs args) => startLiveViewBtn.PerformClick()
 					);
 				}
@@ -157,25 +158,25 @@ namespace CS_NVRController {
 				liveViewService_.CameraSelectedChannel = comboBox1.SelectedIndex;
 
 				try {
-					liveViewService_.StartLiveView(previewWindow_.getLiveViewHandle());
+					liveViewService_.StartLiveView(previewWindow_.GetLiveViewHandle());
 				} catch (Exception) {
 					return;
 				}
 
 				startLiveViewBtn.Text = "Stop Live View";
-				isPreviewRunningIn_ = true;
-				userInfoGB.Enabled = ! isPreviewRunningIn_;
-				previewSettingsGB.Enabled = ! isPreviewRunningIn_;
+				isPreviewRunning_ = true;
+				userInfoGB.Enabled = ! isPreviewRunning_;
+				previewSettingsGB.Enabled = ! isPreviewRunning_;
 
 				previewWindow_.Show(this);
 			} else {
 				await stopLiveViewAsync();
 
-				isPreviewRunningIn_ = false;
+				isPreviewRunning_ = false;
 				startLiveViewBtn.Text = "Start Live View";
-				userInfoGB.Enabled = !isPreviewRunningIn_;
-				previewSettingsGB.Enabled = !isPreviewRunningIn_;
-				previewWindow_.resetLiveView();
+				userInfoGB.Enabled = !isPreviewRunning_;
+				previewSettingsGB.Enabled = !isPreviewRunning_;
+				previewWindow_?.ResetLiveView();
 				previewWindow_?.Dispose();
 				previewWindow_ = null;
 			}

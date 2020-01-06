@@ -80,9 +80,7 @@ namespace CS_NVRController.BLL {
 		public void StopLiveView()
 		{
 			try {
-				nvrController_.DrawOnPictureHandle -= drawSomething;
-				nvrController_.OnPreviewError -= onPreviewError;
-				nvrController_.StopPreview();
+				nvrController_?.StopPreview();
 			} catch (NvrSdkException ex) {
 				logNvrSdkExceprtion(ex);
 			} catch (Exception ex) {
