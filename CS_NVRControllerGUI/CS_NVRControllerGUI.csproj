@@ -130,6 +130,12 @@
     <Compile Include="GUI\PictureSettingsWindow.Designer.cs">
       <DependentUpon>PictureSettingsWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\PlaybackControlWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\PlaybackControlWindow.Designer.cs">
+      <DependentUpon>PlaybackControlWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\PreviewWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PictureSettingsWindow.resx">
       <DependentUpon>PictureSettingsWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\PlaybackControlWindow.resx">
+      <DependentUpon>PlaybackControlWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PreviewWindow.resx">
       <DependentUpon>PreviewWindow.cs</DependentUpon>
@@ -187,6 +196,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Play.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

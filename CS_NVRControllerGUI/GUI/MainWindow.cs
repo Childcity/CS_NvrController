@@ -211,6 +211,12 @@ namespace CS_NVRController {
 			}
 		}
 
+		private void playbackBtn_Click(object sender, EventArgs e)
+		{
+			var playbackWindow = new PlaybackControlWindow();
+			playbackWindow.ShowDialog(this);
+		}
+
 		private void appendLogOnUiThread(object sender, string log)
 		{
 			if (InvokeRequired) {

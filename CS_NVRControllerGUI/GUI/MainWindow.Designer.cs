@@ -41,7 +41,10 @@
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.previewPanel = new System.Windows.Forms.Panel();
 			this.startLiveViewBtn = new System.Windows.Forms.Button();
+			this.playbackBtn = new System.Windows.Forms.Button();
 			this.previewSettingsGB = new System.Windows.Forms.GroupBox();
+			this.label14 = new System.Windows.Forms.Label();
+			this.pictureSettingsBtn = new System.Windows.Forms.Button();
 			this.label13 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.subtleSettingsGB = new System.Windows.Forms.GroupBox();
@@ -63,8 +66,6 @@
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
-			this.pictureSettingsBtn = new System.Windows.Forms.Button();
-			this.label14 = new System.Windows.Forms.Label();
 			label4 = new System.Windows.Forms.Label();
 			label3 = new System.Windows.Forms.Label();
 			label2 = new System.Windows.Forms.Label();
@@ -133,7 +134,7 @@
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 642);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(601, 694);
 			this.tableLayoutPanel1.TabIndex = 3;
 			// 
 			// logTxtBox
@@ -143,12 +144,12 @@
 			this.logTxtBox.CausesValidation = false;
 			this.logTxtBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.logTxtBox.Font = new System.Drawing.Font("Courier New", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.logTxtBox.Location = new System.Drawing.Point(3, 388);
+			this.logTxtBox.Location = new System.Drawing.Point(3, 419);
 			this.logTxtBox.Multiline = true;
 			this.logTxtBox.Name = "logTxtBox";
 			this.logTxtBox.ReadOnly = true;
 			this.logTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.logTxtBox.Size = new System.Drawing.Size(595, 251);
+			this.logTxtBox.Size = new System.Drawing.Size(595, 272);
 			this.logTxtBox.TabIndex = 2;
 			this.logTxtBox.TabStop = false;
 			this.logTxtBox.Text = "Log...\r\n";
@@ -163,7 +164,7 @@
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(595, 379);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(595, 410);
 			this.flowLayoutPanel2.TabIndex = 3;
 			// 
 			// userInfoGB
@@ -181,7 +182,7 @@
 			this.userInfoGB.Dock = System.Windows.Forms.DockStyle.Left;
 			this.userInfoGB.Location = new System.Drawing.Point(3, 3);
 			this.userInfoGB.Name = "userInfoGB";
-			this.userInfoGB.Size = new System.Drawing.Size(291, 376);
+			this.userInfoGB.Size = new System.Drawing.Size(291, 404);
 			this.userInfoGB.TabIndex = 0;
 			this.userInfoGB.TabStop = false;
 			this.userInfoGB.Text = "User Info";
@@ -228,24 +229,37 @@
 			// previewPanel
 			// 
 			this.previewPanel.Controls.Add(this.startLiveViewBtn);
+			this.previewPanel.Controls.Add(this.playbackBtn);
 			this.previewPanel.Controls.Add(this.previewSettingsGB);
 			this.previewPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.previewPanel.Location = new System.Drawing.Point(300, 3);
 			this.previewPanel.Name = "previewPanel";
-			this.previewPanel.Size = new System.Drawing.Size(291, 376);
+			this.previewPanel.Size = new System.Drawing.Size(291, 404);
 			this.previewPanel.TabIndex = 16;
 			// 
 			// startLiveViewBtn
 			// 
 			this.startLiveViewBtn.BackColor = System.Drawing.Color.Gainsboro;
-			this.startLiveViewBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.startLiveViewBtn.Location = new System.Drawing.Point(0, 339);
+			this.startLiveViewBtn.Dock = System.Windows.Forms.DockStyle.Top;
+			this.startLiveViewBtn.Location = new System.Drawing.Point(0, 331);
 			this.startLiveViewBtn.Name = "startLiveViewBtn";
-			this.startLiveViewBtn.Size = new System.Drawing.Size(291, 37);
-			this.startLiveViewBtn.TabIndex = 15;
+			this.startLiveViewBtn.Size = new System.Drawing.Size(291, 34);
+			this.startLiveViewBtn.TabIndex = 16;
 			this.startLiveViewBtn.Text = "Start Live View";
 			this.startLiveViewBtn.UseVisualStyleBackColor = false;
 			this.startLiveViewBtn.Click += new System.EventHandler(this.startLiveViewBtn_Click);
+			// 
+			// playbackBtn
+			// 
+			this.playbackBtn.BackColor = System.Drawing.Color.Gainsboro;
+			this.playbackBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.playbackBtn.Location = new System.Drawing.Point(0, 371);
+			this.playbackBtn.Name = "playbackBtn";
+			this.playbackBtn.Size = new System.Drawing.Size(291, 33);
+			this.playbackBtn.TabIndex = 15;
+			this.playbackBtn.Text = "Playback";
+			this.playbackBtn.UseVisualStyleBackColor = false;
+			this.playbackBtn.Click += new System.EventHandler(this.playbackBtn_Click);
 			// 
 			// previewSettingsGB
 			// 
@@ -270,10 +284,29 @@
 			this.previewSettingsGB.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.previewSettingsGB.Location = new System.Drawing.Point(0, 0);
 			this.previewSettingsGB.Name = "previewSettingsGB";
-			this.previewSettingsGB.Size = new System.Drawing.Size(291, 333);
+			this.previewSettingsGB.Size = new System.Drawing.Size(291, 331);
 			this.previewSettingsGB.TabIndex = 1;
 			this.previewSettingsGB.TabStop = false;
 			this.previewSettingsGB.Text = "Preview Settings";
+			// 
+			// label14
+			// 
+			this.label14.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.label14.Location = new System.Drawing.Point(7, 61);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(280, 2);
+			this.label14.TabIndex = 19;
+			// 
+			// pictureSettingsBtn
+			// 
+			this.pictureSettingsBtn.BackColor = System.Drawing.Color.Gainsboro;
+			this.pictureSettingsBtn.Location = new System.Drawing.Point(7, 300);
+			this.pictureSettingsBtn.Name = "pictureSettingsBtn";
+			this.pictureSettingsBtn.Size = new System.Drawing.Size(118, 27);
+			this.pictureSettingsBtn.TabIndex = 18;
+			this.pictureSettingsBtn.Text = "Picture Settings";
+			this.pictureSettingsBtn.UseVisualStyleBackColor = false;
+			this.pictureSettingsBtn.Click += new System.EventHandler(this.pictureSettingsBtn_Click);
 			// 
 			// label13
 			// 
@@ -494,25 +527,6 @@
 			this.label5.TabIndex = 2;
 			this.label5.Text = "StreamType";
 			// 
-			// pictureSettingsBtn
-			// 
-			this.pictureSettingsBtn.BackColor = System.Drawing.Color.Gainsboro;
-			this.pictureSettingsBtn.Location = new System.Drawing.Point(7, 300);
-			this.pictureSettingsBtn.Name = "pictureSettingsBtn";
-			this.pictureSettingsBtn.Size = new System.Drawing.Size(118, 27);
-			this.pictureSettingsBtn.TabIndex = 18;
-			this.pictureSettingsBtn.Text = "Picture Settings";
-			this.pictureSettingsBtn.UseVisualStyleBackColor = false;
-			this.pictureSettingsBtn.Click += new System.EventHandler(this.pictureSettingsBtn_Click);
-			// 
-			// label14
-			// 
-			this.label14.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label14.Location = new System.Drawing.Point(7, 61);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(280, 2);
-			this.label14.TabIndex = 19;
-			// 
 			// MainWindow
 			// 
 			this.AcceptButton = this.button1;
@@ -520,7 +534,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.Color.GhostWhite;
-			this.ClientSize = new System.Drawing.Size(601, 642);
+			this.ClientSize = new System.Drawing.Size(601, 694);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "MainWindow";
 			this.ShowIcon = false;
@@ -569,7 +583,7 @@
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.Button startLiveViewBtn;
+		private System.Windows.Forms.Button playbackBtn;
 		private System.Windows.Forms.NumericUpDown numericUpDown2;
 		private System.Windows.Forms.CheckBox checkBox2;
 		private System.Windows.Forms.Panel previewPanel;
@@ -581,6 +595,7 @@
 		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.Button pictureSettingsBtn;
+		private System.Windows.Forms.Button startLiveViewBtn;
 	}
 }
 
