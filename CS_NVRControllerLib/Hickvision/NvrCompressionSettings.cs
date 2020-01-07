@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace CS_NVRController.Hickvision {
+﻿namespace CS_NVRController.Hickvision {
 
 	public class NvrCompressionSettings {
 
@@ -56,6 +54,7 @@ namespace CS_NVRController.Hickvision {
 		/// By default StreamSmooth = SteamSmoothUnused
 		/// </summary>
 		private int streamSmooth;
+
 		public int StreamSmooth
 		{
 			get => streamSmooth; // By default SteamSmooth = SteamSmoothUnused = 0

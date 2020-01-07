@@ -59,31 +59,32 @@ namespace CS_NVRController {
 
 		private async void button1_Click(object sender, EventArgs e)
 		{
+			UserSessionService userSessionService = UserSessionService.GetInstance();
+
 			if (! isLogedIn_) {
 				if (!short.TryParse(textBox3.Text, out short port)) {
 					port = 9000;
 					textBox3.Text = "" + port;
 				}
 
-				liveViewService_.SessionInfo = new NvrSessionInfo() {
-					IPAddress = textBox4.Text,
-					PortNumber = port,
-					UserName = textBox1.Text,
-					UserPassword = textBox2.Text
-				};
-
 				try {
 					button1.Enabled = false;
-					await liveViewService_.LoginAsync();
-				} catch (Exception) {
+					await userSessionService.LoginAsync(new NvrSessionInfo() {
+						IPAddress = textBox4.Text,
+						PortNumber = port,
+						UserName = textBox1.Text,
+						UserPassword = textBox2.Text
+					});
+				} catch (Exception ex) {
+					appendLogOnUiThread(null, $"{ex.Message}\n\n");
 					return;
 				} finally {
 					button1.Enabled = true;
 				}
 
 				comboBox1.Items.Clear();
-				liveViewService_.CameraChannels.ForEach(chan => comboBox1.Items.Add(chan));
-				comboBox1.SelectedIndex = liveViewService_.CameraSelectedChannel;
+				userSessionService.CameraChannels.ForEach(chan => comboBox1.Items.Add(chan));
+				comboBox1.SelectedIndex = userSessionService.CameraSelectedChannel;
 
 				isLogedIn_ = true;
 				button1.Text = "Logout";
@@ -96,12 +97,14 @@ namespace CS_NVRController {
 				button1.Enabled = false;
 
 				{
-					liveViewService_.Logout();
+					if (isPreviewRunning_) {
+						await stopLiveViewAsync();
+					}
+
+					userSessionService.Logout();
 					isLogedIn_ = false;
 					button1.Text = "Login";
 					previewPanel.Enabled = isLogedIn_;
-
-					await stopLiveViewAsync();
 				}
 
 				button1.Enabled = true;
@@ -155,8 +158,6 @@ namespace CS_NVRController {
 					PreviewQuality = (PreviewQualityType)comboBox3.SelectedIndex
 				};
 
-				liveViewService_.CameraSelectedChannel = comboBox1.SelectedIndex;
-
 				try {
 					liveViewService_.StartLiveView(previewWindow_.GetLiveViewHandle());
 				} catch (Exception) {
@@ -199,22 +200,24 @@ namespace CS_NVRController {
 				return;
 			}
 
-			var pictureSettingsWindow = new PictureSettingsWindow(compressionSettings);
-			if(DialogResult.OK == pictureSettingsWindow.ShowDialog(this)){
-				// User Clicked 'save button' => save settings 
-				try {
-					compressionSettings = pictureSettingsWindow.PictureSettings;
-					await liveViewService_.UpdatePreviewPictureSettings(compressionSettings);
-				} catch (Exception) {
-					return;
+			using(var pictureSettingsWindow = new PictureSettingsWindow(compressionSettings)) {
+				if (DialogResult.OK == pictureSettingsWindow.ShowDialog(this)) {
+					// User Clicked 'save button' => save settings 
+					try {
+						compressionSettings = pictureSettingsWindow.PictureSettings;
+						await liveViewService_.UpdatePreviewPictureSettings(compressionSettings);
+					} catch (Exception) {
+						return;
+					}
 				}
 			}
 		}
 
 		private void playbackBtn_Click(object sender, EventArgs e)
 		{
-			var playbackWindow = new PlaybackControlWindow();
-			playbackWindow.ShowDialog(this);
+			using (var playbackWindow = new PlaybackControlWindow()) {
+				playbackWindow.ShowDialog(this);
+			}
 		}
 
 		private void appendLogOnUiThread(object sender, string log)
@@ -246,14 +249,11 @@ namespace CS_NVRController {
 			ConfigurationManager.RefreshSection("appSettings");
 		}
 
-		private string getAppConfiguration(string key)
-		{
-			return ConfigurationManager.AppSettings[key];
-		}
+		private string getAppConfiguration(string key) => ConfigurationManager.AppSettings[key];
 
-		private void logTxtBox_DoubleClick(object sender, EventArgs e)
-		{
-			logTxtBox.Text = "Log...\n\n";
-		}
+		private void logTxtBox_DoubleClick(object sender, EventArgs e) => logTxtBox.Text = "Log...\n\n";
+
+		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+			=> UserSessionService.GetInstance().CameraSelectedChannel = comboBox1.SelectedIndex;
 	}
 }
