@@ -136,14 +136,6 @@ namespace CS_NVRController.Hickvision.NvrController {
 		/// </param>
 		public event EventHandler<PlayerState> OnPreviewStateChanged;
 
-		/// <summary>
-		///		Occurs when PreviewSpeed is changed
-		/// </summary>
-		/// <param name="PlayerSpeed">
-		///		Current preview speed
-		/// </param>
-		public event EventHandler<PlayerSpeed> OnPreviewSpeedChanged;
-
 		#endregion PublicEvents
 
 		#region PublicMethods
@@ -300,7 +292,6 @@ namespace CS_NVRController.Hickvision.NvrController {
 		private void changeSpeed(PlayerSpeed newSpeed)
 		{
 			previewSpeed_ = newSpeed;
-			OnPreviewSpeedChanged?.Invoke(this, newSpeed);
 		}
 
 		// In states PlayerState.Stopped and PlayerState.SingleFrame speed automaticaly set to X1, 

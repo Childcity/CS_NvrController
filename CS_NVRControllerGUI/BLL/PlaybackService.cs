@@ -114,12 +114,6 @@ namespace CS_NVRController.BLL {
 			remove { nvrPlayback_.OnPreviewStateChanged -= value; }
 		}
 
-		public event EventHandler<NvrPlayback.PlayerSpeed> OnSpeedChanged
-		{
-			add { nvrPlayback_.OnPreviewSpeedChanged += value; }
-			remove { nvrPlayback_.OnPreviewSpeedChanged -= value; }
-		}
-
 		#endregion
 
 		#region PrivateMethods
