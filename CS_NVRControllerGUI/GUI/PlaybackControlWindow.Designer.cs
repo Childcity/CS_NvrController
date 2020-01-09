@@ -11,8 +11,13 @@
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null)) {
-				components.Dispose();
+			if (disposing) {
+				try {
+					playbackService_.OnStateChanged -= onStateChanged;
+					playbackService_?.Dispose();
+					previewWindow_?.Dispose();
+				} finally { }
+				components?.Dispose();
 			}
 			base.Dispose(disposing);
 		}
@@ -34,10 +39,14 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.singleFrameBtn = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
+			this.stopBtn = new System.Windows.Forms.Button();
 			this.playBtn = new System.Windows.Forms.Button();
 			this.fasterCb = new System.Windows.Forms.ComboBox();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.playerStatusLb = new System.Windows.Forms.ToolStripStatusLabel();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -109,14 +118,15 @@
 			this.groupBox2.Controls.Add(this.panel1);
 			this.groupBox2.Controls.Add(this.singleFrameBtn);
 			this.groupBox2.Controls.Add(this.label3);
+			this.groupBox2.Controls.Add(this.stopBtn);
 			this.groupBox2.Controls.Add(this.playBtn);
 			this.groupBox2.Controls.Add(this.fasterCb);
 			this.groupBox2.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.groupBox2.Location = new System.Drawing.Point(12, 191);
+			this.groupBox2.Location = new System.Drawing.Point(12, 197);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(274, 104);
+			this.groupBox2.Size = new System.Drawing.Size(274, 98);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Control";
@@ -124,7 +134,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-			this.panel1.Location = new System.Drawing.Point(139, 9);
+			this.panel1.Location = new System.Drawing.Point(183, 9);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(2, 95);
 			this.panel1.TabIndex = 2;
@@ -134,25 +144,40 @@
 			this.singleFrameBtn.BackColor = System.Drawing.Color.White;
 			this.singleFrameBtn.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.singleFrameBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.singleFrameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(1)), true);
+			this.singleFrameBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(1)), true);
 			this.singleFrameBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.singleFrameBtn.Location = new System.Drawing.Point(147, 32);
+			this.singleFrameBtn.Location = new System.Drawing.Point(206, 32);
 			this.singleFrameBtn.Name = "singleFrameBtn";
-			this.singleFrameBtn.Padding = new System.Windows.Forms.Padding(5, 0, 0, 10);
 			this.singleFrameBtn.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.singleFrameBtn.Size = new System.Drawing.Size(55, 55);
+			this.singleFrameBtn.Size = new System.Drawing.Size(40, 40);
 			this.singleFrameBtn.TabIndex = 3;
 			this.singleFrameBtn.Text = "⋗";
 			this.singleFrameBtn.UseVisualStyleBackColor = false;
+			this.singleFrameBtn.Click += new System.EventHandler(this.singleFrameBtn_Click);
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(70, 65);
+			this.label3.Location = new System.Drawing.Point(63, 75);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(50, 18);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "Speed";
+			// 
+			// stopBtn
+			// 
+			this.stopBtn.BackColor = System.Drawing.Color.White;
+			this.stopBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.stopBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.stopBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+			this.stopBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.stopBtn.Location = new System.Drawing.Point(137, 32);
+			this.stopBtn.Name = "stopBtn";
+			this.stopBtn.Size = new System.Drawing.Size(40, 40);
+			this.stopBtn.TabIndex = 0;
+			this.stopBtn.Text = "●";
+			this.stopBtn.UseVisualStyleBackColor = false;
+			this.stopBtn.Click += new System.EventHandler(this.stopBtn_Click);
 			// 
 			// playBtn
 			// 
@@ -163,11 +188,11 @@
 			this.playBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.playBtn.Location = new System.Drawing.Point(8, 32);
 			this.playBtn.Name = "playBtn";
-			this.playBtn.Size = new System.Drawing.Size(55, 55);
+			this.playBtn.Size = new System.Drawing.Size(40, 40);
 			this.playBtn.TabIndex = 0;
 			this.playBtn.Text = "▶";
 			this.playBtn.UseVisualStyleBackColor = false;
-			this.playBtn.Click += new System.EventHandler(this.button1_Click);
+			this.playBtn.Click += new System.EventHandler(this.playBtn_Click);
 			// 
 			// fasterCb
 			// 
@@ -176,19 +201,38 @@
 			this.fasterCb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
 			this.fasterCb.FormattingEnabled = true;
 			this.fasterCb.ItemHeight = 18;
-			this.fasterCb.Location = new System.Drawing.Point(69, 32);
+			this.fasterCb.Location = new System.Drawing.Point(54, 40);
 			this.fasterCb.Name = "fasterCb";
 			this.fasterCb.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.fasterCb.Size = new System.Drawing.Size(55, 26);
+			this.fasterCb.Size = new System.Drawing.Size(77, 26);
 			this.fasterCb.TabIndex = 1;
 			this.fasterCb.SelectedIndexChanged += new System.EventHandler(this.fasterCb_SelectedIndexChanged);
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playerStatusLb});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 297);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+			this.statusStrip1.Size = new System.Drawing.Size(298, 25);
+			this.statusStrip1.TabIndex = 2;
+			this.statusStrip1.Text = "Stopped";
+			// 
+			// playerStatusLb
+			// 
+			this.playerStatusLb.Name = "playerStatusLb";
+			this.playerStatusLb.Size = new System.Drawing.Size(66, 20);
+			this.playerStatusLb.Text = "Stopped";
 			// 
 			// PlaybackControlWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.AliceBlue;
-			this.ClientSize = new System.Drawing.Size(298, 307);
+			this.ClientSize = new System.Drawing.Size(298, 322);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -203,7 +247,10 @@
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -220,5 +267,8 @@
 		private System.Windows.Forms.Button singleFrameBtn;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Button stopBtn;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripStatusLabel playerStatusLb;
 	}
 }

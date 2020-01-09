@@ -2,7 +2,6 @@
 using CS_NVRController.Hickvision.NvrController;
 using CS_NVRController.Hickvision.NvrExceptions;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 
@@ -18,7 +17,7 @@ namespace CS_NVRController.BLL {
 		{
 			if (!disposedValue) {
 				if (disposing) {
-					StopLiveView();
+					nvrLivePlayer_?.Dispose();
 				}
 				disposedValue = true;
 			}

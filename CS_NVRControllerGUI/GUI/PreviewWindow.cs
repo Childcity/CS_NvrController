@@ -21,6 +21,7 @@ namespace CS_NVRControllerGUI.GUI {
 		{
 			streamWnd1.BackColor = Color.White;
 			streamWnd1.BackColor = Color.Gainsboro;
+			streamWnd1.Invalidate();
 		}
 	}
 }

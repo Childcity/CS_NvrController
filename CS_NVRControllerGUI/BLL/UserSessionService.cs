@@ -58,7 +58,7 @@ namespace CS_NVRController.BLL {
 				} catch (NvrSdkException ex) {
 					throw new SystemException($"StartSession failed: NvrException Code[{ex.SdkErrorCode}]: {ex.Message}", ex);
 				} catch (Exception ex) {
-					throw new SystemException("StartSession failed", ex);
+					throw new SystemException("StartSession failed: " + ex.Message, ex);
 				}
 			}, TaskCreationOptions.AttachedToParent);
 		}

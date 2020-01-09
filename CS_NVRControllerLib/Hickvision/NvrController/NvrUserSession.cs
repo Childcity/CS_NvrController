@@ -63,13 +63,13 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 		#endregion IDisposable Support
 
-		#region Enums
+		#region PublicEnums
 
 		public enum ChannelStatus { Unknown, Online, Offline, Idle }
 
 		public enum ChannelTransmissionProtocol { Unknown = -1, Tcp, Udp, Rtsp, Auto = 255 }
 
-		#endregion Enums
+		#endregion PublicEnums
 
 		#region PublicProperties
 

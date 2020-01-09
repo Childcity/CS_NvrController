@@ -42,12 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hickvision\NvrController\NvrPlayback.cs" />
     <Compile Include="Hickvision\NvrController\NvrLivePlayer.cs" />
     <Compile Include="Hickvision\NvrCompressionSettingsTypes.cs" />
     <Compile Include="Hickvision\NvrController\NvrSettings.cs" />
     <Compile Include="Hickvision\NvrExceptions\NvrBadLogicException.cs" />
     <Compile Include="Hickvision\NvrExceptions\NvrException.cs" />
     <Compile Include="Hickvision\NvrCompressionSettings.cs" />
+    <Compile Include="Hickvision\NvrExceptions\NvrSetPlayerSpeedException.cs" />
     <Compile Include="Hickvision\NvrPreviewSettings.cs" />
     <Compile Include="Hickvision\NvrExceptions\NvrSdkException.cs" />
     <Compile Include="Hickvision\NvrSessionInfo.cs" />

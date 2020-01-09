@@ -3,12 +3,6 @@
 namespace CS_NVRController.Hickvision.NvrExceptions {
 	public class NvrSdkException: NvrException {
 
-		//public NvrSdkException(string message)
-		//	: base(message)
-		//{
-		//	SdkErrorCode = uint.MaxValue;
-		//}
-
 		public NvrSdkException(uint sdkErrCode, string message)
 			: base(message)
 		{
