@@ -65,11 +65,14 @@ namespace CS_NVRControllerGUI.GUI {
 
 		private void onFramePlayed(object sender, int frames)
 		{
-			// this callback may be called from another thread, so we should check
-			// if InvokeRequired
+			if (playbackService_.PreviwState == PlayerState.Stopped) {
+				return;
+			}
 
 			string playedFramed = $"Frame: {frames}";
 
+			// this callback may be called from another thread, so we should check
+			// if InvokeRequired
 			if (InvokeRequired) {
 				Invoke(new changePlayedFrame((string s) => {
 					playedFramesLb.Text = s;
@@ -114,9 +117,11 @@ namespace CS_NVRControllerGUI.GUI {
 				MessageBox.Show(ex.Message);
 			}
 
-			previewWindow_.FormClosing -= stopBtn_Click;
-			previewWindow_?.Dispose();
-			previewWindow_ = null;
+			if(previewWindow_ != null) {
+				previewWindow_.FormClosing -= stopBtn_Click;
+				previewWindow_.Dispose();
+				previewWindow_ = null;
+			}
 		}
 
 		private void singleFrameBtn_Click(object sender, EventArgs e)
