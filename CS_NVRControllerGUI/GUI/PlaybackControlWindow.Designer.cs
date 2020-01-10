@@ -17,10 +17,7 @@
 					playbackService_.OnFramePlayed -= onFramePlayed;
 					playbackService_?.Dispose();
 
-					if (previewWindow_ != null) {
-						previewWindow_.Paint -= previewWindow_Paint;
-						previewWindow_.Dispose();
-					}
+					previewWindow_?.Dispose();
 				} finally {
 					playbackService_ = null;
 					previewWindow_ = null;

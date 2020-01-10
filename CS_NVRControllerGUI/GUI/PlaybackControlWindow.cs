@@ -81,37 +81,6 @@ namespace CS_NVRControllerGUI.GUI {
 			}
 		}
 
-		private void previewWindow_Paint(object sender, PaintEventArgs e)
-		{
-			Graphics pDc = e.Graphics;
-
-			if (previewWindow_ == null || previewWindow_.IsDisposed 
-				|| playbackService_ == null
-				|| pDc == null) 
-			{
-				return;
-			}
-			
-			try {
-				using (Brush brush = new SolidBrush(Color.DarkRed)) {
-					using (Pen pen = new Pen(brush)) {
-						Rectangle rectTmp = new Rectangle(100, 100, 300, 20);
-
-						string strText = $"Frame: {playbackService_.LastPlayedFrame}";
-						Console.WriteLine(strText);
-						using (Font font = new Font("Blackbody", 10, FontStyle.Italic | FontStyle.Bold)) {
-							//Text
-							pDc.DrawString(strText, font, brush, 6, 6);
-							//Rectangle
-							pDc.DrawRectangle(pen, rectTmp);
-						}
-					}
-				}
-			} catch (Exception ex) {
-				MessageBox.Show(ex.Message);
-			}
-		}
-
 		private void playBtn_Click(object sender, EventArgs e)
 		{
 			try {
@@ -146,7 +115,6 @@ namespace CS_NVRControllerGUI.GUI {
 			}
 
 			previewWindow_.FormClosing -= stopBtn_Click;
-			previewWindow_.Paint -= previewWindow_Paint;
 			previewWindow_?.Dispose();
 			previewWindow_ = null;
 		}
