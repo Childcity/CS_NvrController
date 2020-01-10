@@ -1,20 +1,11 @@
 ﻿using CS_NVRController.BLL;
-using CS_NVRController.Hickvision.NvrController;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static CS_NVRController.Hickvision.NvrController.NvrPlayback;
 
 namespace CS_NVRControllerGUI.GUI {
 
 	public partial class PlaybackControlWindow: Form {
-
 		private PreviewWindow previewWindow_ = null;
 
 		private PlaybackService playbackService_ = null;
@@ -52,9 +43,11 @@ namespace CS_NVRControllerGUI.GUI {
 					playBtn.Text = "▶";
 					playedFramesLb.Text = string.Empty;
 					break;
+
 				case PlayerState.Playing:
 					playBtn.Text = "⏸";
 					break;
+
 				case PlayerState.Paused: // Shares the exact same action as SingleFrame
 				case PlayerState.SingleFrame:
 					playBtn.Text = "▶";
@@ -96,11 +89,13 @@ namespace CS_NVRControllerGUI.GUI {
 						playbackService_.Play(previewWindow_.GetLiveViewHandle());
 						previewWindow_.Show(this);
 						break;
+
 					case PlayerState.Playing:
 						playbackService_.Pause();
 						break;
+
 					case PlayerState.Paused: // Shares the exact same action as SingleFrame
-					case PlayerState.SingleFrame: 
+					case PlayerState.SingleFrame:
 						playbackService_.Resume();
 						break;
 				}
@@ -117,7 +112,7 @@ namespace CS_NVRControllerGUI.GUI {
 				MessageBox.Show(ex.Message);
 			}
 
-			if(previewWindow_ != null) {
+			if (previewWindow_ != null) {
 				previewWindow_.FormClosing -= stopBtn_Click;
 				previewWindow_.Dispose();
 				previewWindow_ = null;
