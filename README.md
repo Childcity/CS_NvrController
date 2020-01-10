@@ -6,4 +6,8 @@ Minimal .NET Framework 4.5
 Example of using CS_NvrControllerLib libruary.
 Minimal .NET Framework 7.1
 
-![without_errors](./docs/MainForm.jpg)
+![MainForm](./docs/MainForm.jpg)
+
+![Playback](./docs/Playback.png)
+
+![PictureSettings](./docs/PictureSettings.png)
