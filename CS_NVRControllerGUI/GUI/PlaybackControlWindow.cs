@@ -19,6 +19,8 @@ namespace CS_NVRControllerGUI.GUI {
 
 		private PlaybackService playbackService_ = null;
 
+		private delegate void changePlayedFrame(string txt);
+
 		public PlaybackControlWindow()
 		{
 			InitializeComponent();
@@ -35,9 +37,12 @@ namespace CS_NVRControllerGUI.GUI {
 			dateTimePicker2.Value = playbackService_.TimeInterval.end;
 
 			playbackService_.OnStateChanged += onStateChanged;
+			playbackService_.OnFramePlayed += onFramePlayed;
 
 			fasterCb.Items.AddRange(Enum.GetNames(typeof(PlayerSpeed)));
 			fasterCb.SelectedIndex = (int)playbackService_.PreviewSpeed;
+
+			playedFramesLb.Text = string.Empty;
 		}
 
 		private void onStateChanged(object sender, PlayerState state)
@@ -45,6 +50,7 @@ namespace CS_NVRControllerGUI.GUI {
 			switch (state) {
 				case PlayerState.Stopped:
 					playBtn.Text = "▶";
+					playedFramesLb.Text = string.Empty;
 					break;
 				case PlayerState.Playing:
 					playBtn.Text = "⏸";
@@ -55,6 +61,55 @@ namespace CS_NVRControllerGUI.GUI {
 					break;
 			}
 			playerStatusLb.Text = state.ToString();
+		}
+
+		private void onFramePlayed(object sender, int frames)
+		{
+			// this callback may be called from another thread, so we should check
+			// if InvokeRequired
+
+			string playedFramed = $"Frame: {frames}";
+
+			if (InvokeRequired) {
+				Invoke(new changePlayedFrame((string s) => {
+					playedFramesLb.Text = s;
+					previewWindow_?.Invalidate();
+				}), playedFramed);
+			} else {
+				playedFramesLb.Text = playedFramed;
+				previewWindow_?.Invalidate();
+			}
+		}
+
+		private void previewWindow_Paint(object sender, PaintEventArgs e)
+		{
+			Graphics pDc = e.Graphics;
+
+			if (previewWindow_ == null || previewWindow_.IsDisposed 
+				|| playbackService_ == null
+				|| pDc == null) 
+			{
+				return;
+			}
+			
+			try {
+				using (Brush brush = new SolidBrush(Color.DarkRed)) {
+					using (Pen pen = new Pen(brush)) {
+						Rectangle rectTmp = new Rectangle(100, 100, 300, 20);
+
+						string strText = $"Frame: {playbackService_.LastPlayedFrame}";
+						Console.WriteLine(strText);
+						using (Font font = new Font("Blackbody", 10, FontStyle.Italic | FontStyle.Bold)) {
+							//Text
+							pDc.DrawString(strText, font, brush, 6, 6);
+							//Rectangle
+							pDc.DrawRectangle(pen, rectTmp);
+						}
+					}
+				}
+			} catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+			}
 		}
 
 		private void playBtn_Click(object sender, EventArgs e)
@@ -90,6 +145,8 @@ namespace CS_NVRControllerGUI.GUI {
 				MessageBox.Show(ex.Message);
 			}
 
+			previewWindow_.FormClosing -= stopBtn_Click;
+			previewWindow_.Paint -= previewWindow_Paint;
 			previewWindow_?.Dispose();
 			previewWindow_ = null;
 		}

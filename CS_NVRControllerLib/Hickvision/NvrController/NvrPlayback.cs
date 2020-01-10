@@ -2,6 +2,7 @@
 using CS_NVRController.Hickvision.NvrExceptions;
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace CS_NVRController.Hickvision.NvrController {
 
@@ -12,7 +13,11 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 		#region Private
 
+		private static readonly int PLAYED_FRAMES_TIMER_INTERVAL = 300;
+
 		private readonly bool isDebugEnabled_ = false;
+
+		Timer playedFramesTimer_;
 
 		private int playHandle_ = -1;
 
@@ -24,6 +29,25 @@ namespace CS_NVRController.Hickvision.NvrController {
 		{
 			NvrUserSession = userSession;
 			isDebugEnabled_ = isDebugEnabled;
+
+			// Init timer, that will emit and take number of played frames from NVR SDK
+			playedFramesTimer_ = new Timer(
+				state => {
+					uint unused = 0;
+					IntPtr outBuffer = IntPtr.Zero;
+					try {
+						// Get playback frame count
+						outBuffer = Marshal.AllocHGlobal(4);
+						CHCNetSDK.NET_DVR_PlayBackControl_V40(playHandle_, CHCNetSDK.NET_DVR_PLAYGETFRAME, IntPtr.Zero, 0, outBuffer, ref unused);
+						int frames = (int)Marshal.PtrToStructure(outBuffer, typeof(int));
+						if(frames > 0) {
+							LastPlayedFrame = frames;
+							OnFramePlayed?.BeginInvoke(this, frames, null, null);
+						}
+					} finally {
+						Marshal.FreeHGlobal(outBuffer);
+					}
+				});
 		}
 
 		#region IDisposable Support
@@ -39,6 +63,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 					try {
 						if (playHandle_ != -1) {
 							StopPreview();
+							playedFramesTimer_.Dispose();
 						}
 					} finally { }
 					
@@ -70,11 +95,15 @@ namespace CS_NVRController.Hickvision.NvrController {
 		/// </summary>
 		public NvrUserSession NvrUserSession { get; private set; }
 
-
 		/// <summary>
 		///		Return current user session
 		/// </summary>
 		public PlayerState PreviewState { get; private set; } = PlayerState.Stopped;
+
+		/// <summary>
+		///		Last played frame
+		/// </summary>
+		public int LastPlayedFrame { get; private set; } = 0;
 
 		public PlayerSpeed PreviewSpeed
 		{
@@ -136,6 +165,14 @@ namespace CS_NVRController.Hickvision.NvrController {
 		/// </param>
 		public event EventHandler<PlayerState> OnPreviewStateChanged;
 
+		/// <summary>
+		///		Occurs when new frames was played
+		/// </summary>
+		/// <param name="int"
+		///		Last played frame till start
+		/// </param>
+		public event EventHandler<int> OnFramePlayed;
+
 		#endregion PublicEvents
 
 		#region PublicMethods
@@ -188,6 +225,8 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 			changeState(PlayerState.Playing);
 			setCorrectSpeed();
+			playedFramesTimer_.Change(0, PLAYED_FRAMES_TIMER_INTERVAL);
+			LastPlayedFrame = 0;
 
 			debugInfo("NET_DVR_RealPlay_V40 succ!");
 		}
@@ -249,6 +288,8 @@ namespace CS_NVRController.Hickvision.NvrController {
 				debugInfo("Preview not started!");
 				return;
 			}
+
+			playedFramesTimer_.Change(Timeout.Infinite, Timeout.Infinite);
 
 			//Stop playback
 			if (!CHCNetSDK.NET_DVR_StopPlayBack(playHandle_)) {

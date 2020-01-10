@@ -16,7 +16,9 @@ namespace CS_NVRController.BLL {
 				if (disposing) {
 					try {
 						nvrPlayback_?.Dispose();
-					} finally { }
+					} finally {
+						nvrPlayback_ = null;
+					}
 				}
 				disposedValue = true;
 			}
@@ -92,11 +94,13 @@ namespace CS_NVRController.BLL {
 
 		#endregion
 
-		#region Properties
+		#region PublicProperties
 
 		public (DateTime start, DateTime end) TimeInterval { get; set; } = (DateTime.Now, DateTime.Now.AddDays(-1));
 
 		public NvrPlayback.PlayerState PreviwState => nvrPlayback_.PreviewState;
+
+		public int LastPlayedFrame => nvrPlayback_.LastPlayedFrame;
 
 		public NvrPlayback.PlayerSpeed PreviewSpeed
 		{
@@ -112,6 +116,12 @@ namespace CS_NVRController.BLL {
 		{
 			add { nvrPlayback_.OnPreviewStateChanged += value; }
 			remove { nvrPlayback_.OnPreviewStateChanged -= value; }
+		}
+
+		public event EventHandler<int> OnFramePlayed
+		{
+			add { nvrPlayback_.OnFramePlayed += value; }
+			remove { nvrPlayback_.OnFramePlayed -= value; }
 		}
 
 		#endregion

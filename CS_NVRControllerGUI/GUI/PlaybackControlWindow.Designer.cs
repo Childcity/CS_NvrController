@@ -14,9 +14,17 @@
 			if (disposing) {
 				try {
 					playbackService_.OnStateChanged -= onStateChanged;
+					playbackService_.OnFramePlayed -= onFramePlayed;
 					playbackService_?.Dispose();
-					previewWindow_?.Dispose();
-				} finally { }
+
+					if (previewWindow_ != null) {
+						previewWindow_.Paint -= previewWindow_Paint;
+						previewWindow_.Dispose();
+					}
+				} finally {
+					playbackService_ = null;
+					previewWindow_ = null;
+				}
 				components?.Dispose();
 			}
 			base.Dispose(disposing);
@@ -44,6 +52,8 @@
 			this.fasterCb = new System.Windows.Forms.ComboBox();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.playerStatusLb = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.playedFramesLb = new System.Windows.Forms.ToolStripStatusLabel();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
@@ -212,7 +222,9 @@
 			// 
 			this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playerStatusLb});
+            this.playerStatusLb,
+            this.toolStripStatusLabel2,
+            this.playedFramesLb});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 297);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -225,6 +237,18 @@
 			this.playerStatusLb.Name = "playerStatusLb";
 			this.playerStatusLb.Size = new System.Drawing.Size(66, 20);
 			this.playerStatusLb.Text = "Stopped";
+			// 
+			// toolStripStatusLabel2
+			// 
+			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+			this.toolStripStatusLabel2.Size = new System.Drawing.Size(21, 20);
+			this.toolStripStatusLabel2.Text = " | ";
+			// 
+			// playedFramesLb
+			// 
+			this.playedFramesLb.Name = "playedFramesLb";
+			this.playedFramesLb.Size = new System.Drawing.Size(65, 20);
+			this.playedFramesLb.Text = "Frame: 0";
 			// 
 			// PlaybackControlWindow
 			// 
@@ -270,5 +294,7 @@
 		private System.Windows.Forms.Button stopBtn;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel playerStatusLb;
+		private System.Windows.Forms.ToolStripStatusLabel playedFramesLb;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
 	}
 }

@@ -224,7 +224,7 @@ namespace CS_NVRController {
 		{
 			if (InvokeRequired) {
 				Invoke(new appendLog((string s) => {
-					logTxtBox.AppendText(log);
+					logTxtBox.AppendText(s);
 					logTxtBox.AppendText("\n\n");
 				}), log);
 			} else {

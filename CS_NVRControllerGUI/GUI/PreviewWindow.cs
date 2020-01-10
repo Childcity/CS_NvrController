@@ -17,6 +17,11 @@ namespace CS_NVRControllerGUI.GUI {
 
 		public IntPtr GetLiveViewHandle() => streamWnd1.Handle;
 
+		public event PaintEventHandler OnLiveViewPictureBoxPaint {
+			add { streamWnd1.Paint += value; }
+			remove { streamWnd1.Paint -= value; }
+		}
+
 		public void ResetLiveView()
 		{
 			streamWnd1.BackColor = Color.White;
