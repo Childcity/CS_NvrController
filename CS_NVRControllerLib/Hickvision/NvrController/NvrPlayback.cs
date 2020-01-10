@@ -38,9 +38,9 @@ namespace CS_NVRController.Hickvision.NvrController {
 					try {
 						// Get playback frame count
 						outBuffer = Marshal.AllocHGlobal(4);
-						CHCNetSDK.NET_DVR_PlayBackControl_V40(playHandle_, CHCNetSDK.NET_DVR_PLAYGETFRAME, IntPtr.Zero, 0, outBuffer, ref unused);
+						bool isOk = CHCNetSDK.NET_DVR_PlayBackControl_V40(playHandle_, CHCNetSDK.NET_DVR_PLAYGETFRAME, IntPtr.Zero, 0, outBuffer, ref unused);
 						int frames = (int)Marshal.PtrToStructure(outBuffer, typeof(int));
-						if(frames > 0) {
+						if(isOk && frames > 0) {
 							LastPlayedFrame = frames;
 							OnFramePlayed?.BeginInvoke(this, frames, null, null);
 						}
@@ -63,9 +63,11 @@ namespace CS_NVRController.Hickvision.NvrController {
 					try {
 						if (playHandle_ != -1) {
 							StopPreview();
-							playedFramesTimer_.Dispose();
+							playedFramesTimer_?.Dispose();
 						}
-					} finally { }
+					} finally {
+						playedFramesTimer_ = null;
+					}
 					
 				}
 
@@ -96,7 +98,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 		public NvrUserSession NvrUserSession { get; private set; }
 
 		/// <summary>
-		///		Return current user session
+		///		State, in which player now 
 		/// </summary>
 		public PlayerState PreviewState { get; private set; } = PlayerState.Stopped;
 
@@ -105,6 +107,9 @@ namespace CS_NVRController.Hickvision.NvrController {
 		/// </summary>
 		public int LastPlayedFrame { get; private set; } = 0;
 
+		/// <summary>
+		///		Speed of video frames, while previewing playback
+		/// </summary>
 		public PlayerSpeed PreviewSpeed
 		{
 			get => previewSpeed_;
