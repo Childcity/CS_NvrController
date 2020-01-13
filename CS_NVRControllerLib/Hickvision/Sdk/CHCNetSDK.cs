@@ -13859,6 +13859,23 @@ namespace NVRCsharpDemo {
 		[DllImport(@".\bin\HCNetSDK.dll")]
 		public static extern bool NET_DVR_MatrixSetSceneCfg(int lUserID, uint dwSceneNum, ref NET_DVR_MATRIX_SCENECFG lpSceneCfg);
 
+
+		// Label API (added by https://github.com/Childcity)
+
+		[DllImport(@".\bin\HCNetSDK.dll")]
+		public static extern int NET_DVR_FindRecordLabel(int lUserID, ref NET_DVR_FIND_LABEL lpFindLabel);
+		[DllImport(@".\bin\HCNetSDK.dll")]
+		public static extern int NET_DVR_FindNextLabel(int lFindHandle, ref NET_DVR_FINDLABEL_DATA lpFindData);
+		[DllImport(@".\bin\HCNetSDK.dll")]
+		public static extern bool NET_DVR_StopFindLabel(int lFindHandle);
+		[DllImport(@".\bin\HCNetSDK.dll")]
+		public static extern bool NET_DVR_InsertRecordLabel(int lPlayHandle, ref NET_DVR_RECORD_LABEL lpRecordLabel, ref NET_DVR_LABEL_IDENTIFY lpLableIdentify);
+		[DllImport(@".\bin\HCNetSDK.dll")]
+		public static extern bool NET_DVR_DelRecordLabel(int lUserID, ref NET_DVR_DEL_LABEL_PARAM lpDelLabelParam);
+		[DllImport(@".\bin\HCNetSDK.dll")]
+		public static extern bool NET_DVR_ModifyRecordLabel(int lUserID, ref NET_DVR_MOD_LABEL_PARAM lpModLabelParam);
+
+
 		//SDK_V222
 		//智能设备类型
 		public const int DS6001_HF_B = 60;//行为分析：DS6001-HF/B
