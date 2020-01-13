@@ -14,6 +14,7 @@
 				previewWindow_?.Dispose();
 				liveViewService_.OnException -= appendLogOnUiThread;
 				liveViewService_?.Dispose();
+				CS_NVRController.BLL.UserSessionService.GetInstance().Logout();
 				components?.Dispose();
 			}
 			base.Dispose(disposing);
