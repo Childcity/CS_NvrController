@@ -17,7 +17,7 @@ namespace CS_NVRController {
 
 		private delegate void appendLog(string log);
 
-		private LiveViewService liveViewService_ = new LiveViewService();
+		private readonly LiveViewService liveViewService_ = new LiveViewService();
 
 		public MainWindow() {
 			InitializeComponent();
