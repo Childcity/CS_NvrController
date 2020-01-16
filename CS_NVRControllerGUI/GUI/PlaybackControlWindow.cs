@@ -1,21 +1,22 @@
 ﻿using CS_NVRController.BLL;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using static CS_NVRController.Hickvision.NvrController.NvrPlayback;
 
 namespace CS_NVRControllerGUI.GUI {
 
 	public partial class PlaybackControlWindow: Form {
+
 		private PreviewWindow previewWindow_ = null;
+
+		private RecordLabelWindow recordLabelWindow_ = null;
 
 		private PlaybackService playbackService_ = null;
 
 		private delegate void changePlayedFrame(string txt);
 
-		public PlaybackControlWindow()
-		{
-			InitializeComponent();
-		}
+		public PlaybackControlWindow() => InitializeComponent();
 
 		private void playbackControlWindow_Load(object sender, EventArgs e)
 		{
@@ -30,7 +31,8 @@ namespace CS_NVRControllerGUI.GUI {
 			playbackService_.OnStateChanged += onStateChanged;
 			playbackService_.OnFramePlayed += onFramePlayed;
 
-			fasterCb.Items.AddRange(Enum.GetNames(typeof(PlayerSpeed)));
+			string[] speedNames = Enum.GetNames(typeof(PlayerSpeed)).Select(name => name.Replace('_', '/')).ToArray();
+			fasterCb.Items.AddRange(speedNames);
 			fasterCb.SelectedIndex = (int)playbackService_.PreviewSpeed;
 
 			playedFramesLb.Text = string.Empty;
@@ -135,6 +137,12 @@ namespace CS_NVRControllerGUI.GUI {
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message);
 			}
+		}
+
+		private void bookmarkBt_Click(object sender, EventArgs e)
+		{
+			recordLabelWindow_ = new RecordLabelWindow();
+			recordLabelWindow_.Show();
 		}
 	}
 }

@@ -188,7 +188,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 		public void StartPreview(IntPtr playWndHandle, DateTime startDate, DateTime endDate)
 		{
 			if (playHandle_ != -1) {
-				throw new NvrBadLogicException("Call StartPreview before calling StartPreview");
+				throw new NvrBadLogicException("Call StopPreview before calling StartPreview");
 			}
 
 			if (!NvrUserSession.IsSessionValid()) {
@@ -220,7 +220,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 			playHandle_ = CHCNetSDK.NET_DVR_PlayBackByTime_V40(NvrUserSession.UserSessionState.UserId, ref struVodPara);
 
 			if (playHandle_ == -1) {
-				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_PlayBackByTime_V40 failed: " + playHandle_);
+				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_PlayBackByTime_V40 failed");
 			}
 
 			uint unused = 0;
@@ -318,7 +318,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 			uint unused = 0;
 			if (!CHCNetSDK.NET_DVR_PlayBackControl_V40(playHandle_, CHCNetSDK.NET_DVR_PLAYFRAME, IntPtr.Zero, 0, IntPtr.Zero, ref unused)) {
-				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_PlayBackControl_V40: NET_DVR_PLAYPAUSE failed");
+				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_PlayBackControl_V40: NET_DVR_PLAYFRAME failed");
 			}
 
 			changeState(PlayerState.SingleFrame);

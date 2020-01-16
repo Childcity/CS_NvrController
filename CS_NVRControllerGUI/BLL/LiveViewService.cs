@@ -73,9 +73,8 @@ namespace CS_NVRController.BLL {
 		{
 			return await Task<NvrCompressionSettings>.Factory.StartNew(() => {
 				try {
-					using(NvrSettings nvrSettings = new NvrSettings(UserSessionService.GetInstance().NvrUserSession, true)) {
-						return nvrSettings.LoadStreamCompressionSettings();
-					}
+					NvrSettings nvrSettings = new NvrSettings(UserSessionService.GetInstance().NvrUserSession, true);
+					return nvrSettings.LoadStreamCompressionSettings();
 				} catch (NvrSdkException ex) {
 					logNvrSdkExceprtion(ex);
 					throw new SystemException("NvrController: LoadStreamCompressionSettings failed", ex);
@@ -90,9 +89,8 @@ namespace CS_NVRController.BLL {
 		{
 			await Task.Factory.StartNew(() => {
 				try {
-					using (NvrSettings nvrSettings = new NvrSettings(UserSessionService.GetInstance().NvrUserSession, true)) {
-						nvrSettings.UpdateStreamCompressionSettings(compressionSettings);
-					}
+					NvrSettings nvrSettings = new NvrSettings(UserSessionService.GetInstance().NvrUserSession, true);
+					nvrSettings.UpdateStreamCompressionSettings(compressionSettings);
 				} catch (NvrSdkException ex) {
 					logNvrSdkExceprtion(ex);
 					throw new SystemException("NvrController: UpdateStreamCompressionSettings failed", ex);

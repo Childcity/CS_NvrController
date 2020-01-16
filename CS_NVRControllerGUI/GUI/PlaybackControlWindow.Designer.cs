@@ -18,9 +18,11 @@
 					playbackService_?.Dispose();
 
 					previewWindow_?.Dispose();
+					recordLabelWindow_?.Dispose();
 				} finally {
 					playbackService_ = null;
 					previewWindow_ = null;
+					recordLabelWindow_ = null;
 				}
 				components?.Dispose();
 			}
@@ -51,6 +53,8 @@
 			this.playerStatusLb = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.playedFramesLb = new System.Windows.Forms.ToolStripStatusLabel();
+			this.bookmarkBt = new System.Windows.Forms.Button();
+			this.label4 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
@@ -247,13 +251,40 @@
 			this.playedFramesLb.Size = new System.Drawing.Size(65, 20);
 			this.playedFramesLb.Text = "Frame: 0";
 			// 
+			// bookmarkBt
+			// 
+			this.bookmarkBt.BackColor = System.Drawing.Color.White;
+			this.bookmarkBt.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.bookmarkBt.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.bookmarkBt.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(1)), true);
+			this.bookmarkBt.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.bookmarkBt.Location = new System.Drawing.Point(218, 124);
+			this.bookmarkBt.Name = "bookmarkBt";
+			this.bookmarkBt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.bookmarkBt.Size = new System.Drawing.Size(40, 40);
+			this.bookmarkBt.TabIndex = 3;
+			this.bookmarkBt.Text = "🖊";
+			this.bookmarkBt.UseVisualStyleBackColor = false;
+			this.bookmarkBt.Click += new System.EventHandler(this.bookmarkBt_Click);
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(203, 167);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(71, 17);
+			this.label4.TabIndex = 4;
+			this.label4.Text = "Bookmark";
+			// 
 			// PlaybackControlWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.AliceBlue;
 			this.ClientSize = new System.Drawing.Size(298, 322);
+			this.Controls.Add(this.label4);
 			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.bookmarkBt);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -293,5 +324,7 @@
 		private System.Windows.Forms.ToolStripStatusLabel playerStatusLb;
 		private System.Windows.Forms.ToolStripStatusLabel playedFramesLb;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+		private System.Windows.Forms.Button bookmarkBt;
+		private System.Windows.Forms.Label label4;
 	}
 }

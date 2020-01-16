@@ -2,13 +2,17 @@
 using CS_NVRController.Hickvision.NvrExceptions;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CS_NVRController.Hickvision.NvrController {
 
 	/// <summary>
 	///		Provides a mechanism for convinient get and set NVR configurations.
 	/// </summary>
-	public class NvrSettings {
+	public partial class NvrSettings {
 
 		#region Private
 
@@ -28,9 +32,9 @@ namespace CS_NVRController.Hickvision.NvrController {
 		///		Return current user session
 		/// </summary>
 		public NvrUserSession NvrUserSession { get; private set; }
-
-		#endregion
-
+		
+		#endregion PublicEnums
+		
 		#region PublicMethods
 
 		public NvrCompressionSettings LoadStreamCompressionSettings()

@@ -35,6 +35,38 @@ namespace CS_NVRController.BLL {
 			nvrPlayback_ = new NvrPlayback(UserSessionService.GetInstance().NvrUserSession, true);
 		}
 
+		#region PublicProperties
+
+		public (DateTime start, DateTime end) TimeInterval { get; set; } = (DateTime.Now, DateTime.Now.AddDays(-1));
+
+		public NvrPlayback.PlayerState PreviwState => nvrPlayback_.PreviewState;
+
+		public int LastPlayedFrame => nvrPlayback_.LastPlayedFrame;
+
+		public NvrPlayback.PlayerSpeed PreviewSpeed
+		{
+			get => nvrPlayback_.PreviewSpeed;
+			set => nvrPlayback_.PreviewSpeed = value;
+		}
+
+		#endregion
+
+		#region PublicEvents
+
+		public event EventHandler<NvrPlayback.PlayerState> OnStateChanged
+		{
+			add { nvrPlayback_.OnPreviewStateChanged += value; }
+			remove { nvrPlayback_.OnPreviewStateChanged -= value; }
+		}
+
+		public event EventHandler<int> OnFramePlayed
+		{
+			add { nvrPlayback_.OnFramePlayed += value; }
+			remove { nvrPlayback_.OnFramePlayed -= value; }
+		}
+
+		#endregion
+
 		#region PublicMethods
 
 		public void Play(IntPtr playWndHandle)
@@ -90,38 +122,6 @@ namespace CS_NVRController.BLL {
 			} catch (Exception ex) {
 				throw new SystemException("PauseAndNextFrame failed: " + ex.Message, ex);
 			}
-		}
-
-		#endregion
-
-		#region PublicProperties
-
-		public (DateTime start, DateTime end) TimeInterval { get; set; } = (DateTime.Now, DateTime.Now.AddDays(-1));
-
-		public NvrPlayback.PlayerState PreviwState => nvrPlayback_.PreviewState;
-
-		public int LastPlayedFrame => nvrPlayback_.LastPlayedFrame;
-
-		public NvrPlayback.PlayerSpeed PreviewSpeed
-		{
-			get => nvrPlayback_.PreviewSpeed;
-			set => nvrPlayback_.PreviewSpeed = value;
-		}
-
-		#endregion
-
-		#region PublicEvents
-
-		public event EventHandler<NvrPlayback.PlayerState> OnStateChanged
-		{
-			add { nvrPlayback_.OnPreviewStateChanged += value; }
-			remove { nvrPlayback_.OnPreviewStateChanged -= value; }
-		}
-
-		public event EventHandler<int> OnFramePlayed
-		{
-			add { nvrPlayback_.OnFramePlayed += value; }
-			remove { nvrPlayback_.OnFramePlayed -= value; }
 		}
 
 		#endregion

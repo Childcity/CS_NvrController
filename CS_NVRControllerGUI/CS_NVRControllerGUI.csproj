@@ -117,6 +117,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\BookmarkService.cs" />
     <Compile Include="BLL\PlaybackService.cs" />
     <Compile Include="BLL\LiveViewService.cs" />
     <Compile Include="BLL\UserSessionService.cs" />
@@ -144,6 +145,12 @@
     <Compile Include="GUI\PreviewWindow.Designer.cs">
       <DependentUpon>PreviewWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\RecordLabelWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\RecordLabelWindow.Designer.cs">
+      <DependentUpon>RecordLabelWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\MainWindow.resx">
@@ -157,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PreviewWindow.resx">
       <DependentUpon>PreviewWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\RecordLabelWindow.resx">
+      <DependentUpon>RecordLabelWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
