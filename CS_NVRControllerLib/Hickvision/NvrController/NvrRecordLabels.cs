@@ -86,7 +86,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 		#region PublicEvents
 
 		/// <summary>
-		///		Occurs fhen next record label was fetched
+		///		Occurs when next record label was fetched
 		/// </summary>
 		public event EventHandler<NvrRecordLabel> OnLabelFetched;
 
@@ -188,6 +188,40 @@ namespace CS_NVRController.Hickvision.NvrController {
 			}
 
 			debugInfo("NET_DVR_DelRecordLabel succ!");
+		}
+
+		/// <summary>
+		///		Update old record label in NVR device
+		/// </summary>
+		/// <param name="labelIdBase64">record label id in Base64 format</param>
+		/// <param name="newName">new name for record label</param>
+		public void UpdateRecordLabel(string labelIdBase64, string newLabelName)
+		{
+			checkUserSessionValid();
+
+			string recordlabelIdStr = string.Empty;
+			byte[] labelIdInBytes = new byte[CHCNetSDK.LABEL_IDENTIFY_LEN];
+			byte[] labelNameInBytes = new byte[CHCNetSDK.LABEL_NAME_LEN];
+
+			try {
+				Convert.FromBase64String(labelIdBase64).CopyTo(labelIdInBytes, 0);
+				Encoding.ASCII.GetBytes(newLabelName).CopyTo(labelNameInBytes, 0);
+			} catch (Exception ex) {
+				throw new NvrBadLogicException("SaveRecordLabel failed", ex);
+			}
+			
+			CHCNetSDK.NET_DVR_MOD_LABEL_PARAM labeModInfo = new CHCNetSDK.NET_DVR_MOD_LABEL_PARAM() {
+				sLabelName = labelNameInBytes,
+				struIndentify = new CHCNetSDK.NET_DVR_LABEL_IDENTIFY(){
+					sLabelIdentify = labelIdInBytes
+				}
+			};
+
+			if (!CHCNetSDK.NET_DVR_ModifyRecordLabel(NvrUserSession.UserSessionState.UserId, ref labeModInfo)) {
+				throw new NvrSdkException(CHCNetSDK.NET_DVR_GetLastError(), "NET_DVR_ModifyRecordLabel failed");
+			}
+
+			debugInfo("NET_DVR_ModifyRecordLabel succ!");
 		}
 
 		/// <summary>
@@ -324,7 +358,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 				do {
 					if (repeatTimes != 0) {
 						debugInfo($"Waiting of NET_DVR_FindNextLabel. Iteration={repeatTimes}");
-						System.Threading.Thread.Sleep(400); // TODO: this should be rewrited!
+						System.Threading.Thread.Sleep(400);
 					}
 					findStatus = CHCNetSDK.NET_DVR_FindNextLabel(findHandle, ref labelInfo);
 				} while ((findStatus == CHCNetSDK.NET_DVR_ISFINDING) && ((++repeatTimes) < 10));
@@ -399,11 +433,6 @@ namespace CS_NVRController.Hickvision.NvrController {
 			if (isDebugEnabled_) {
 				Console.WriteLine("[Debug] NvrSettings: " + msg);
 			}
-		}
-
-		public static implicit operator NvrRecordLabels(NvrSettings v)
-		{
-			throw new NotImplementedException();
 		}
 
 		#endregion PrivateMethods
