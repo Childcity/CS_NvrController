@@ -62,6 +62,7 @@ namespace CS_NVRController.BLL {
 						nvrRecordLabels_?.StartFindingRecordLabel(startDate, endDate, labelNameToFind);
 					}
 
+					nvrRecordLabels_.FetchTryisSetting = Tuple.Create(50, 200); // This setting should be in ctor of this class. Here only for demonstrtion!
 					labels = nvrRecordLabels_?.FetchNextLabels(limit);
 				} catch (NvrSdkException ex) {
 					nvrRecordLabels_?.StopFindingRecordLabel();

@@ -81,6 +81,13 @@ namespace CS_NVRController.Hickvision.NvrController {
 		/// </summary>
 		public bool IsRecordLabelFindingActive { get => findHandle_ > -1; }
 
+		/// <summary>
+		///		Setting up timeout and count of attempts while finding ONE label in limit'
+		///		<para>Item1 - count of tryies to find ONE of labels in 'limit'. See also: <seealso cref="FetchNextLabels(int)"/></para>
+		///		<para>Item2 - timeout before next attempt to find ONE label. See also: <seealso cref="FetchNextLabels(int)"/></para>
+		/// </summary>
+		public Tuple<int, int> FetchTryisSetting { get; set; } = Tuple.Create(10, 400);
+
 		#endregion PublicEnums
 
 		#region PublicEvents
@@ -348,20 +355,22 @@ namespace CS_NVRController.Hickvision.NvrController {
 		private Tuple<int /*status*/, CHCNetSDK.NET_DVR_FINDLABEL_DATA> findNextRecordLabel(int findHandle)
 		{
 			checkUserSessionValid();
-
-			int findStatus = -1;
 			CHCNetSDK.NET_DVR_FINDLABEL_DATA labelInfo = new CHCNetSDK.NET_DVR_FINDLABEL_DATA() { };
 
+
+			int findStatus;
 			{
 				// repeat NET_DVR_FindNextLabel until findStatus != CHCNetSDK.NET_DVR_ISFINDING
 				int repeatTimes = 0;
-				do {
-					if (repeatTimes != 0) {
+				do
+				{
+					if (repeatTimes != 0)
+					{
 						debugInfo($"Waiting of NET_DVR_FindNextLabel. Iteration={repeatTimes}");
-						System.Threading.Thread.Sleep(400);
+						System.Threading.Thread.Sleep(FetchTryisSetting.Item2);
 					}
 					findStatus = CHCNetSDK.NET_DVR_FindNextLabel(findHandle, ref labelInfo);
-				} while ((findStatus == CHCNetSDK.NET_DVR_ISFINDING) && ((++repeatTimes) < 10));
+				} while ((findStatus == CHCNetSDK.NET_DVR_ISFINDING) && ((++repeatTimes) < FetchTryisSetting.Item1));
 
 				//param = (CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30)Marshal.PtrToStructure(ptr, typeof(CHCNetSDK.NET_DVR_COMPRESSIONCFG_V30));
 				debugInfo($"NET_DVR_FindNextLabel succ! findStatus={findStatus}");
