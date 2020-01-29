@@ -58,15 +58,13 @@ namespace CS_NVRController.Hickvision.NvrController {
 		#region PublicProperties
 
 		/// <summary>
-		///		Return current user session
+		///		Return current user session.
 		/// </summary>
 		public NvrUserSession NvrUserSession { get; private set; }
 
 		/// <summary>
 		///		Set/Get Hadler (Action), that will be called at each frame.
-		/// <param name="IntPtr">
-		///		IntPtr - Device context handle. Can be used to draw something on device.
-		/// </param>
+		///		<para><paramref name="IntPtr"/> - device context handle. Can be used to draw something on device.</para>
 		/// </summary>
 		public Action<IntPtr> DrawOnPictureHandle { get; set; } = null;
 
@@ -75,14 +73,10 @@ namespace CS_NVRController.Hickvision.NvrController {
 		#region PublicEvents
 
 		/// <summary>
-		///		Occurs when happened error while viewing a stream
+		///		Occurs when happened error while viewing a stream.
+		///		<para><paramref name="uint"/> - NVR SDK error code.</para>
+		///		<para><paramref name="string"/> - NVR SDK error message.</para>
 		/// </summary>
-		/// <param name="Tuple.uint">
-		///		NVR SDK error code
-		/// </param>
-		/// <param name="Tuple.string">
-		///     NVR SDK error message
-		/// </param>
 		public event EventHandler<Tuple<uint, string>> OnPreviewError;
 
 		#endregion PublicEvents
@@ -91,6 +85,8 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 		/// <summary>
 		///		Start Preview in realtime.
+		///		<para><paramref name="playWndHandle"/> - window handle, on fitch will be drawing.</para>
+		///		<para><paramref name="previewSettings"/> - preview settings.</para>
 		/// </summary>
 		public void StartPreview(IntPtr playWndHandle, NvrPreviewSettings previewSettings)
 		{

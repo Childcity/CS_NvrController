@@ -74,17 +74,22 @@ namespace CS_NVRController.Hickvision.NvrController {
 		#region PublicProperties
 
 		/// <summary>
-		///		Return true if [sdk init] and [session started] and [this object isn't disposed]
+		///		Return <c>true</c> if [sdk was init] and [session was started] and [this object isn't disposed].
 		/// </summary>
-		/// <returns></returns>
 		public bool IsSessionValid() => isSdkInit_ && isLoggedIn() && (!isDisposed_);
 
+		/// <summary>
+		///		Return <paramref name="NvrSessionInfo"/> - info about loged in user.
+		/// </summary>
 		public NvrSessionInfo SessionInfo => userSession_.SessionInfo;
 
 		/// <summary>
-		///		Return List of cameras analog channels:
-		///			int - id of channel
-		///			ChannelStatus - channel status
+		///		Return List of cameras analog channels.
+		///		<para>List of Tuple's:</para>
+		///		<para>
+		///			<paramref name="int"/> - id of channel.
+		///			<paramref name="ChannelStatus"/> - channel status.
+		///		</para>
 		/// </summary>
 		public List<Tuple<int, ChannelStatus>> AnalogChannels
 		{
@@ -101,15 +106,18 @@ namespace CS_NVRController.Hickvision.NvrController {
 		}
 
 		/// <summary>
-		///		Return List of cameras digital channels:
-		///			int - id of channel
-		///			ChannelStatus - channel status
-		///			ChannelTransmissionProtocol - channel transmission protocol
+		///		Return List of cameras digital channels.
+		///		<para>List of Tuple's:</para>
+		///		<para>
+		///			<paramref name="int"/> - id of channel.
+		///			<paramref name="ChannelStatus"/> - channel status.
+		///			<paramref name="ChannelTransmissionProtocol"/> - channel transmission protocol.
+		///		</para>
 		/// </summary>
 		public List<Tuple<int, ChannelStatus, ChannelTransmissionProtocol>> IpChannels { get; private set; } = new List<Tuple<int, ChannelStatus, ChannelTransmissionProtocol>>();
 
 		/// <summary>
-		/// Set/Get Selected by user camera id
+		///		Set/Get Selected by user camera id.
 		/// </summary>
 		public int SelectedChannelId
 		{
@@ -122,7 +130,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 		#region PublicMethods
 
 		/// <summary>
-		/// Start session with NVR/DVR device, initialize sdk and logs.
+		///		Start session with NVR/DVR device, initialize sdk and logs.
 		/// </summary>
 		public void StartSession()
 		{
@@ -131,7 +139,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 		}
 
 		/// <summary>
-		/// Stop session with NVR/DVR device.
+		///		Stop session with NVR/DVR device.
 		/// </summary>
 		public void StopSession() => logoutUser();
 

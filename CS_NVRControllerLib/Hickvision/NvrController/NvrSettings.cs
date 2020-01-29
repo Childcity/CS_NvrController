@@ -29,18 +29,17 @@ namespace CS_NVRController.Hickvision.NvrController {
 		#region PublicProperties
 
 		/// <summary>
-		///		Return current user session
+		///		Return current user session.
 		/// </summary>
 		public NvrUserSession NvrUserSession { get; private set; }
 
-		#endregion PublicEnums
+		#endregion PublicProperties
 
 		#region PublicMethods
 
 		/// <summary>
-		///		Load stream compression settings
+		///		Load stream compression settings.
 		/// </summary>
-		/// <returns></returns>
 		public NvrCompressionSettings LoadStreamCompressionSettings()
 		{
 			var streamInf = getDvrCompressionCfgV30().struNormHighRecordPara;
@@ -68,9 +67,10 @@ namespace CS_NVRController.Hickvision.NvrController {
 		}
 
 		/// <summary>
-		/// Update stream compression settings
+		///		Update stream compression settings.
+		///		<para><paramref name="compressionSettings"/> - settings of stream compression.</para>
 		/// </summary>
-		/// <param name="compressionSettings"></param>
+		/// <param name=""></param>
 		public void UpdateStreamCompressionSettings(NvrCompressionSettings compressionSettings)
 		{
 			var compressionCfgInfoV30 = getDvrCompressionCfgV30();

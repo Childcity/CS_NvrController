@@ -27,7 +27,7 @@
 		public CompressionVideoFrameRate VideoFrameRate { get; set; } = CompressionVideoFrameRate.Auto;
 
 		/// <summary>
-		/// Interval of I frame
+		///		Interval of I frame.
 		/// </summary>
 		public CompressionIntervalFrameI IntervalFrameI { get; set; } = CompressionIntervalFrameI.Auto;
 
@@ -40,7 +40,7 @@
 		public CompressionVideoEncodingComplexity VideoEncodingComplexity { get; set; } = CompressionVideoEncodingComplexity.Auto;
 
 		/// <summary>
-		/// SVC: Scalable Video Coding, can be encoded by level
+		///		SVC: Scalable Video Coding, can be encoded by level.
 		/// </summary>
 		public bool IsSvcEnable { get; set; } = false;
 
@@ -49,9 +49,9 @@
 		public CompressionAudioBitrate AudioBitrate { get; set; } = CompressionAudioBitrate.Default;
 
 		/// <summary>
-		/// Can be [1~100].
-		/// If 0 - Unused parameter
-		/// By default StreamSmooth = SteamSmoothUnused
+		///		Can be [1~100].
+		///		If 0 - Unused parameter.
+		///		By default StreamSmooth = SteamSmoothUnused.
 		/// </summary>
 		private int streamSmooth;
 
@@ -66,12 +66,12 @@
 		public bool IsSmartCodecEnabled { get; set; } = false;
 
 		/// <summary>
-		/// Depth Map Enable, 0-Close, 1-Open;
+		///		Depth Map Enable.
 		/// </summary>
 		public bool IsDepthMapEnabled { get; set; } = false;
 
 		/// <summary>
-		/// Average video bitrate (valid when isSmartCodecEnabled = true)
+		///		Average video bitrate (valid when isSmartCodecEnabled = true).
 		/// </summary>
 		public CompressionAverageVideoBitrate AverageVideoBitrate { get; set; } = CompressionAverageVideoBitrate.AVB_0Kb;
 
