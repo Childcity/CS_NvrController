@@ -1,20 +1,17 @@
 ﻿using CS_NVRController.BLL;
 using CS_NVRController.Hickvision;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CS_NVRControllerGUI.GUI {
+namespace CS_NVRControllerGUI.GUI
+{
 	public partial class RecordLabelWindow: Form {
 
 		private Size formSize;
-		private BookmarkService bookmarkService_ = new BookmarkService();
+		private BookmarkService bookmarkService_ = null;
 		private ListViewItem newRecordLabelRow = null;
 		private DateTime newRecordLabelDateTime;
 		private delegate void addBookmark(string[] rowTxt);
@@ -23,6 +20,8 @@ namespace CS_NVRControllerGUI.GUI {
 
 		private void recordLabelWindow_Load(object sender, EventArgs e)
 		{
+			bookmarkService_ = new BookmarkService();
+
 			formSize = Size;
 
 			dateTimePicker1.Value = DateTime.Now.AddDays(-7);

@@ -15,6 +15,7 @@
 				if (bookmarkService_ != null) {
 					bookmarkService_.OnBookmarkFetched -= onBookmarkFetched;
 					bookmarkService_.Dispose();
+					bookmarkService_ = null;
 				}
 
 				labelTitleTb.TextChanged -= resetLoadingBookmarks;
@@ -34,6 +35,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.Panel panel1;
 			System.Windows.Forms.TextBox textBox2;
 			System.Windows.Forms.Panel panel3;
@@ -52,6 +54,7 @@
 			this.fetchNextBtn = new System.Windows.Forms.Button();
 			this.addNewBookmarkBtn = new System.Windows.Forms.Button();
 			this.titleTb = new System.Windows.Forms.TextBox();
+			this.labelsTt = new System.Windows.Forms.ToolTip(this.components);
 			panel1 = new System.Windows.Forms.Panel();
 			textBox2 = new System.Windows.Forms.TextBox();
 			panel3 = new System.Windows.Forms.Panel();
@@ -171,6 +174,7 @@
 			this.bookmarksLv.Name = "bookmarksLv";
 			this.bookmarksLv.Size = new System.Drawing.Size(559, 250);
 			this.bookmarksLv.TabIndex = 0;
+			this.labelsTt.SetToolTip(this.bookmarksLv, "Select Id and press \'Del\' to delete");
 			this.bookmarksLv.UseCompatibleStateImageBehavior = false;
 			this.bookmarksLv.View = System.Windows.Forms.View.Details;
 			this.bookmarksLv.KeyUp += new System.Windows.Forms.KeyEventHandler(this.bookmarksLv_KeyUp);
@@ -233,7 +237,7 @@
 			this.fetchNextBtn.BackColor = System.Drawing.Color.White;
 			this.fetchNextBtn.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.fetchNextBtn.Dock = System.Windows.Forms.DockStyle.Right;
-			this.fetchNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.fetchNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.fetchNextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(1)), true);
 			this.fetchNextBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.fetchNextBtn.Location = new System.Drawing.Point(508, 20);
@@ -242,6 +246,7 @@
 			this.fetchNextBtn.Size = new System.Drawing.Size(48, 83);
 			this.fetchNextBtn.TabIndex = 4;
 			this.fetchNextBtn.Text = "⋗";
+			this.labelsTt.SetToolTip(this.fetchNextBtn, "Fetch Next 10 Labels");
 			this.fetchNextBtn.UseVisualStyleBackColor = false;
 			this.fetchNextBtn.Click += new System.EventHandler(this.fetchNextBtn_Click);
 			// 
@@ -250,7 +255,7 @@
 			this.addNewBookmarkBtn.BackColor = System.Drawing.Color.White;
 			this.addNewBookmarkBtn.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.addNewBookmarkBtn.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.addNewBookmarkBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.addNewBookmarkBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.addNewBookmarkBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(1)), true);
 			this.addNewBookmarkBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.addNewBookmarkBtn.Location = new System.Drawing.Point(0, 359);
@@ -259,6 +264,7 @@
 			this.addNewBookmarkBtn.Size = new System.Drawing.Size(559, 40);
 			this.addNewBookmarkBtn.TabIndex = 5;
 			this.addNewBookmarkBtn.Text = "🖊";
+			this.labelsTt.SetToolTip(this.addNewBookmarkBtn, "Add new label");
 			this.addNewBookmarkBtn.UseVisualStyleBackColor = false;
 			this.addNewBookmarkBtn.Click += new System.EventHandler(this.addNewBookmarkBtn_Click);
 			// 
@@ -271,6 +277,13 @@
 			this.titleTb.Visible = false;
 			this.titleTb.KeyUp += new System.Windows.Forms.KeyEventHandler(this.titleTb_KeyUp);
 			this.titleTb.Leave += new System.EventHandler(this.titleTb_Leave);
+			// 
+			// labelsTt
+			// 
+			this.labelsTt.AutoPopDelay = 5000;
+			this.labelsTt.InitialDelay = 500;
+			this.labelsTt.ReshowDelay = 200;
+			this.labelsTt.ToolTipTitle = "Info";
 			// 
 			// RecordLabelWindow
 			// 
@@ -319,5 +332,6 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TextBox labelTitleTb;
 		private System.Windows.Forms.TextBox titleTb;
+		private System.Windows.Forms.ToolTip labelsTt;
 	}
 }

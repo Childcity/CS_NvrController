@@ -76,15 +76,15 @@ namespace CS_NVRController.Hickvision.NvrController {
 		public NvrUserSession NvrUserSession { get; private set; }
 
 		/// <summary>
-		///		Return true, if StartFindingRecordLabel was called and StopFindingRecordLabel was not called
-		///		Return false, if StopFindingRecordLabel was called
+		///		Return <c>true</c>, if StartFindingRecordLabel was called and StopFindingRecordLabel was not called
+		///		Return <c>false</c>, if StopFindingRecordLabel was called
 		/// </summary>
 		public bool IsRecordLabelFindingActive { get => findHandle_ > -1; }
 
 		/// <summary>
 		///		Setting up timeout and count of attempts while finding ONE label in limit'
-		///		<para>Item1 - count of tryies to find ONE of labels in 'limit'. See also: <seealso cref="FetchNextLabels(int)"/></para>
-		///		<para>Item2 - timeout before next attempt to find ONE label. See also: <seealso cref="FetchNextLabels(int)"/></para>
+		///		<para><paramref name="Item1"/> - count of tryies to find ONE of labels in <paramref name="limit"/>. See also: <seealso cref="FetchNextLabels(int)"/></para>
+		///		<para><paramref name="Item2"/> - timeout before next attempt to find ONE label. See also: <seealso cref="FetchNextLabels(int)"/></para>
 		/// </summary>
 		public Tuple<int, int> FetchTryisSetting { get; set; } = Tuple.Create(10, 400);
 
@@ -94,6 +94,7 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 		/// <summary>
 		///		Occurs when next record label was fetched
+		///		<para><paramref name="NvrRecordLabel"/> - fetched label</para>
 		/// </summary>
 		public event EventHandler<NvrRecordLabel> OnLabelFetched;
 
@@ -103,9 +104,9 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 		/// <summary>
 		///		Save record label in NVR device
+		///		<para><paramref name="labelTime"/> - date and time of record label</para>
+		///		<para><paramref name="labelTime"/> - title of label</para>
 		/// </summary>
-		/// <param name="labelTime">date and time of record label</param>
-		/// <param name="labelName">title of label</param>
 		/// <returns></returns>
 		public string SaveRecordLabel(DateTime labelTime, string labelName)
 		{
@@ -161,8 +162,8 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 		/// <summary>
 		///		Save record label in NVR device
+		///		<para><paramref name="labelIdsBase64"/> - array of record label id in Base64 format</para>
 		/// </summary>
-		/// <param name="labelIdsBase64">array of record label id in Base64 format</param>
 		public void DeleteRecordLabel(string[] labelIdsBase64)
 		{
 			checkUserSessionValid();
@@ -199,9 +200,9 @@ namespace CS_NVRController.Hickvision.NvrController {
 
 		/// <summary>
 		///		Update old record label in NVR device
+		///		<para><paramref name="labelIdBase64"/> - record label id in Base64 format</para>
+		///		<para><paramref name="newLabelName"/> - new name for record label</para>
 		/// </summary>
-		/// <param name="labelIdBase64">record label id in Base64 format</param>
-		/// <param name="newName">new name for record label</param>
 		public void UpdateRecordLabel(string labelIdBase64, string newLabelName)
 		{
 			checkUserSessionValid();
@@ -234,10 +235,10 @@ namespace CS_NVRController.Hickvision.NvrController {
 		/// <summary>
 		///		Initialize record label search engine.
 		///		If labelNameToFind is null or empty => engine will search all labels in provided time periaod
+		///		<para><paramref name="startDate"/> - start date and time of search engine</para>
+		///		<para><paramref name="endDate"/> - end date and time of search engine</para>
+		///		<para><paramref name="labelNameToFind"/> - if not <see langword="null"/>/empty => the begining of label title to be found</para>
 		/// </summary>
-		/// <param name="startDate">start date and time of search engine</param>
-		/// <param name="endDate">end date and time of search engine</param>
-		/// <param name="labelNameToFind">if not <see langword="null"/>/empty => the begining of label title to be found</param>
 		public void StartFindingRecordLabel(DateTime startDate, DateTime endDate, string labelNameToFind)
 		{
 			checkUserSessionValid();
@@ -287,9 +288,9 @@ namespace CS_NVRController.Hickvision.NvrController {
 		}
 
 		/// <summary>
-		///		Get next <paramref name="limit"/> items of record labels
+		///		Get next <paramref name="limit"/> items of record labels. See also: <seealso cref="FetchTryisSetting"/>
+		///		<para><paramref name="limit"/> - max number of lebels to fetch</para>
 		/// </summary>
-		/// <param name="limit">max number of lebels to fetch</param>
 		/// <returns></returns>
 		public Tuple<FoundLabelStatus, List<NvrRecordLabel>> FetchNextLabels(int limit)
 		{
@@ -447,4 +448,4 @@ namespace CS_NVRController.Hickvision.NvrController {
 		#endregion PrivateMethods
 
 	}
-	}
+}
